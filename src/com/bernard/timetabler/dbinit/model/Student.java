@@ -27,7 +27,7 @@ public class Student {
     private String campusId;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
-	@SerializedName(Constants.ADMISSION_DATE)
+	@SerializedName(Constants.YEAR_OF_STUDY)
     private String yearOfStudy;
 	@SerializedName(Constants.ADMISSION_DATE)
     private String admissionDate;

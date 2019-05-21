@@ -183,7 +183,7 @@ public class PopulateDatabase {
             departmentId.add(resultSet.getString("department_id"));
         }
         
-        String queryFacultyId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String queryFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
         Log.d(TAG, "SQL Statement: " + queryFacultyId);
         ResultSet resultProgId = statement.executeQuery(queryFacultyId);
         
