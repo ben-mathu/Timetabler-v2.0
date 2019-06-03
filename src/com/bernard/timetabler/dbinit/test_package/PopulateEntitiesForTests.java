@@ -54,10 +54,10 @@ public class PopulateEntitiesForTests {
             countSuccess++;
             System.out.println();
         }
-        if (generateEntityData.populateClassUnits()) {
-            countSuccess++;
-            System.out.println();
-        }
+		/*
+		 * if (generateEntityData.populateClassUnits(null)) { countSuccess++;
+		 * System.out.println(); }
+		 */
         if (generateEntityData.populateLecturerUnits()) {
             countSuccess++;
             System.out.println();

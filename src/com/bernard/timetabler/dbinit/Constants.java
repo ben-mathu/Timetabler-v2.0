@@ -79,6 +79,23 @@ public class Constants {
 
 	public static final String APPLICATION_JSON = "application/json";
 
+	// Admin
+	public static final String ADMIN_ID = "admin_id";
+
+	public static final String TABLE_ADMIN = "admin";
+
+	public static final String TIMETABLES = "timetables";
+
+	public static final String PERIOD = "period";
+
+	public static final String TIME = "time";
+
+	public static final String DAY = "day";
+
+	public static final String TIMESLOT = "timeslot";
+
+	public static final String UNIT = "unit";
+
     public static class ENV {
         public static final String DEV = "dev";
     }

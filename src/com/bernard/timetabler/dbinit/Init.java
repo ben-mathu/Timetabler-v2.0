@@ -20,7 +20,7 @@ public class Init {
         } else {
             TimeTableGenerator ttg = new TimeTableGenerator();
 
-            timetable = ttg.generateTimeTable(5);
+            timetable = ttg.generateTimeTable(5, "Jan 2018/2019");
 
             for (HashMap.Entry<DayTimeUnit, String> tt : timetable.entrySet()) {
                 System.out.println("Time: " + tt.getKey().getDayOfWeek() + " " + tt.getKey().getTimeOfDay() + ": " + tt.getValue());

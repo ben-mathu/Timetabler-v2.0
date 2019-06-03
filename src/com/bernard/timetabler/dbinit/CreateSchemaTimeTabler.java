@@ -16,13 +16,13 @@ public class CreateSchemaTimeTabler {
 
     private Statement statement;
 
-    public CreateSchemaTimeTabler() {
+    public CreateSchemaTimeTabler(String user, String password) {
         Connection conn = null;
         try {
         	Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/" + database,
-                    "ben", ""
+                    user, password
             );
 
             statement = conn.createStatement();
@@ -49,7 +49,7 @@ public class CreateSchemaTimeTabler {
             	database = Constants.DATABASE_NAME;
             }
         	
-            CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
+            CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
             Statement statement = ct.getStatement();
             
             if (env.equals("update")) {
@@ -337,6 +337,7 @@ public class CreateSchemaTimeTabler {
             String studentUnitStatement = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_STUDENT_UNITS + " (" +
                     Constants.STUDENT_ID + " VARCHAR(10)," +
                     Constants.UNIT_ID + " VARCHAR(10)," +
+                    Constants.PERIOD + " VARCHAR(15)," +
                     "KEY fk_student_id(" + Constants.STUDENT_ID + ")," +
                     "KEY fk_unit(" + Constants.UNIT_ID + ")," +
                     "CONSTRAINT student_unit_ibfk_2 " +
@@ -363,6 +364,9 @@ public class CreateSchemaTimeTabler {
                     Constants.CLASS_ID + " VARCHAR(10)," +
                     Constants.UNIT_ID + " VARCHAR(10)," +
                     Constants.HALL_ID + " VARCHAR(10)," +
+//                    Constants.TIME + " VARCHAR(10)," +
+//                    Constants.DAY + " VARCHAR(10)," +
+//                    Constants.PERIOD + " VARCHAR(10)," +
                     "KEY class_id(" + Constants.CLASS_ID + ")," +
                     "KEY fk_id_unit(" + Constants.UNIT_ID + ")," +
                     "KEY fk_id_hall(" + Constants.HALL_ID + ")," +
@@ -397,7 +401,19 @@ public class CreateSchemaTimeTabler {
 
             System.out.println();
             
-//            // Create a table to store timetables
+         // Create a table to store timetable
+            // period information about the semester
+            Log.d(TAG, "Creating table to save timetables");
+            String createTimetable = "CREATE TABLE IF NOT EXISTS " + Constants.TIMETABLES + " (" +
+            		Constants.PERIOD + " VARCHAR(25)," +
+            		Constants.TIME + " VARCHAR(25)," +
+            		Constants.UNIT_ID + " VARCHAR(15))";
+            countResult = statement.executeUpdate(createTimetable);
+            Log.d(TAG, "Created table timetable " + countResult);
+
+            System.out.println();
+            
+//            // Create a table to store timetable
 //            String ttQuery = ""
 
             if (env.equals("dev")) {

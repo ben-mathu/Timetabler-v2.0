@@ -22,7 +22,7 @@ public class PopulateDatabase {
     private static String[] facultyNames = new String[]{"Theology", "Arts and Social Sciences", "School of Business", "Education", "Law", "Science", "Center for Social Justice and ethics", "Institute of Canon Law", "Institute of Regional Integration and Development", "Library and Information Science", "School of Graduate Studies"};
 
     public PopulateDatabase() {
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
+        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
         statement = ct.getStatement();
     }
 

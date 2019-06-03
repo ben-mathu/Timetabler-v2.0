@@ -39,7 +39,7 @@ public class GenerateEntityData {
     public GenerateEntityData() {
         populateDatabase = new PopulateDatabase();
 
-        ct = new CreateSchemaTimeTabler();
+        ct = new CreateSchemaTimeTabler("ben", "");
         statement = ct.getStatement();
     }
 
@@ -330,8 +330,8 @@ public class GenerateEntityData {
     /**
      * Method: Class Units
      */
-    public boolean populateClassUnits() throws SQLException {
-        classUnits = populateDatabase.populateClassUnits();
+    public boolean populateClassUnits(List<ClassUnit> classUnits) throws SQLException {
+//        classUnits = populateDatabase.populateClassUnits();
         int result = 0;
 
         System.out.println("Populating db table: " + Constants.TABLE_CLASS_UNITS);
@@ -341,6 +341,7 @@ public class GenerateEntityData {
                 String strQuery = "INSERT INTO " + Constants.TABLE_CLASS_UNITS +
                         " VALUES ('" + classUnit.getClassId() +
                         "', '" + classUnit.getUnitId() +
+                        "', '" + classUnit.getHallId() +
                         "')";
                 result += statement.executeUpdate(strQuery);
             }
@@ -384,7 +385,7 @@ public class GenerateEntityData {
             String strQuery = "INSERT INTO " + Constants.TABLE_STUDENT_UNITS +
                     " VALUES ('" + studentUnit.getStudentId() +
                     "', '" + studentUnit.getUnitId() +
-                    "')";
+                    "', '')";
             result += statement.executeUpdate(strQuery);
         }
 

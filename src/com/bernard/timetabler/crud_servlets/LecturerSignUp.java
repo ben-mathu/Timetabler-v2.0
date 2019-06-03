@@ -45,7 +45,7 @@ public class LecturerSignUp extends HttpServlet {
 				strBuffer.append(line);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			Log.e(TAG, e.getMessage());
 		}
 		
 		Gson gson = new Gson();
@@ -88,7 +88,7 @@ public class LecturerSignUp extends HttpServlet {
 
 	private void initDb() {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler();
+		ct = new CreateSchemaTimeTabler("ben", "");
 		statement = ct.getStatement();
 	}
 

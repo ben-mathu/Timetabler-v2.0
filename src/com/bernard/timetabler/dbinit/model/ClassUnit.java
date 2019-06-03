@@ -10,11 +10,20 @@ public class ClassUnit {
     private String unitId;
 	@SerializedName(Constants.HALL_ID)
     private String hallId;
+	@SerializedName(Constants.TIME)
+	private String time;
+	@SerializedName(Constants.DAY)
+	private String day;
+	@SerializedName(Constants.PERIOD)
+	private String period;
 
-    public ClassUnit(String classId, String unitId, String hallId) {
+    public ClassUnit(String classId, String unitId, String hallId, String time, String day, String period) {
         this.classId = classId;
         this.unitId = unitId;
         this.hallId = hallId;
+        this.time = time;
+        this.day = day;
+        this.period = period;
     }
 
     public ClassUnit() {
@@ -42,5 +51,29 @@ public class ClassUnit {
 
 	public void setHallId(String hallId) {
 		this.hallId = hallId;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public String getDay() {
+		return day;
+	}
+	
+	public void setDay(String day) {
+		this.day = day;
+	}
+	
+	public String getPeriod() {
+		return period;
+	}
+	
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 }

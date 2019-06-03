@@ -39,7 +39,7 @@ public class Extreneous extends HttpServlet {
 		String saltStr = "";
 		
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
+		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
 		
 		statement = ct.getStatement();
 		// get role

@@ -63,7 +63,7 @@ public class GetUnitsByLecturerId extends HttpServlet {
 
 	private void initDb() {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler();
+		ct = new CreateSchemaTimeTabler("ben", "");
 		statement = ct.getStatement();
 	}
 

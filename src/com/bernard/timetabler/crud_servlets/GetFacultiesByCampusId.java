@@ -23,8 +23,8 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Servlet implementation class GetFaculties
  */
-@WebServlet("/faculties")
-public class GetFaculties extends HttpServlet {
+@WebServlet("/faculties/*")
+public class GetFacultiesByCampusId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Faculty> faculties;
@@ -32,7 +32,7 @@ public class GetFaculties extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String campusId = request.getParameter(Constants.CAMPUS_ID);
 		try {
-			faculties = queryFaculties();
+			faculties = queryFaculties(campusId);
 			FacultyList facultyList = new FacultyList();
 			facultyList.setFacultyList(faculties);
 			
@@ -62,14 +62,15 @@ public class GetFaculties extends HttpServlet {
 		}
 	}
 
-	private List<Faculty> queryFaculties() throws SQLException {
+	private List<Faculty> queryFaculties(String campusId) throws SQLException {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
 		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
 		Statement statement = ct.getStatement();
 		
 		List<Faculty> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + Constants.TABLE_FACULTIES;
+		String query = "SELECT * FROM " + Constants.TABLE_FACULTIES +
+				" WHERE " + Constants.CAMPUS_ID + "='" + campusId + "'";
 		ResultSet resultSet = statement.executeQuery(query);
 		
 		while (resultSet.next()) {

@@ -2,6 +2,7 @@ package com.bernard.timetabler.generate_tt;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
+import com.bernard.timetabler.dbinit.GenerateEntityData;
 import com.bernard.timetabler.dbinit.model.*;
 import com.bernard.timetabler.dbinit.model.Class;
 
@@ -11,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeTableGenerator {
@@ -20,13 +22,15 @@ public class TimeTableGenerator {
     private List<ClassUnit> classUnits;
     private List<StudentUnit> studentUnits;
     private List<LecturerUnit> lecturerUnits;
+    
+    private List<String> hallId = new ArrayList<String>();
 
     private Statement statement;
 
     public TimeTableGenerator() {
         CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
 
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
+        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
         statement = ct.getStatement();
     }
 
@@ -36,7 +40,7 @@ public class TimeTableGenerator {
         String strClassQuery = "SELECT * FROM " + Constants.TABLE_CLASSES;
         ResultSet resultSet = statement.executeQuery(strClassQuery);
 
-        classes = new ArrayList<>();
+        classes = new ArrayList<Class>();
         while (resultSet.next()) {
             Class classroom = new Class();
             classroom.setId(resultSet.getString(Constants.CLASS_ID));
@@ -54,7 +58,7 @@ public class TimeTableGenerator {
 
         ResultSet resultSet = statement.executeQuery(strStudentUnitQuery);
 
-        studentUnits = new ArrayList<>();
+        studentUnits = new ArrayList<StudentUnit>();
         while (resultSet.next()) {
             StudentUnit su = new StudentUnit();
             su.setStudentId(resultSet.getString(Constants.STUDENT_ID));
@@ -70,7 +74,7 @@ public class TimeTableGenerator {
 
         ResultSet resultSet = statement.executeQuery(strLecturerUnitsQuery);
 
-        lecturerUnits = new ArrayList<>();
+        lecturerUnits = new ArrayList<LecturerUnit>();
         while(resultSet.next()) {
             LecturerUnit lu = new LecturerUnit();
             lu.setLecturerId(resultSet.getString(Constants.LECTURER_ID));
@@ -85,7 +89,7 @@ public class TimeTableGenerator {
      *
      * @param n describe the number of days to set for the timetable
      */
-    public HashMap<DayTimeUnit, String> generateTimeTable(int n) {
+    public HashMap<DayTimeUnit, String> generateTimeTable(int n, String semester) {
         System.out.println("Initializing...");
 
         rand = ThreadLocalRandom.current();
@@ -110,7 +114,7 @@ public class TimeTableGenerator {
         List<Faculty> faculties = getAllFaculties();
         // get a list of classes to act as clash data structure
         List<Class> classClash = getAllClasses();
-        classUnits = new ArrayList<>();
+        classUnits = new ArrayList<ClassUnit>();
         int unitCount = 0;
 
         /*
@@ -131,7 +135,7 @@ public class TimeTableGenerator {
          */
 
         HashMap<DayTimeUnit, String> dayTime_ClassUnitsTimetable =  new HashMap<>();
-        List<ClassUnit> classUnits = new ArrayList<>();
+        List<ClassUnit> classUnits = new ArrayList<ClassUnit>();
 
         int count = 0;
 
@@ -160,35 +164,42 @@ public class TimeTableGenerator {
                     if (!classIdList.isEmpty()) {
                         classUnit.setClassId(classIdList.get(0));
                         classUnit.setUnitId(unitId);
+                        classUnit.setHallId(hallId.get(0));
                         classUnits.add(classUnit);
                     }
 
                     if (i != dayTimeUnits.size() - 1) {
-                        if (dayTime_ClassUnitsTimetable.containsValue(unitId)) {
-                            i--;
-                        } else {
+                        if (!dayTime_ClassUnitsTimetable.containsValue(unitId)) {
                             // get lecturer who teaches the unit
                             List<Lecturer> lecturers = getLecturer(unitId);
                             if (!lecturers.isEmpty()) {
                                 dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
 //                                dayTimeUnits.remove(dayTimeUnit);
                                 timeSlotCount++;
-                            } else {
-                                i--;
                             }
                         }
+                        
+                        unitCount++;
                     }
 
-                    unitCount++;
-
-                    if (timeSlotCount == dayTimeUnits.size()) {
+                    if (timeSlotCount > dayTimeUnits.size()) {
                         timeSlotCount = 0;
                         continue next;
                     }
                 }
             }
         }
-
+        
+        try {
+        // 	Save timetable to db
+        	saveGeneratedTimetable(dayTime_ClassUnitsTimetable, semester);
+        
+        // 	Save class-unit relationship
+			saveClassUnitRelationship(classUnits);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return dayTime_ClassUnitsTimetable;
     }
 
@@ -198,7 +209,7 @@ public class TimeTableGenerator {
      * @return
      */
     private List<Lecturer> getLecturer(String unitId) {
-        List<Lecturer> lecturers = new ArrayList<>();
+        List<Lecturer> lecturers = new ArrayList<Lecturer>();
         String query = "SELECT lu." + Constants.LECTURER_ID + ", " +
                 "lec." + Constants.F_NAME + ", " +
                 "lec." + Constants.L_NAME + ", " +
@@ -230,7 +241,7 @@ public class TimeTableGenerator {
     }
 
     private List<Faculty> getAllFaculties() {
-        List<Faculty> faculties = new ArrayList<>();
+        List<Faculty> faculties = new ArrayList<Faculty>();
         String query = "SELECT * FROM " + Constants.TABLE_FACULTIES;
         try {
             ResultSet resultSet = statement.executeQuery(query);
@@ -281,7 +292,7 @@ public class TimeTableGenerator {
     }
 
     private List<Class> getAllClasses() {
-        List<Class> classes = new ArrayList<>();
+        List<Class> classes = new ArrayList<Class>();
         String query = "SELECT * FROM " + Constants.TABLE_CLASSES;
         try {
             ResultSet resultSet = statement.executeQuery(query);
@@ -302,12 +313,13 @@ public class TimeTableGenerator {
     }
 
     private List<String> getClassId(String unitId) {
-        List<String> classId = new ArrayList<>();
+        List<String> classId = new ArrayList<String>();
 
         // select class id from a hall of
         String strClassIdQuery = "SELECT un." + Constants.FACULTY_ID +
                 ", un." + Constants.UNIT_ID +
                 ", cl." + Constants.CLASS_ID +
+                ", cl." + Constants.HALL_ID +
                 ", fac." + Constants.FACULTY_ID +
                 " FROM " + Constants.TABLE_UNITS + " un " +
                 "INNER JOIN " + Constants.TABLE_FACULTIES + " fac " +
@@ -321,6 +333,7 @@ public class TimeTableGenerator {
             resultSet = statement.executeQuery(strClassIdQuery);
             while (resultSet.next()) {
                 classId.add(resultSet.getString(Constants.CLASS_ID));
+                hallId.add(resultSet.getString(Constants.HALL_ID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -329,7 +342,7 @@ public class TimeTableGenerator {
     }
 
     private List<String> getRegisteredUnits() {
-        List<String> units = new ArrayList<>();
+        List<String> units = new ArrayList<String>();
         for (StudentUnit studentUnit : studentUnits) {
             if (!units.contains(studentUnit.getUnitId())) {
                 units.add(studentUnit.getUnitId());
@@ -341,7 +354,7 @@ public class TimeTableGenerator {
     private List<DayTimeUnit> getTimeUnits() {
         String[] day = new String[]{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         String[] time = new String[]{"6 am", "8 am", "11 am", "2 pm", "5 pm"};
-        List<DayTimeUnit> dayTimeUnits = new ArrayList<>();
+        List<DayTimeUnit> dayTimeUnits = new ArrayList<DayTimeUnit>();
 
         int count = 0;
         for (int i = 0; i < day.length; i++) {
@@ -354,5 +367,28 @@ public class TimeTableGenerator {
 
         }
         return dayTimeUnits;
+    }
+    
+    /**
+     * Save the timetable in the db
+     * 
+     * @param timetable a hash table to keep key value pairs for timeslot and unitId
+     * @param period the semester the application is created for
+     * @throws SQLException 
+     */
+    private void saveGeneratedTimetable(HashMap<DayTimeUnit, String> timetable, String period) throws SQLException {
+    	int count = 0;
+    	for (HashMap.Entry<DayTimeUnit, String> timetableItem : timetable.entrySet()) {
+    		String updateTimetable = "INSERT INTO " + Constants.TIMETABLES +
+        			" VALUES ('" + period + "','" + timetableItem.getKey().getDayOfWeek() + 
+        			" " + timetableItem.getKey().getTimeOfDay() +
+        			"','" + timetableItem.getValue() + "')";
+    		count = statement.executeUpdate(updateTimetable);
+		}
+    }
+    
+    private void saveClassUnitRelationship(List<ClassUnit> classUnitList) throws SQLException {
+    	GenerateEntityData gen = new GenerateEntityData();
+    	gen.populateClassUnits(classUnitList);
     }
 }
