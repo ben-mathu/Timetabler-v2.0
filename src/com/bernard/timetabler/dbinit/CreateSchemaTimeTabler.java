@@ -31,10 +31,10 @@ public class CreateSchemaTimeTabler {
         }
     }
 
-    public static void setDatabase(String database) {
-        CreateSchemaTimeTabler.database = database;
+    public static void setDatabase(String databaseName) {
+       database = databaseName;
     }
-
+ 
     public void setStatement(Statement statement) throws SQLException {
         this.statement = statement;
     }
@@ -46,13 +46,17 @@ public class CreateSchemaTimeTabler {
     public static void createSchema(String env) {
         try {
         	// Update the db
-        	if (env.equals("update")) {
-        		PopulateEntitiesForTests.populateEntities();
-        		return;
-        	}
+        	if (database.isEmpty()) {
+            	database = Constants.DATABASE_NAME;
+            }
         	
             CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
             Statement statement = ct.getStatement();
+            
+            if (env.equals("update")) {
+        		PopulateEntitiesForTests.populateEntities();
+        		return;
+        	}
             // Create a database if it is not already created
             System.out.println();
 
@@ -204,6 +208,10 @@ public class CreateSchemaTimeTabler {
                     "PRIMARY KEY (" + Constants.LECTURER_ID + ")," +
                     "FOREIGN KEY fk_lecturers(" + Constants.DEPARTMENT_ID + ") " +
                     "REFERENCES " + Constants.TABLE_DEPARTMENTS + "(" + Constants.DEPARTMENT_ID + ") " +
+                    "ON DELETE RESTRICT " +
+                    "ON UPDATE CASCADE," +
+                    "FOREIGN KEY fk_lecturers_fac(" + Constants.FACULTY_ID + ") " +
+                    "REFERENCES " + Constants.TABLE_FACULTIES + "(" + Constants.FACULTY_ID + ") " +
                     "ON DELETE RESTRICT " +
                     "ON UPDATE CASCADE" +
                     ")";
