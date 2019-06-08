@@ -45,6 +45,12 @@ public class CreateSchemaTimeTabler {
 
     public static void createSchema(String env) {
         try {
+        	// Update the db
+        	if (env.equals("update")) {
+        		PopulateEntitiesForTests.populateEntities();
+        		return;
+        	}
+        	
             CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
             Statement statement = ct.getStatement();
             // Create a database if it is not already created
@@ -384,8 +390,15 @@ public class CreateSchemaTimeTabler {
 
             System.out.println();
             
-//            // Create a table to store timetables
-//            String ttQuery = ""
+//            Create a table to store timetables
+            String ttQuery = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_TIMTABLE + " (" +
+            		Constants.PERIOD + " VARCHAR(255)," +
+            		Constants.TIME + " VARCHAR(25)," +
+            		Constants.UNIT_ID + " VARCHAR(25))";
+            countResult = statement.executeUpdate(ttQuery);
+            Log.d(TAG, "Created table " + Constants.TABLE_TIMTABLE + " Result: " + countResult);
+            
+            System.out.println();
 
             if (env.equals("dev")) {
                 PopulateEntitiesForTests.populateEntities();

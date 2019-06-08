@@ -37,6 +37,7 @@ public class GenerateEntityData {
     private Statement statement;
 
     public GenerateEntityData() {
+        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
         populateDatabase = new PopulateDatabase();
 
         ct = new CreateSchemaTimeTabler();

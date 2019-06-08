@@ -22,6 +22,8 @@ public class PopulateDatabase {
     private static String[] facultyNames = new String[]{"Theology", "Arts and Social Sciences", "School of Business", "Education", "Law", "Science", "Center for Social Justice and ethics", "Institute of Canon Law", "Institute of Regional Integration and Development", "Library and Information Science", "School of Graduate Studies"};
 
     public PopulateDatabase() {
+        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
+        
         CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler();
         statement = ct.getStatement();
     }
@@ -183,7 +185,7 @@ public class PopulateDatabase {
             departmentId.add(resultSet.getString("department_id"));
         }
         
-        String queryFacultyId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String queryFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
         Log.d(TAG, "SQL Statement: " + queryFacultyId);
         ResultSet resultProgId = statement.executeQuery(queryFacultyId);
         

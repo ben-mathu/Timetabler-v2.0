@@ -79,6 +79,10 @@ public class Constants {
 
 	public static final String APPLICATION_JSON = "application/json";
 
+	public static final String TABLE_TIMTABLE = "timetables";
+	public static final String PERIOD = "period";
+	public static final String TIME = "time";
+
     public static class ENV {
         public static final String DEV = "dev";
     }
