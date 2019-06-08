@@ -170,7 +170,9 @@ public class TimeTableGenerator {
                             // get lecturer who teaches the unit
                             List<Lecturer> lecturers = getLecturer(unitId);
                             if (!lecturers.isEmpty()) {
-                                dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
+                            	if (i < dayTimeUnits.size()) {
+                            		dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
+                            	}
 //                                dayTimeUnits.remove(dayTimeUnit);
                                 timeSlotCount++;
                             } else {
