@@ -1,4 +1,4 @@
-package com.bernard.timetabler.model;
+package com.bernard.timetabler.dbinit.model;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +8,8 @@ public class Timetable {
 	private String period;
 	@SerializedName(Constants.TIME)
 	private String time;
+	@SerializedName(Constants.DAY)
+	private String day;
 	@SerializedName(Constants.UNIT_ID)
 	private String unitId;
 	

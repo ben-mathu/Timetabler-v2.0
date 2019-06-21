@@ -3,6 +3,7 @@ package com.bernard.timetabler.crud_servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,8 @@ public class GetUnits extends HttpServlet {
 				handleGetUnitsByLecturerId(request, response);
 			} else if (request.getParameterMap().containsKey(Constants.PROGRAMME_ID)) {
 				handleGetUnitsByProgrammeId(request, response);
+			} else if (request.getParameterMap().containsKey(Constants.DEPARTMENT_ID)) {
+				handleGetUnitsByDepartmentId(request, response);
 			}
 		} catch (Throwable t) {
 			Log.e(TAG, "Error " + t);
@@ -62,6 +65,35 @@ public class GetUnits extends HttpServlet {
 		}
 	}
 	
+	/**
+	 * Handle CRUD operation to get all units based on a chosen department
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws SQLException
+	 */
+	private void handleGetUnitsByDepartmentId(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		String departmentId = request.getParameter(Constants.DEPARTMENT_ID);
+		
+		if (departmentId != null && !departmentId.equals("")) {
+			// Get units based on department id
+			unitList = new ArrayList<>();
+			unitList = unitCrudOps.getUnitsByDepartment(departmentId);
+			
+			unitListJson = new UnitList();
+			unitListJson.setUnitList(unitList);
+			
+			String jsonUnitsStr = gson.toJson(unitListJson);
+			out.write(jsonUnitsStr);
+		} else {
+			ErrorReport errorReport = new ErrorReport();
+			errorReport.setErrorMessage("Bad request!");
+			
+			String responseStr = gson.toJson(errorReport);
+			out.write(responseStr);
+		}
+	}
+
 	/**
 	 * Handle CRUD operation to get all units based on a chosen programme
 	 * 

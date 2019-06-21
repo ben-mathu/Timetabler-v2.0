@@ -309,16 +309,16 @@ public class PopulateDatabase {
         int length = rand.nextInt(1500);
 
         for (int i = 0; i < length; i++) {
-            if (!campusId.isEmpty())
+            if (campusId.size() > 0)
                 randomCampusId = rand.nextInt(0, campusId.size() - 1);
 
-            if (!departmentId.isEmpty())
+            if (departmentId.size() > 0)
                 randomDepartmentId = rand.nextInt(0, departmentId.size() - 1);
 
-            if (!programmeId.isEmpty())
+            if (programmeId.size() > 0)
                 randomProgrammeId = rand.nextInt(0, programmeId.size() - 1);
 
-            if (!facultyId.isEmpty())
+            if (facultyId.size() > 0)
                 randomIndexFacultyId = rand.nextInt(0, facultyId.size() - 1);
 
             Student student = new Student();
@@ -344,6 +344,7 @@ public class PopulateDatabase {
         List<Unit> units = new ArrayList<>();
         List<String> programmeId = new ArrayList<>();
         List<String> facultyId = new ArrayList<>();
+        List<String> departmentId = new ArrayList<>();
 
         int randomItem = 0;
 
@@ -362,14 +363,24 @@ public class PopulateDatabase {
         while (resultSetFaculty.next()) {
             facultyId.add(resultSetFaculty.getString(Constants.FACULTY_ID));
         }
+        
+        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS;
+        System.out.println("SQL statement: " + strDepartmentId);
+        ResultSet resultSetDepartment = statement.executeQuery(strDepartmentId);
+        
+        while (resultSetDepartment.next()) {
+        	departmentId.add(resultSet.getString(Constants.DEPARTMENT_ID));
+        }
 
         int length = rand.nextInt(40);
 
         for (int i = 0; i < length * programmeId.size() * 0.25; i++) {
             int randomIndex = 0;
-            if (!programmeId.isEmpty() || !facultyId.isEmpty()) {
+            int randomIndexDepart = 0;
+            if (!programmeId.isEmpty() || !facultyId.isEmpty() || !departmentId.isEmpty()) {
                 randomItem = rand.nextInt(0, programmeId.size());
                 randomIndex = rand.nextInt(0, facultyId.size());
+                randomIndexDepart = rand.nextInt(0, departmentId.size());
             }
 
             Unit unit = new Unit();
@@ -377,6 +388,7 @@ public class PopulateDatabase {
             unit.setUnitName(GenerateAlphanumeric.generateRandomLongAlpha(45));
             unit.setProgrammeId(programmeId.get(randomItem));
             unit.setFacultyId(facultyId.get(randomIndex));
+            unit.setDepartmentId(departmentId.get(randomIndexDepart));
             unit.setPractical(rand.nextBoolean());
             units.add(unit);
         }

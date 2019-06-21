@@ -83,6 +83,17 @@ public class Constants {
 	public static final String PERIOD = "period";
 	public static final String TIME = "time";
 
+	public static final String DAY = "day";
+
+	public static final String TIMESLOT = "timeslot";
+
+	public static final String UNIT = "unit";
+
+	public static final String STARTDATE = "start_date";
+	public static final String DEADLINE = "deadline";
+
+	public static final String TABLE_SCHEDULE = "schedule_unit_registration";
+
     public static class ENV {
         public static final String DEV = "dev";
     }

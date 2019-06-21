@@ -290,6 +290,7 @@ public class GenerateEntityData {
                     "', '" + unit.getUnitName() +
                     "', '" + unit.getProgrammeId() +
                     "', '" + unit.getFacultyId() +
+                    "', '" + unit.getDepartmentId() +
                     "', " + unit.isPractical() +
                     ")";
             result += statement.executeUpdate(strQuery);

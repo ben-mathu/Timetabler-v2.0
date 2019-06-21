@@ -219,7 +219,8 @@ public class TimeTableGenerator {
 		for (Map.Entry<DayTimeUnit, String> map : dayTime_ClassUnitsTimetable.entrySet()) {
 			String addQuery = "INSERT INTO " + Constants.TABLE_TIMTABLE +
 					" VALUES ('Jan 2018/2019','" +
-					map.getKey().getDayOfWeek() + " " + map.getKey().getTimeOfDay() + "','" +
+					map.getKey().getDayOfWeek() + "','" +
+					map.getKey().getTimeOfDay() + "','" +
 					map.getValue() + "')";
 			count = statement.executeUpdate(addQuery);
 		}
