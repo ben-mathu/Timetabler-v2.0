@@ -34,7 +34,7 @@ public class SetRegistrationDeadline extends HttpServlet {
     public SetRegistrationDeadline() {
     	CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
     	
-    	ct = new CreateSchemaTimeTabler();
+    	ct = new CreateSchemaTimeTabler("ben", "");
     	statement = ct.getStatement();
     }
     
