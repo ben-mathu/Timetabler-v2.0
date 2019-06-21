@@ -18,6 +18,7 @@ import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Lecturer;
+import com.bernard.timetabler.dbinit.model.Student;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -25,8 +26,8 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Servlet implementation class UserSignUp
  */
-@WebServlet("/lecturer-sign-up")
-public class LecturerSignUp extends HttpServlet {
+@WebServlet("/student-sign-up")
+public class StudentSignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LecturerSignUp.class.getSimpleName();
 	
@@ -49,14 +50,14 @@ public class LecturerSignUp extends HttpServlet {
 		}
 		
 		Gson gson = new Gson();
-		LecturerRequest lecturer = gson.fromJson(strBuffer.toString(), LecturerRequest.class);
+		StudentRequest student = gson.fromJson(strBuffer.toString(), StudentRequest.class);
 		
-		Log.d(TAG, "populating lecturer details");
+		Log.d(TAG, "populating Student details");
 		
 		initDb();
 		PrintWriter printWriter = response.getWriter();
 		try {
-			if (saveLecturer(lecturer)) {
+			if (saveStudent(student)) {
 				SuccessfulReport report = new SuccessfulReport();
 				report.setMessage("Successfully added");
 				String jsonReport = gson.toJson(report);
@@ -69,20 +70,16 @@ public class LecturerSignUp extends HttpServlet {
 		}
 	}
 	
-	private class LecturerRequest {
-		@SerializedName("lecturer")
-		private Lecturer lecturer;
+	private class StudentRequest {
+		@SerializedName("student")
+		private Student student;
 		
-		public LecturerRequest() {
-			// TODO Auto-generated constructor stub
+		public void setStudent(Student student) {
+			this.student = student;
 		}
 		
-		public void setLecturer(Lecturer lecturer) {
-			this.lecturer = lecturer;
-		}
-		
-		public Lecturer getLecturer() {
-			return lecturer;
+		public Student getStudent() {
+			return student;
 		}
 	}
 
@@ -92,18 +89,22 @@ public class LecturerSignUp extends HttpServlet {
 		statement = ct.getStatement();
 	}
 
-	private boolean saveLecturer(LecturerRequest lecturer) throws SQLException {
-		String insertStatement = "INSERT INTO " + Constants.TABLE_LECTURERS +
-				" VALUES ('" + lecturer.getLecturer().getId() +
-				"','" + lecturer.getLecturer().getFirstName() +
-				"','" + lecturer.getLecturer().getLastName() +
-				"','" + lecturer.getLecturer().getMiddleName() +
-				"','" + lecturer.getLecturer().getUsername() +
-				"','" + lecturer.getLecturer().getPassword() +
-				"','" + lecturer.getLecturer().getFacultyId() +
-				"','" + lecturer.getLecturer().getDepartmentId() +
-				"'," + lecturer.getLecturer().isInSesson() +
-				")";
+	private boolean saveStudent(StudentRequest student) throws SQLException {
+		String insertStatement = "INSERT INTO " + Constants.TABLE_STUDENTS +
+				" VALUES ('" + student.getStudent().getStudentId() +
+				"','" + student.getStudent().getFname() +
+				"','" + student.getStudent().getLname() +
+				"','" + student.getStudent().getMname() +
+				"','" + student.getStudent().getUsername() +
+				"','" + student.getStudent().getPassword() +
+				"'," + student.getStudent().isInSession() +
+				",'" + student.getStudent().getDepartmentId() +
+				"','" + student.getStudent().getCampusId() +
+				"','" + student.getStudent().getFacultyId() +
+				"','" + student.getStudent().getProgrammeId() +
+				"','" + student.getStudent().getYearOfStudy() +
+				"','" + student.getStudent().getAdmissionDate() +
+				"')";
 		return statement.executeUpdate(insertStatement) > 0 ? true : false;
 	}
 

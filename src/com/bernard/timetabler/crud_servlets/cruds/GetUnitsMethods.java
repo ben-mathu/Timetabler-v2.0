@@ -26,7 +26,7 @@ public class GetUnitsMethods {
 		
 		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
-				",un." + Constants.IS_PRACTICAL +
+				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
 				" FROM " + Constants.TABLE_UNITS +
 				" un INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON un." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
@@ -40,6 +40,7 @@ public class GetUnitsMethods {
 			unit.setPractical(resultSet.getBoolean(Constants.IS_PRACTICAL));
 			unit.setFacultyId(resultSet.getString(Constants.FACULTY_ID));
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
+			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
 			unitList.add(unit);
 		}
@@ -52,7 +53,7 @@ public class GetUnitsMethods {
 		
 		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
-				",un." + Constants.IS_PRACTICAL +
+				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
 				" FROM " + Constants.TABLE_UNITS +
 				" un INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu " +
 				"ON un." + Constants.UNIT_ID + "=lu." + Constants.UNIT_ID +
@@ -66,6 +67,7 @@ public class GetUnitsMethods {
 			unit.setPractical(resultSet.getBoolean(Constants.IS_PRACTICAL));
 			unit.setFacultyId(resultSet.getString(Constants.FACULTY_ID));
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
+			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
 			unitList.add(unit);
 		}
@@ -87,6 +89,28 @@ public class GetUnitsMethods {
 			unit.setPractical(resultSet.getBoolean(Constants.IS_PRACTICAL));
 			unit.setFacultyId(resultSet.getString(Constants.FACULTY_ID));
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
+			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
+			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
+			unitList.add(unit);
+		}
+		return unitList;
+	}
+	
+	public List<Unit> getUnitsByDepartment(String departmentId) throws SQLException {
+		unitList = new ArrayList<>();
+		
+		String unitQuery = "SELECT * FROM " + Constants.TABLE_UNITS +
+				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
+		
+		ResultSet resultSet = statement.executeQuery(unitQuery);
+		
+		while (resultSet.next()) {
+			Unit unit = new Unit();
+			unit.setId(resultSet.getString(Constants.UNIT_ID));
+			unit.setPractical(resultSet.getBoolean(Constants.IS_PRACTICAL));
+			unit.setFacultyId(resultSet.getString(Constants.FACULTY_ID));
+			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
+			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
 			unitList.add(unit);
 		}

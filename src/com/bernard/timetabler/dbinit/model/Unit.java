@@ -12,6 +12,8 @@ public class Unit {
     private String programmeId;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
+	@SerializedName(Constants.DEPARTMENT_ID)
+    private String departmentId;
 	@SerializedName(Constants.IS_PRACTICAL)
     private boolean isPractical = false;
 
@@ -57,6 +59,14 @@ public class Unit {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public String getDepartmentId() {
+		return departmentId;
+	}
+    
+    public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
 
     public boolean isPractical() {
         return isPractical;

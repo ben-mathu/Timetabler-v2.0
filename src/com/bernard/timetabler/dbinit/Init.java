@@ -15,7 +15,7 @@ public class Init {
             env = args[0];
         }
 
-        if (env.matches("migrate|dev")) {
+        if (env.matches("migrate|dev|update")) {
             CreateSchemaTimeTabler.createSchema(env);
         } else {
             TimeTableGenerator ttg = new TimeTableGenerator();
