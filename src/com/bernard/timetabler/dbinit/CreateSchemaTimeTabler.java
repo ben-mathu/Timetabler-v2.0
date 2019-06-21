@@ -45,6 +45,7 @@ public class CreateSchemaTimeTabler {
 
     public static void createSchema(String env) {
         try {
+        	// Update the db
         	if (database.isEmpty()) {
             	database = Constants.DATABASE_NAME;
             }
@@ -267,10 +268,19 @@ public class CreateSchemaTimeTabler {
                     Constants.UNIT_NAME + " VARCHAR(255)," +
                     Constants.PROGRAMME_ID + " VARCHAR(10)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
+                    Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.IS_PRACTICAL + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.UNIT_ID + ")," +
-                    "FOREIGN KEY fk_units(" + Constants.PROGRAMME_ID + ") " +
+                    "FOREIGN KEY fk_units_programmes(" + Constants.PROGRAMME_ID + ") " +
                     "REFERENCES " + Constants.TABLE_PROGRAMMES + "(" + Constants.PROGRAMME_ID + ") " +
+                    "ON DELETE RESTRICT " +
+                    "ON UPDATE CASCADE," +
+                    "FOREIGN KEY fk_units_faculty(" + Constants.FACULTY_ID + ") " +
+                    "REFERENCES " + Constants.TABLE_FACULTIES + "(" + Constants.FACULTY_ID + ") " +
+                    "ON DELETE RESTRICT " +
+                    "ON UPDATE CASCADE," +
+                    "FOREIGN KEY fk_units_department(" + Constants.DEPARTMENT_ID + ") " +
+                    "REFERENCES " + Constants.TABLE_DEPARTMENTS + "(" + Constants.DEPARTMENT_ID + ") " +
                     "ON DELETE RESTRICT " +
                     "ON UPDATE CASCADE" +
                     ")";
@@ -401,20 +411,25 @@ public class CreateSchemaTimeTabler {
 
             System.out.println();
             
-         // Create a table to store timetable
-            // period information about the semester
-            Log.d(TAG, "Creating table to save timetables");
-            String createTimetable = "CREATE TABLE IF NOT EXISTS " + Constants.TIMETABLES + " (" +
-            		Constants.PERIOD + " VARCHAR(25)," +
+//            Create a table to store timetables
+            String ttQuery = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_TIMTABLE + " (" +
+            		Constants.PERIOD + " VARCHAR(255)," +
             		Constants.TIME + " VARCHAR(25)," +
-            		Constants.UNIT_ID + " VARCHAR(15))";
-            countResult = statement.executeUpdate(createTimetable);
-            Log.d(TAG, "Created table timetable " + countResult);
-
+            		Constants.DAY + " VARCHAR(25)," +
+            		Constants.UNIT_ID + " VARCHAR(25))";
+            countResult = statement.executeUpdate(ttQuery);
+            Log.d(TAG, "Created table " + Constants.TABLE_TIMTABLE + " Result: " + countResult);
+            
             System.out.println();
             
-//            // Create a table to store timetable
-//            String ttQuery = ""
+            // Create a Scheduling table to keep all schedules
+			String scheduleTable = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_SCHEDULE + " (" +
+					Constants.STARTDATE + " VARCHAR(255)," +
+					Constants.DEADLINE + " VARCHAR(25))";
+			countResult = statement.executeUpdate(scheduleTable);
+			Log.d(TAG, "Created table " + Constants.TABLE_TIMTABLE + " Result: " + countResult);
+			
+			System.out.println();
 
             if (env.equals("dev")) {
                 PopulateEntitiesForTests.populateEntities();

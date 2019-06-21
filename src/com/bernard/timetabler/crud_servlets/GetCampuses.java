@@ -41,7 +41,7 @@ public class GetCampuses extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
+		response.setContentType(Constants.APPLICATION_JSON);
 		
 		// Query campuses then stringify the object list
 		String campusesJsonList = "";

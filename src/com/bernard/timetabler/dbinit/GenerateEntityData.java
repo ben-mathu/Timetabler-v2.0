@@ -37,6 +37,7 @@ public class GenerateEntityData {
     private Statement statement;
 
     public GenerateEntityData() {
+        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
         populateDatabase = new PopulateDatabase();
 
         ct = new CreateSchemaTimeTabler("ben", "");
@@ -289,6 +290,7 @@ public class GenerateEntityData {
                     "', '" + unit.getUnitName() +
                     "', '" + unit.getProgrammeId() +
                     "', '" + unit.getFacultyId() +
+                    "', '" + unit.getDepartmentId() +
                     "', " + unit.isPractical() +
                     ")";
             result += statement.executeUpdate(strQuery);

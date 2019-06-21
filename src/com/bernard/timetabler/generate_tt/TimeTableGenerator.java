@@ -173,7 +173,9 @@ public class TimeTableGenerator {
                             // get lecturer who teaches the unit
                             List<Lecturer> lecturers = getLecturer(unitId);
                             if (!lecturers.isEmpty()) {
-                                dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
+                            	if (i < dayTimeUnits.size()) {
+                            		dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
+                            	}
 //                                dayTimeUnits.remove(dayTimeUnit);
                                 timeSlotCount++;
                             }
@@ -203,7 +205,30 @@ public class TimeTableGenerator {
         return dayTime_ClassUnitsTimetable;
     }
 
-    /**
+    private void saveClassUnitSlots(List<ClassUnit> classUnits) throws SQLException {
+    	int count = 0;
+    	for (ClassUnit item : classUnits) {
+			String addQuery = "INSERT INTO " + Constants.TABLE_CLASS_UNITS +
+					" VALUES ('" + item.getClassId() + "','" +
+					item.getUnitId() + "','" +
+					item.getHallId() + "')";
+			count = statement.executeUpdate(addQuery);
+		}
+	}
+
+	private void saveGeneratedTimetable(HashMap<DayTimeUnit, String> dayTime_ClassUnitsTimetable) throws SQLException {
+    	int count = 0;
+		for (Map.Entry<DayTimeUnit, String> map : dayTime_ClassUnitsTimetable.entrySet()) {
+			String addQuery = "INSERT INTO " + Constants.TABLE_TIMTABLE +
+					" VALUES ('Jan 2018/2019','" +
+					map.getKey().getDayOfWeek() + "','" +
+					map.getKey().getTimeOfDay() + "','" +
+					map.getValue() + "')";
+			count = statement.executeUpdate(addQuery);
+		}
+	}
+
+	/**
      * get lecturer that teaches unitId
      * @param unitId
      * @return
