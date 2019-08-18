@@ -38,6 +38,7 @@ public class RegisterUnits extends HttpServlet {
 	int countRowsAffected = 0;
 	
 	private String jsonResponse = "";
+	private String studentId = "";
 	
     public RegisterUnits() {
     	CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
@@ -47,7 +48,7 @@ public class RegisterUnits extends HttpServlet {
     }
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String studentId = request.getParameter(Constants.STUDENT_ID);
+		studentId = request.getParameter(Constants.STUDENT_ID);
 		response.setContentType(Constants.APPLICATION_JSON);
 		
 		StringBuffer strBuffer = new StringBuffer();
@@ -91,11 +92,13 @@ public class RegisterUnits extends HttpServlet {
 	
 	private boolean saveRegisteredUnits(StudentUnitRequest req, HttpServletResponse response) throws SQLException, IOException {
 		for (StudentUnit studentUnit : req.getStudentUnitList()) {
-			String insertUnits = "INSERT INTO TABLE " + Constants.TABLE_STUDENT_UNITS +
-					" VALUES ('" + studentUnit.getStudentId() + "','" +
+			String insertUnit = "INSERT INTO " + Constants.TABLE_STUDENT_UNITS +
+					"(" + Constants.STUDENT_ID + "," + Constants.UNIT_ID + ")" +
+					" VALUES ('" + studentId + "','" +
 					studentUnit.getUnitId() + "')";
-			countRowsAffected = statement.executeUpdate(insertUnits);
+			countRowsAffected = statement.executeUpdate(insertUnit);
 			
+			Log.d(TAG, "Insert statement: " + insertUnit + "\n");
 			Log.d(TAG, "Rows affected " + countRowsAffected);
 		}
 		

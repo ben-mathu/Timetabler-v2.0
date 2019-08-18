@@ -32,6 +32,7 @@ public class GetTimetableByStudentId extends HttpServlet {
 	private static final String TAG = GetTimetableByStudentId.class.getSimpleName();
 	
 	private Statement statement;
+	private Statement st;
 	private List<Table> list;
 	
 	public GetTimetableByStudentId() {
@@ -54,33 +55,39 @@ public class GetTimetableByStudentId extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		Log.d(TAG, "Timetable list size: " + list.size());
-		
-		// Create a response
-		TimetableResponse timetableResponse = new TimetableResponse();
-		timetableResponse.setClassUnits(list);
-		
-		response.setContentType(Constants.APPLICATION_JSON);
-		PrintWriter printWriter = response.getWriter();
-		
-		Gson gson = new Gson();
-		String jsonTimeable = gson.toJson(timetableResponse);
-		
-		Log.d(TAG, jsonTimeable);
-		
-		printWriter.write(jsonTimeable);
+		if (list != null) {
+			if (!list.isEmpty()) {
+				Log.d(TAG, "Timetable list size: " + list.size());
+				
+				// Create a response
+				TimetableResponse timetableResponse = new TimetableResponse();
+				timetableResponse.setClassUnits(list);
+				
+				response.setContentType(Constants.APPLICATION_JSON);
+				PrintWriter printWriter = response.getWriter();
+				
+				Gson gson = new Gson();
+				String jsonTimeable = gson.toJson(timetableResponse);
+				
+				Log.d(TAG, jsonTimeable);
+				
+				printWriter.write(jsonTimeable);
+			}
+		}
 	}
 	
 	private List<Table> queryTimetableByStudentId(String studentId) throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT " + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + ",tt." + Constants.UNIT_ID +
+		String query = "SELECT tt." + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + ",tt." + Constants.UNIT_ID +
 				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
 				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
 				" WHERE " + Constants.STUDENT_ID + "='" + studentId + "'";
 		
 		Log.d(TAG, "Query: " + query);
+		
+		List<String> unitIdList = new ArrayList<>();
 		
 		// execute query
 		ResultSet resultSet = statement.executeQuery(query);
@@ -92,12 +99,16 @@ public class GetTimetableByStudentId extends HttpServlet {
 			slot.setDay(resultSet.getString(Constants.DAY));
 			slot.setTime(resultSet.getString(Constants.TIME));
 			timetables.setTimeslot(slot);
-			timetables.setUnit(queryUnits(resultSet.getString(Constants.UNIT_ID)));
+			unitIdList.add(resultSet.getString(Constants.UNIT_ID));
 			
 			timetableList.add(timetables);
 		}
 		
-		Log.d(TAG, "" + timetableList.size());
+		for (String unitId : unitIdList) {
+			timetableList.get(unitIdList.indexOf(unitId)).setUnit(queryUnits(unitId));
+		}
+		
+		Log.d(TAG, "Size" + timetableList.size());
 		
 		return timetableList;
 	}

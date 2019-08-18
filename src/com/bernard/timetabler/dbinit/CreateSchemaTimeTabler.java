@@ -154,7 +154,7 @@ public class CreateSchemaTimeTabler {
                     Constants.F_NAME + " VARCHAR(25)," +
                     Constants.L_NAME + " VARCHAR(25)," +
                     Constants.M_NAME + " VARCHAR(25)," +
-                    Constants.USERNAME + " VARCHAR(25)," +
+                    Constants.USERNAME + " VARCHAR(25) UNIQUE," +
                     Constants.PASSWORD + " VARCHAR(255)," +
                     Constants.IN_SESSION + " BOOLEAN," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
@@ -200,7 +200,7 @@ public class CreateSchemaTimeTabler {
                     Constants.F_NAME + " VARCHAR(25)," +
                     Constants.L_NAME + " VARCHAR(25)," +
                     Constants.M_NAME + " VARCHAR(25)," +
-                    Constants.USERNAME + " VARCHAR(25)," +
+                    Constants.USERNAME + " VARCHAR(25) UNIQUE," +
                     Constants.PASSWORD + " VARCHAR(255)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
@@ -424,10 +424,12 @@ public class CreateSchemaTimeTabler {
             
             // Create a Scheduling table to keep all schedules
 			String scheduleTable = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_SCHEDULE + " (" +
+					Constants.SCHEDULE_ID + " INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
 					Constants.STARTDATE + " VARCHAR(255)," +
-					Constants.DEADLINE + " VARCHAR(25))";
+					Constants.DEADLINE + " VARCHAR(25)," +
+					Constants.ACTIVITY + " BOOLEAN)";
 			countResult = statement.executeUpdate(scheduleTable);
-			Log.d(TAG, "Created table " + Constants.TABLE_TIMTABLE + " Result: " + countResult);
+			Log.d(TAG, "Created table " + Constants.TABLE_SCHEDULE + " Result: " + countResult);
 			
 			System.out.println();
 

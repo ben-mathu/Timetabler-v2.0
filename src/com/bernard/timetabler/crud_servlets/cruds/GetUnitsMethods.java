@@ -9,8 +9,10 @@ import java.sql.Statement;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.utils.Log;
 
 public class GetUnitsMethods {
+	private static final String TAG = GetUnitsMethods.class.getSimpleName();
 	private Statement statement;
 	
 	private List<Unit> unitList;
@@ -24,7 +26,7 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByStudentId (String studentId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
+		String unitsQuery = "SELECT DISTINCT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
 				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
 				" FROM " + Constants.TABLE_UNITS +
@@ -51,7 +53,7 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByLecturerId(String lecturerId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
+		String unitsQuery = "SELECT DISTINCT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
 				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
 				" FROM " + Constants.TABLE_UNITS +
@@ -78,7 +80,7 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByProgrammeId(String programmeId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT * FROM " + Constants.TABLE_UNITS +
+		String unitsQuery = "SELECT DISTINCT * FROM " + Constants.TABLE_UNITS +
 				" WHERE " + Constants.PROGRAMME_ID + "='" + programmeId + "'"; 
 		
 		ResultSet resultSet = statement.executeQuery(unitsQuery);
@@ -99,8 +101,16 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByDepartment(String departmentId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitQuery = "SELECT * FROM " + Constants.TABLE_UNITS +
-				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
+		String unitQuery = "SELECT DISTINCT tu."
+				+ Constants.UNIT_ID + ",tu." + Constants.UNIT_NAME + ",tu." + Constants.PROGRAMME_ID
+				+ ",tu." + Constants.FACULTY_ID + ",tu." + Constants.DEPARTMENT_ID
+				+ ",tu." + Constants.IS_PRACTICAL
+				+ " FROM " + Constants.TABLE_UNITS + " tu "
+				+ "INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu "
+				+ "ON tu." + Constants.UNIT_ID + "=lu." + Constants.UNIT_ID
+				+ " WHERE tu." + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
+		
+		Log.d(TAG, "Query " + unitQuery);
 		
 		ResultSet resultSet = statement.executeQuery(unitQuery);
 		

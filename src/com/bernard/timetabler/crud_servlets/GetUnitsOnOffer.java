@@ -26,10 +26,10 @@ import com.google.gson.GsonBuilder;
  * Servlet implementation class GetUnits
  * handle all instances of units
  */
-@WebServlet("/get-units/*")
-public class GetUnits extends HttpServlet {
+@WebServlet("/units-on-offer/*")
+public class GetUnitsOnOffer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = GetUnits.class.getSimpleName();
+	private static final String TAG = GetUnitsOnOffer.class.getSimpleName();
 	
 	private PrintWriter out = null;
 	private Gson gson;
@@ -39,7 +39,7 @@ public class GetUnits extends HttpServlet {
 	
 	private List<Unit> unitList = null;
 	
-	public GetUnits() {
+	public GetUnitsOnOffer() {
 		gson = new GsonBuilder().create();
 	}
 	

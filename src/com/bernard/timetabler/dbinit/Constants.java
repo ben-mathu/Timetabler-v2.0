@@ -101,6 +101,10 @@ public class Constants {
 	public static final String DEADLINE = "deadline";
 
 	public static final String TABLE_SCHEDULE = "schedule_unit_registration";
+
+	public static final String ACTIVITY = "activity";
+
+	public static final String SCHEDULE_ID = "schedule_id";
     public static class ENV {
         public static final String DEV = "dev";
     }

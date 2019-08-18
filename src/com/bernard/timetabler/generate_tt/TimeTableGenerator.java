@@ -5,6 +5,7 @@ import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.GenerateEntityData;
 import com.bernard.timetabler.dbinit.model.*;
 import com.bernard.timetabler.dbinit.model.Class;
+import com.bernard.timetabler.utils.Log;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeTableGenerator {
+	private static final String TAG = TimeTableGenerator.class.getSimpleName();
     private ThreadLocalRandom rand;
 
     private List<Class> classes;
@@ -255,7 +257,7 @@ public class TimeTableGenerator {
                     lecturer.setLastName(resultSet.getString(Constants.L_NAME));
                     lecturer.setMiddleName(resultSet.getString(Constants.M_NAME));
                     lecturer.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
-                    lecturer.setInSesson(resultSet.getBoolean(Constants.IN_SESSION));
+                    lecturer.setInSession(resultSet.getBoolean(Constants.IN_SESSION));
                     lecturers.add(lecturer);
                 }
             }
@@ -403,13 +405,21 @@ public class TimeTableGenerator {
      */
     private void saveGeneratedTimetable(HashMap<DayTimeUnit, String> timetable, String period) throws SQLException {
     	int count = 0;
+    	// clear entries for the period specified
+    	String delQuery = "DELETE FROM " + Constants.TIMETABLES + " WHERE " + Constants.PERIOD + "='" + period + "'";
+    	int items = statement.executeUpdate(delQuery);
+    	
+    	Log.d(TAG, "Items modified " + items);
+    	
     	for (HashMap.Entry<DayTimeUnit, String> timetableItem : timetable.entrySet()) {
     		String updateTimetable = "INSERT INTO " + Constants.TIMETABLES +
-        			" VALUES ('" + period + "','" + timetableItem.getKey().getDayOfWeek() + 
-        			" " + timetableItem.getKey().getTimeOfDay() +
+        			" VALUES ('" + period + "','"+ timetableItem.getKey().getTimeOfDay() +
+        			"','"  + timetableItem.getKey().getDayOfWeek() + 
         			"','" + timetableItem.getValue() + "')";
-    		count = statement.executeUpdate(updateTimetable);
+    		count += statement.executeUpdate(updateTimetable);
 		}
+    	
+    	Log.d(TAG, "Number of slots created " + count);
     }
     
     private void saveClassUnitRelationship(List<ClassUnit> classUnitList) throws SQLException {

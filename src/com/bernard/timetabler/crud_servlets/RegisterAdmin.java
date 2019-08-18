@@ -43,13 +43,13 @@ public class RegisterAdmin extends HttpServlet {
 		StringBuffer strBuffer = new StringBuffer();
 		String line = "";
 		
-		response.setContentType("application/json");
-		
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null) {
 				strBuffer.append(line);
 			}
+			
+			Log.d(TAG, "Buffered string line: " + strBuffer.toString());
 		}catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 		}
@@ -65,11 +65,15 @@ public class RegisterAdmin extends HttpServlet {
 			
 			int count = updateTableAdmin(adminRequest.getAdmin());
 			
-			if (count == 0) {
+			if (count != 0) {
 				SuccessfulReport report = new SuccessfulReport();
 				report.setMessage("Successfully created");
 				
-				writer.write(gson.toJson(report));
+				String jsonResponse = gson.toJson(report);
+				
+				Log.d(TAG, jsonResponse);
+				
+				writer.write(jsonResponse);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -95,7 +99,7 @@ public class RegisterAdmin extends HttpServlet {
 				+ Constants.F_NAME + " VARCHAR(15),"
 				+ Constants.M_NAME + " VARCHAR(15),"
 				+ Constants.L_NAME + " VARCHAR(15),"
-				+ Constants.USERNAME + " VARCHAR(15),"
+				+ Constants.USERNAME + " VARCHAR(15) UNIQUE,"
 				+ Constants.PASSWORD + " VARCHAR(32) UNIQUE)";
 		
 		int count = statement.executeUpdate(query);

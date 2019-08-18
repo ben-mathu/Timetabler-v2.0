@@ -3,8 +3,16 @@ package com.bernard.timetabler.crud_servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
+import com.bernard.timetabler.dbinit.Init;
+import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -25,17 +35,19 @@ import com.google.gson.annotations.SerializedName;
 public class SetRegistrationDeadline extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = SetRegistrationDeadline.class.getSimpleName();
+	private static final String THREAD_NAME = "timer";
 	
 	private Statement statement;
 	private PrintWriter out;
 	
 	private CreateSchemaTimeTabler ct;
 	
+	private long remainder = 0;
+	
     public SetRegistrationDeadline() {
     	CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
     	
     	ct = new CreateSchemaTimeTabler("ben", "");
-    	statement = ct.getStatement();
     }
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,10 +83,66 @@ public class SetRegistrationDeadline extends HttpServlet {
 	}
 	
 	private void saveSchedule(DeadlineRequest deadlineRequest) throws SQLException {
-		String insertStatement = "INSERT INTO TABLE " + Constants.TABLE_SCHEDULE +
-				" VALUES('" + deadlineRequest.getStartDate() + "','" + deadlineRequest.getDeadline() + "')";
-		
+		boolean isActive = true;
+		String insertStatement = "INSERT INTO " + Constants.TABLE_SCHEDULE + "(" 
+				+ Constants.STARTDATE + ","
+				+ Constants.DEADLINE + ","
+				+ Constants.ACTIVITY + ")"
+				+ " VALUES('" + deadlineRequest.getStartDate() + "','"
+				+ deadlineRequest.getDeadline() + "', "
+				+ isActive + ")";
+		statement = ct.getStatement();
 		statement.executeUpdate(insertStatement);
+		
+		// start timer
+		
+		ResultSet result = statement.executeQuery("SELECT LAST_INSERT_ID()");
+		startTimer(deadlineRequest, result.next() ? result.getString("LAST_INSERT_ID()") : "");
+	}
+
+	private void startTimer(DeadlineRequest deadlineRequest, String id) {
+		// get timer remaining in 
+		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		try {
+			Date today = Calendar.getInstance().getTime();
+			Date end = format.parse(deadlineRequest.getDeadline());
+			
+			Log.d(TAG, "time today" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(today));
+			
+			remainder = end.getTime() - today.getTime();
+			Timer timer = new Timer();
+			
+			timer.scheduleAtFixedRate(new TimerTask() {
+				@Override
+				public void run() {
+					remainder -= 1000;
+					
+					Log.d(TAG, "Timer" + remainder);
+					if (remainder < 1000) {
+						boolean isActive = false;
+						String updateStatement = "UPDATE " + Constants.TABLE_SCHEDULE +
+								" SET " + Constants.ACTIVITY + "=" + isActive +
+								" WHERE " + Constants.SCHEDULE_ID + "='" + id + "'";
+						
+						try {
+							statement = ct.getStatement();
+							statement.executeUpdate(updateStatement);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						Init.main(new String[]{});
+						
+						timer.cancel();
+						timer.purge();
+					}
+				}
+			}, 0, 1000);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public class DeadlineRequest {

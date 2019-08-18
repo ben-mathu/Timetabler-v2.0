@@ -25,10 +25,10 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Servlet implementation class GetTimetableByStudentId
  */
-@WebServlet("/students/timetables/*")
-public class GetTimetableByStudentId extends HttpServlet {
+@WebServlet("/students/timetables/copy/*")
+public class GetTimetableByStudentId_bak extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = GetTimetableByStudentId.class.getSimpleName();
+	private static final String TAG = GetTimetableByStudentId_bak.class.getSimpleName();
 	
 	private Statement statement;
 	

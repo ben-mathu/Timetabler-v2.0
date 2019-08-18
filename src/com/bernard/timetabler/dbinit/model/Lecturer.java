@@ -105,7 +105,7 @@ public class Lecturer {
         return inSesson;
     }
 
-    public void setInSesson(boolean inSesson) {
+    public void setInSession(boolean inSesson) {
         this.inSesson = inSesson;
     }
 
