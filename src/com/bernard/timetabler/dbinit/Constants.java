@@ -111,6 +111,8 @@ public class Constants {
 
 	public static final String IS_REMOVED = "is_removed";
 
+	public static final String EMAIL = "email";
+
     public static class ENV {
         public static final String DEV = "dev";
     }

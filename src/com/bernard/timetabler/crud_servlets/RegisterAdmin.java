@@ -100,7 +100,8 @@ public class RegisterAdmin extends HttpServlet {
 				+ Constants.M_NAME + " VARCHAR(15),"
 				+ Constants.L_NAME + " VARCHAR(15),"
 				+ Constants.USERNAME + " VARCHAR(15) UNIQUE,"
-				+ Constants.PASSWORD + " VARCHAR(32) UNIQUE)";
+				+ Constants.PASSWORD + " VARCHAR(32) UNIQUE,"
+				+ Constants.EMAIL + " VARCHAR(255) UNIQUE)";
 		
 		int count = statement.executeUpdate(query);
 	}

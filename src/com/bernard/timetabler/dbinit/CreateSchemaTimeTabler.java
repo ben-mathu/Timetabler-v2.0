@@ -156,6 +156,7 @@ public class CreateSchemaTimeTabler {
                     Constants.M_NAME + " VARCHAR(25)," +
                     Constants.USERNAME + " VARCHAR(25) UNIQUE," +
                     Constants.PASSWORD + " VARCHAR(255)," +
+                    Constants.EMAIL + " VARCHAR(255) UNIQUE," +
                     Constants.IN_SESSION + " BOOLEAN," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.CAMPUS_ID + " VARCHAR(10)," +
@@ -202,6 +203,7 @@ public class CreateSchemaTimeTabler {
                     Constants.M_NAME + " VARCHAR(25)," +
                     Constants.USERNAME + " VARCHAR(25) UNIQUE," +
                     Constants.PASSWORD + " VARCHAR(255)," +
+                    Constants.EMAIL + " VARCHAR(255) UNIQUE," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.IN_SESSION + " BOOLEAN," +
