@@ -27,39 +27,85 @@ public class GetRegistrationSchedule extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = GetRegistrationSchedule.class.getSimpleName();
 
+	private Statement st;
 	private DeadlineSettings settings;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType(Constants.APPLICATION_JSON);
-		PrintWriter printWriter = response.getWriter();
-		
-		Gson gson = new Gson();
-		try {
-			settings = querySettings();
-			
-			String jsonSchedule = gson.toJson(settings);
-			
-			Log.d(TAG, jsonSchedule);
-			
-			printWriter.write(jsonSchedule);
-		} catch (SQLException e) {
-			Log.d(TAG, "Error: " + e.getLocalizedMessage() + "\n");
-			e.printStackTrace();
-			
-			SuccessfulReport report = new SuccessfulReport();
-			report.setMessage(e.getLocalizedMessage());
-			printWriter.write(gson.toJson(report));
-		}
-	}
-	
-	private DeadlineSettings querySettings() throws SQLException {
-		DeadlineSettings scheduleSettings = new DeadlineSettings();
-		
+	public GetRegistrationSchedule() {
 		// set up database environement
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
 		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
 		
-		Statement st = ct.getStatement();
+		st = ct.getStatement();
+	}
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (request.getParameterMap().containsKey(Constants.LECTURER_ID)) {
+			String userId = request.getParameter(Constants.LECTURER_ID);
+			
+			response.setContentType(Constants.APPLICATION_JSON);
+			PrintWriter printWriter = response.getWriter();
+			
+			Gson gson = new Gson();
+			try {
+				settings = querySettingsLec();
+				
+				String jsonSchedule = gson.toJson(settings);
+				
+				Log.d(TAG, jsonSchedule);
+				
+				printWriter.write(jsonSchedule);
+			} catch (SQLException e) {
+				Log.d(TAG, "Error: " + e.getLocalizedMessage() + "\n");
+				e.printStackTrace();
+				
+				SuccessfulReport report = new SuccessfulReport();
+				report.setMessage(e.getLocalizedMessage());
+				printWriter.write(gson.toJson(report));
+			}
+		} else {
+			response.setContentType(Constants.APPLICATION_JSON);
+			PrintWriter printWriter = response.getWriter();
+			
+			Gson gson = new Gson();
+			try {
+				settings = querySettings();
+				
+				String jsonSchedule = gson.toJson(settings);
+				
+				Log.d(TAG, jsonSchedule);
+				
+				printWriter.write(jsonSchedule);
+			} catch (SQLException e) {
+				Log.d(TAG, "Error: " + e.getLocalizedMessage() + "\n");
+				e.printStackTrace();
+				
+				SuccessfulReport report = new SuccessfulReport();
+				report.setMessage(e.getLocalizedMessage());
+				printWriter.write(gson.toJson(report));
+			}
+		}
+		
+	}
+	
+	private DeadlineSettings querySettingsLec() throws SQLException {
+		DeadlineSettings scheduleSettings = new DeadlineSettings();
+		
+		// write the query statement
+		String query = "SELECT * FROM " + Constants.TABLE_SCHEDULE_LEC + " WHERE " + Constants.ACTIVITY + "=1";
+		
+		ResultSet resultSet = st.executeQuery(query);
+		
+		while (resultSet.next()) {
+			scheduleSettings.setStartDate(resultSet.getString(Constants.STARTDATE));
+			scheduleSettings.setDeadline(resultSet.getString(Constants.DEADLINE));
+			scheduleSettings.setActive(resultSet.getBoolean(Constants.ACTIVITY));
+		}
+		return scheduleSettings;
+	}
+
+	private DeadlineSettings querySettings() throws SQLException {
+		DeadlineSettings scheduleSettings = new DeadlineSettings();
 		
 		// write the query statement
 		String query = "SELECT * FROM " + Constants.TABLE_SCHEDULE + " WHERE " + Constants.ACTIVITY + "=1";

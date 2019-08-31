@@ -8,6 +8,8 @@ public class StudentUnit {
     private String studentId;
 	@SerializedName(Constants.UNIT_ID)
     private String unitId;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
     public StudentUnit(String unitId, String studentId) {
         this.unitId = unitId;
@@ -32,4 +34,11 @@ public class StudentUnit {
     public void setUnitId(String unitId) {
         this.unitId = unitId;
     }
+
+    public void setIsRemoved(boolean isRemoved) {
+    	this.isRemoved = isRemoved;
+    }
+	public boolean isRemoved() {
+		return isRemoved;
+	}
 }

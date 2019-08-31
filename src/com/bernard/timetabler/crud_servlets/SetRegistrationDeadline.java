@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,6 +42,7 @@ public class SetRegistrationDeadline extends HttpServlet {
 	private PrintWriter out;
 	
 	private CreateSchemaTimeTabler ct;
+	SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 	
 	private long remainder = 0;
 	
@@ -72,6 +74,18 @@ public class SetRegistrationDeadline extends HttpServlet {
 		try {
 			saveSchedule(deadlineRequest);
 			
+			try {
+				Date end = format.parse(deadlineRequest.getDeadline());
+				
+				String startDate = format.format(end.getTime() - TimeUnit.DAYS.toMillis(2));
+				String endDate = deadlineRequest.getStartDate();
+				
+				saveScheduleLec(startDate, endDate, true);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			SuccessfulReport successfulReport = new SuccessfulReport();
 			successfulReport.setMessage("Unit Registration Schedule Set");
 			
@@ -99,10 +113,21 @@ public class SetRegistrationDeadline extends HttpServlet {
 		ResultSet result = statement.executeQuery("SELECT LAST_INSERT_ID()");
 		startTimer(deadlineRequest, result.next() ? result.getString("LAST_INSERT_ID()") : "");
 	}
+	
+	private void saveScheduleLec(String startDate, String endDate, boolean isActive) throws SQLException {
+		String insertStatement = "INSERT INTO " + Constants.TABLE_SCHEDULE_LEC + "(" 
+				+ Constants.STARTDATE + ","
+				+ Constants.DEADLINE + ","
+				+ Constants.ACTIVITY + ")"
+				+ " VALUES('" + startDate + "','"
+				+ endDate + "', "
+				+ isActive + ")";
+		statement = ct.getStatement();
+		statement.executeUpdate(insertStatement);
+	}
 
 	private void startTimer(DeadlineRequest deadlineRequest, String id) {
 		// get timer remaining in 
-		SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		try {
 			Date today = Calendar.getInstance().getTime();
 			Date end = format.parse(deadlineRequest.getDeadline());

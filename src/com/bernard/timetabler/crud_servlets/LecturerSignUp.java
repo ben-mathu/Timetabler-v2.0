@@ -53,7 +53,7 @@ public class LecturerSignUp extends HttpServlet {
 		
 		Log.d(TAG, "populating lecturer details");
 		
-		initDb();
+		initDb("lecturer", lecturer.getPassword());
 		PrintWriter printWriter = response.getWriter();
 		try {
 			if (saveLecturer(lecturer)) {
@@ -61,6 +61,12 @@ public class LecturerSignUp extends HttpServlet {
 				report.setMessage("Successfully added");
 				String jsonReport = gson.toJson(report);
 				
+				printWriter.write(jsonReport);
+			} else {
+				SuccessfulReport report = new SuccessfulReport();
+				report.setMessage("Error, invalide passcode");
+				
+				String jsonReport = gson.toJson(report);
 				printWriter.write(jsonReport);
 			}
 		} catch (SQLException e) {
@@ -72,6 +78,8 @@ public class LecturerSignUp extends HttpServlet {
 	private class LecturerRequest {
 		@SerializedName("lecturer")
 		private Lecturer lecturer;
+		@SerializedName("password")
+		private String password;
 		
 		public LecturerRequest() {
 			// TODO Auto-generated constructor stub
@@ -84,11 +92,19 @@ public class LecturerSignUp extends HttpServlet {
 		public Lecturer getLecturer() {
 			return lecturer;
 		}
+		
+		public void setPassword(String password) {
+			this.password = password;
+		}
+		
+		public String getPassword() {
+			return password;
+		}
 	}
 
-	private void initDb() {
+	private void initDb(String username, String password) {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler("ben", "");
+		ct = new CreateSchemaTimeTabler(username, password);
 		statement = ct.getStatement();
 	}
 

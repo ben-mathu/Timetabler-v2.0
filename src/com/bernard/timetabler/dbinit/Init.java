@@ -2,12 +2,13 @@ package com.bernard.timetabler.dbinit;
 
 import com.bernard.timetabler.dbinit.model.DayTimeUnit;
 import com.bernard.timetabler.generate_tt.TimeTableGenerator;
+import com.bernard.timetabler.search_algorithm.PathSearchAlgorithm;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Init {
-    private static HashMap<DayTimeUnit, String> timetable = new HashMap<>();
+    private static HashMap<String, DayTimeUnit> timetable = new HashMap<>();
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String env = "";
@@ -18,12 +19,15 @@ public class Init {
         if (env.matches("migrate|dev|update")) {
             CreateSchemaTimeTabler.createSchema(env);
         } else {
-            TimeTableGenerator ttg = new TimeTableGenerator();
+//            TimeTableGenerator ttg = new TimeTableGenerator();
+//
+//            timetable = ttg.generateTimeTable(5, "Jan 2018/2019");
+        	
+        	PathSearchAlgorithm ttg = new PathSearchAlgorithm();
+        	timetable = ttg.pathFindingAlgorithm("Jan 2018/2019");
 
-            timetable = ttg.generateTimeTable(5, "Jan 2018/2019");
-
-            for (HashMap.Entry<DayTimeUnit, String> tt : timetable.entrySet()) {
-                System.out.println("Time: " + tt.getKey().getDayOfWeek() + " " + tt.getKey().getTimeOfDay() + ": " + tt.getValue());
+            for (HashMap.Entry<String, DayTimeUnit> tt : timetable.entrySet()) {
+                System.out.println("Time: " + tt.getValue().getDayOfWeek() + " " + tt.getValue().getTimeOfDay() + ": " + tt.getKey());
             }
         }
 

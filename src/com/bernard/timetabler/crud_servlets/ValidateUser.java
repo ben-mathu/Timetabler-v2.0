@@ -147,11 +147,11 @@ public class ValidateUser extends HttpServlet {
 			Log.d(TAG, "Found " + gson.toJson(response));
 			
 			return gson.toJson(response);
-		} else if (req.getRole().equalsIgnoreCase("student")) {
+		} else if (req.getRole().equalsIgnoreCase("lecturer")) {
 			Lecturer lecturer = new Lecturer();
 			LecturerResponse res = new LecturerResponse();
 			
-			String query = "SELECT * FROM " + Constants.TABLE_STUDENTS 
+			String query = "SELECT * FROM " + Constants.TABLE_LECTURERS 
 					+ " WHERE " + Constants.USERNAME + "='" + req.getUsername() + "'";
 			
 			ResultSet result = st.executeQuery(query);
@@ -165,20 +165,20 @@ public class ValidateUser extends HttpServlet {
 				lecturer.setUsername(result.getString(Constants.USERNAME));
 				lecturer.setDepartmentId(result.getString(Constants.DEPARTMENT_ID));
 				lecturer.setInSession(result.getBoolean(Constants.IN_SESSION));
-				lecturer.setProgrammeId(result.getString(Constants.PROGRAMME_ID));
+//				lecturer.setProgrammeId(result.getString(Constants.PROGRAMME_ID));
 				lecturer.setFacultyId(result.getString(Constants.FACULTY_ID));
 			}
 			res.setLecturer(lecturer);
 			
 			Department dep = getDepartmentById(lecturer.getDepartmentId());
-			Programme prog = getProgrammeById(lecturer.getProgrammeId());
+//			Programme prog = getProgrammeById(lecturer.getProgrammeId());
 			Faculty faculty = getFacultyById(lecturer.getFacultyId());
 			
 			LecturerResponse response = new LecturerResponse();
 			response.setDepartment(dep);
 			response.setFaculty(faculty);
 			response.setLecturer(lecturer);
-			response.setProgramme(prog);
+//			response.setProgramme(prog);
 			
 			Log.d(TAG, "Found: " + gson.toJson(response));
 			
@@ -312,8 +312,8 @@ public class ValidateUser extends HttpServlet {
 	    private Faculty faculty;
 	    @SerializedName(Constants.TABLE_DEPARTMENTS)
 	    private Department department;
-	    @SerializedName(Constants.TABLE_PROGRAMMES)
-	    private Programme programme;
+//	    @SerializedName(Constants.TABLE_PROGRAMMES)
+//	    private Programme programme;
 
 	    public Lecturer getLecturer() {
 	        return lecturer;
@@ -339,13 +339,13 @@ public class ValidateUser extends HttpServlet {
 	        this.department = department;
 	    }
 	    
-	    public Programme getProgramme() {
-			return programme;
-		}
-	    
-	    public void setProgramme(Programme programme) {
-			this.programme = programme;
-		}
+//	    public Programme getProgramme() {
+//			return programme;
+//		}
+//	    
+//	    public void setProgramme(Programme programme) {
+//			this.programme = programme;
+//		}
 	}
 
 	public class UserValidationRequest {

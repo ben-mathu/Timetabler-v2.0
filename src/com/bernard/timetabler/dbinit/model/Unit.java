@@ -16,6 +16,8 @@ public class Unit {
     private String departmentId;
 	@SerializedName(Constants.IS_PRACTICAL)
     private boolean isPractical = false;
+	@SerializedName(Constants.IS_COMMON)
+	private boolean isCommon = false;
 
     public Unit(String id, String unitName, String programmeId, String facultyId, boolean isPractical) {
         this.id = id;
@@ -75,4 +77,12 @@ public class Unit {
     public void setPractical(boolean practical) {
         isPractical = practical;
     }
+    
+    public void setCommon(boolean isCommon) {
+		this.isCommon = isCommon;
+	}
+    
+    public boolean isCommon() {
+		return isCommon;
+	}
 }

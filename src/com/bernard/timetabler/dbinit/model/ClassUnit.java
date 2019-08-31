@@ -3,6 +3,12 @@ package com.bernard.timetabler.dbinit.model;
 import com.bernard.timetabler.dbinit.Constants;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * 
+ * @author bernard
+ * 
+ * Describe a class unit relationship
+ */
 public class ClassUnit {
 	@SerializedName(Constants.CLASS_ID)
     private String classId;

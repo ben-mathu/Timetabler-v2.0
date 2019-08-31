@@ -49,11 +49,15 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String IN_SESSION = "in_session";
     public static final String YEAR_OF_STUDY = "year_of_study";
+    public static final String ADMISSION_DATE = "admission_date";
 
     // Units
     public static final String TABLE_UNITS = "units";
     public static final String UNIT_ID = "unit_id";
     public static final String UNIT_NAME = "unit_name";
+	public static final String IS_COMMON = "is_common";
+	public static final String IS_LAB = "is_lab";
+    public static final String IS_PRACTICAL = "is_practical";
 
     // Lecturers Programmes
     public static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
@@ -66,9 +70,6 @@ public class Constants {
 
     // Student units
     public static final String TABLE_STUDENT_UNITS = "student_units";
-    public static final String ADMISSION_DATE = "admission_date";
-    public static final String IS_LAB = "is_lab";
-    public static final String IS_PRACTICAL = "is_practical";
     
     // other parameters
     public static final String MESSAGE = "message";
@@ -105,6 +106,11 @@ public class Constants {
 	public static final String ACTIVITY = "activity";
 
 	public static final String SCHEDULE_ID = "schedule_id";
+
+	public static final String TABLE_SCHEDULE_LEC = "schedule_lec";
+
+	public static final String IS_REMOVED = "is_removed";
+
     public static class ENV {
         public static final String DEV = "dev";
     }

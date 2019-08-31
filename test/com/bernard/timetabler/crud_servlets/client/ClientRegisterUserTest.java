@@ -32,7 +32,7 @@ public class ClientRegisterUserTest {
 		lecturer.setPassword("help");
 		lecturer.setDepartmentId("od99e");
 		lecturer.setFacultyId("oisjd884");
-		lecturer.setProgrammeId("oosj8e9f");
+//		lecturer.setProgrammeId("oosj8e9f");
 		ClientRegisterUserTest clientRegTest = new ClientRegisterUserTest(lecturer);
 		
 		

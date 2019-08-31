@@ -74,7 +74,8 @@ public class GetUnitsByStudentId extends HttpServlet {
 		String unitQuery = "SELECT * FROM " + Constants.TABLE_UNITS + " un"
 						+ " INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su"
 						+ " ON un." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID
-						+ " WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+						+ " WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'"
+						+ " AND su." + Constants.IS_REMOVED + "=0";
 		ResultSet resultSet = statement.executeQuery(unitQuery);
 		while (resultSet.next()) {
 			Unit unit = new Unit();

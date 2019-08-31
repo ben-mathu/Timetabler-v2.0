@@ -18,8 +18,8 @@ public class Lecturer {
     private String password;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
-	@SerializedName(Constants.PROGRAMME_ID)
-    private String programmeId;
+//	@SerializedName(Constants.PROGRAMME_ID)
+//    private String programmeId;
 	@SerializedName(Constants.DEPARTMENT_ID)
     private String departmentId;
 	@SerializedName(Constants.IN_SESSION)
@@ -117,11 +117,11 @@ public class Lecturer {
 		this.facultyId = facultyId;
 	}
 
-	public String getProgrammeId() {
-		return programmeId;
-	}
-
-	public void setProgrammeId(String programmeId) {
-		this.programmeId = programmeId;
-	}
+//	public String getProgrammeId() {
+//		return programmeId;
+//	}
+//
+//	public void setProgrammeId(String programmeId) {
+//		this.programmeId = programmeId;
+//	}
 }

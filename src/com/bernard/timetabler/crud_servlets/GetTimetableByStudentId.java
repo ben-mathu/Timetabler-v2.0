@@ -19,6 +19,7 @@ import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.ClassUnit;
 import com.bernard.timetabler.dbinit.model.Timetable;
 import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.Class;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -61,7 +62,7 @@ public class GetTimetableByStudentId extends HttpServlet {
 				
 				// Create a response
 				TimetableResponse timetableResponse = new TimetableResponse();
-				timetableResponse.setClassUnits(list);
+				timetableResponse.setTimetable(list);
 				
 				response.setContentType(Constants.APPLICATION_JSON);
 				PrintWriter printWriter = response.getWriter();
@@ -79,7 +80,7 @@ public class GetTimetableByStudentId extends HttpServlet {
 	private List<Table> queryTimetableByStudentId(String studentId) throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT tt." + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + ",tt." + Constants.UNIT_ID +
+		String query = "SELECT tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY + ",tt." + Constants.UNIT_ID +
 				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
 				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
@@ -105,15 +106,40 @@ public class GetTimetableByStudentId extends HttpServlet {
 		}
 		
 		for (String unitId : unitIdList) {
-			timetableList.get(unitIdList.indexOf(unitId)).setUnit(queryUnits(unitId));
+			timetableList.get(unitIdList.indexOf(unitId)).setUnit(queryUnit(unitId));
+			timetableList.get(unitIdList.indexOf(unitId)).setRoom(queryRoom(unitId));
 		}
 		
-		Log.d(TAG, "Size" + timetableList.size());
+		Log.d(TAG, "Size: " + timetableList.size());
 		
 		return timetableList;
 	}
+	
+	private Class queryRoom(String unitId) throws SQLException {
+		Class room = new Class();
+		
+		String query = "SELECT * FROM " + Constants.TABLE_CLASSES + " tc "
+				+ " INNER JOIN " + Constants.TABLE_CLASS_UNITS + " cu "
+				+ "ON tc." + Constants.CLASS_ID + "=cu." + Constants.CLASS_ID
+				+ " WHERE cu." + Constants.UNIT_ID + "='" + unitId + "'";
+		
+		Log.d(TAG, "Query: " + query);
+		
+		ResultSet result = statement.executeQuery(query);
+		
+		if (result.next()) {
+			room.setAvailability(result.getBoolean(Constants.AVAILABILITY));
+			room.setFacultyId(result.getString(Constants.FACULTY_ID));
+			room.setHall_id(result.getString(Constants.HALL_ID));
+			room.setId(result.getString(Constants.CLASS_ID));
+			room.setLab(result.getBoolean(Constants.IS_LAB));
+			room.setVolume(result.getString(Constants.VOLUME));
+		}
+		
+		return room;
+	}
 
-	private Unit queryUnits(String unitId) throws SQLException {
+	private Unit queryUnit(String unitId) throws SQLException {
 		Unit unit = new Unit();
 		
 		String unitQueryString = "SELECT * FROM " + Constants.TABLE_UNITS +
@@ -121,7 +147,7 @@ public class GetTimetableByStudentId extends HttpServlet {
 		
 		ResultSet resultSet = statement.executeQuery(unitQueryString);
 		
-		while (resultSet.next()) {
+		if (resultSet.next()) {
 			unit.setFacultyId(resultSet.getString(Constants.FACULTY_ID));
 			unit.setId(resultSet.getString(Constants.UNIT_ID));
 			unit.setPractical(resultSet.getBoolean(Constants.IS_PRACTICAL));
@@ -136,11 +162,11 @@ public class GetTimetableByStudentId extends HttpServlet {
 		@SerializedName("timetables")
 		private List<Table> timetables;
 		
-		public List<Table> getClassUnits() {
+		public List<Table> getTimetable() {
 			return timetables;
 		}
 		
-		public void setClassUnits(List<Table> timetables) {
+		public void setTimetable(List<Table> timetables) {
 			this.timetables = timetables;
 		}
 	}
@@ -150,6 +176,8 @@ public class GetTimetableByStudentId extends HttpServlet {
 	    private Timeslot timeslot;
 	    @SerializedName(Constants.UNIT)
 	    private Unit unit;
+	    @SerializedName("class")
+	    private Class room;
 
 	    public Timeslot getTimeslot() {
 	        return timeslot;
@@ -166,6 +194,14 @@ public class GetTimetableByStudentId extends HttpServlet {
 	    public void setUnit(Unit unit) {
 	        this.unit = unit;
 	    }
+	    
+	    public void setRoom(Class room) {
+			this.room = room;
+		}
+	    
+	    public Class getRoom() {
+			return room;
+		}
 	}
 	
 	public class Timeslot {

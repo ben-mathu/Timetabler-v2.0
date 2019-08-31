@@ -1,6 +1,6 @@
 package com.bernard.timetabler.dbinit.test_package;
 
-import com.bernard.timetabler.dbinit.GenerateEntityData;
+import com.bernard.timetabler.dbinit.PopulateDb;
 
 import java.sql.SQLException;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class PopulateEntitiesForTests {
     public static void populateEntities() throws SQLException {
         // Initialize the statement
-        GenerateEntityData generateEntityData = new GenerateEntityData();
+        PopulateDb generateEntityData = new PopulateDb();
 
         int countSuccess = 0;
         // insert/populate tables
