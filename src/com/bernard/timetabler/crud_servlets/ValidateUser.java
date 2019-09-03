@@ -88,6 +88,8 @@ public class ValidateUser extends HttpServlet {
 			String query = "SELECT * FROM " + Constants.TABLE_ADMIN +
 					" WHERE " + Constants.USERNAME + "='" + req.getUsername() + "'";
 			
+			Log.d(TAG, "Query: " + query);
+			
 			ResultSet result = st.executeQuery(query);
 			
 			while (result.next()) {

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.ErrorReport;
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.LecturerUnit;
@@ -77,7 +77,7 @@ public class RegisterUnits extends HttpServlet {
 		LecturerUnitRequest req = gson.fromJson(strBuffer.toString(), LecturerUnitRequest.class);
 		
 		out = response.getWriter();
-		SuccessfulReport success = new SuccessfulReport();
+		MessageReport success = new MessageReport();
 		ErrorReport err = new ErrorReport();
 		
 		try {
@@ -120,7 +120,7 @@ public class RegisterUnits extends HttpServlet {
 		StudentUnitRequest req = gson.fromJson(strBuffer.toString(), StudentUnitRequest.class);
 		
 		out = response.getWriter();
-		SuccessfulReport success = new SuccessfulReport();
+		MessageReport success = new MessageReport();
 		ErrorReport err = new ErrorReport();
 		
 		try {

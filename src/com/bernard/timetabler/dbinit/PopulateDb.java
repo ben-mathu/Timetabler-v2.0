@@ -240,6 +240,7 @@ public class PopulateDb {
                     "', '" + lecturer.getMiddleName() +
                     "', '" + lecturer.getUsername() +
                     "', '" + lecturer.getPassword() +
+                    "', '" + lecturer.getUsername() + "@gmail.com" +
                     "', '" + lecturer.getFacultyId() +
                     "', '" + lecturer.getDepartmentId() +
                     "', " + lecturer.isInSesson() +
@@ -310,6 +311,7 @@ public class PopulateDb {
                     "', '" + student.getMname() +
                     "', '" + student.getUsername() +
                     "', '" + student.getPassword() +
+                    "', '" + student.getUsername() + "@gmail.com" +
                     "', " + student.isInSession() +
                     ", '" + student.getDepartmentId() +
                     "', '" + student.getCampusId() +

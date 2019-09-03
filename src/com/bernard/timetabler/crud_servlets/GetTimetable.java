@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.ClassUnit;
@@ -27,16 +28,16 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Servlet implementation class GetTimetable
  */
-@WebServlet("/students/timetables/*")
-public class GetTimetableByStudentId extends HttpServlet {
+@WebServlet("/admin/timetables/*")
+public class GetTimetable extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = GetTimetableByStudentId.class.getSimpleName();
+	private static final String TAG = GetTimetable.class.getSimpleName();
 	
 	private Statement statement;
 	private Statement st;
 	private List<Table> list;
 	
-	public GetTimetableByStudentId() {
+	public GetTimetable() {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
 		
 		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
@@ -45,12 +46,9 @@ public class GetTimetableByStudentId extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String studentId = request.getParameter(Constants.STUDENT_ID);
-		
-		Log.d(TAG, studentId);
 		
 		try {
-			list = queryTimetableByStudentId(studentId);
+			list = queryTimetable();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,23 +66,28 @@ public class GetTimetableByStudentId extends HttpServlet {
 				PrintWriter printWriter = response.getWriter();
 				
 				Gson gson = new Gson();
-				String jsonTimeable = gson.toJson(timetableResponse);
-				
-				Log.d(TAG, jsonTimeable);
-				
-				printWriter.write(jsonTimeable);
+				if (list == null) {
+					MessageReport report = new MessageReport();
+					report.setMessage("Timetable is empty");
+					
+					String jsonStr = gson.toJson(report);
+					printWriter.write(jsonStr);
+				} else {
+					String jsonTimeable = gson.toJson(timetableResponse);
+					
+					Log.d(TAG, jsonTimeable);
+					
+					printWriter.write(jsonTimeable);
+				}
 			}
 		}
 	}
 	
-	private List<Table> queryTimetableByStudentId(String studentId) throws SQLException {
+	private List<Table> queryTimetable() throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY + ",tt." + Constants.UNIT_ID +
-				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
-				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
-				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
-				" WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+		String query = "SELECT " + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + "," + Constants.UNIT_ID +
+				" FROM " + Constants.TABLE_TIMTABLE;
 		
 		Log.d(TAG, "Query: " + query);
 		

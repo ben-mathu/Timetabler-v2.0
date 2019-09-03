@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.utils.Log;
@@ -59,7 +59,7 @@ public class GetRegistrationSchedule extends HttpServlet {
 				Log.d(TAG, "Error: " + e.getLocalizedMessage() + "\n");
 				e.printStackTrace();
 				
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage(e.getLocalizedMessage());
 				printWriter.write(gson.toJson(report));
 			}
@@ -80,7 +80,7 @@ public class GetRegistrationSchedule extends HttpServlet {
 				Log.d(TAG, "Error: " + e.getLocalizedMessage() + "\n");
 				e.printStackTrace();
 				
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage(e.getLocalizedMessage());
 				printWriter.write(gson.toJson(report));
 			}

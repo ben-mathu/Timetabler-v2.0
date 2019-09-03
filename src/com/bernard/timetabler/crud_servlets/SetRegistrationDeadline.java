@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.Init;
@@ -86,7 +86,7 @@ public class SetRegistrationDeadline extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			SuccessfulReport successfulReport = new SuccessfulReport();
+			MessageReport successfulReport = new MessageReport();
 			successfulReport.setMessage("Unit Registration Schedule Set");
 			
 			String jsonResponse = gson.toJson(successfulReport);

@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Lecturer;
@@ -53,17 +55,25 @@ public class LecturerSignUp extends HttpServlet {
 		
 		Log.d(TAG, "populating lecturer details");
 		
-		initDb("lecturer", lecturer.getPassword());
+		// get db username from email
+		Pattern pattern = Pattern.compile("^(\\w*|(\\w*.\\w*)*).*$");
+		Matcher matcher = pattern.matcher(lecturer.getLecturer().getEmail());
+		String username = "";
+		if (matcher.find()) {
+			username = matcher.group(1);
+		}
+		
+		initDb(!username.isEmpty() ? username : "lecturer", lecturer.getPassword());
 		PrintWriter printWriter = response.getWriter();
 		try {
 			if (saveLecturer(lecturer)) {
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage("Successfully added");
 				String jsonReport = gson.toJson(report);
 				
 				printWriter.write(jsonReport);
 			} else {
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage("Error, invalide passcode");
 				
 				String jsonReport = gson.toJson(report);
@@ -109,12 +119,10 @@ public class LecturerSignUp extends HttpServlet {
 	}
 
 	private boolean saveLecturer(LecturerRequest lecturer) throws SQLException {
-		String insertStatement = "INSERT INTO " + Constants.TABLE_LECTURERS +
-				" VALUES ('" + lecturer.getLecturer().getId() +
-				"','" + lecturer.getLecturer().getFirstName() +
-				"','" + lecturer.getLecturer().getLastName() +
-				"','" + lecturer.getLecturer().getMiddleName() +
-				"','" + lecturer.getLecturer().getUsername() +
+		String insertStatement = "INSERT INTO " + Constants.TABLE_LECTURERS + "("
+				+ Constants.USERNAME + "," + Constants.PASSWORD + "," + Constants.FACULTY_ID
+				+ "," + Constants.DEPARTMENT_ID + "," + Constants.IN_SESSION + ")" +
+				" VALUES ('" + lecturer.getLecturer().getUsername() +
 				"','" + lecturer.getLecturer().getPassword() +
 				"','" + lecturer.getLecturer().getFacultyId() +
 				"','" + lecturer.getLecturer().getDepartmentId() +

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Unit;
@@ -89,7 +89,7 @@ public class DeleteUnitRecord extends HttpServlet {
 			statement.executeUpdate(query);
 		}
 		String jsonStr = "";
-		SuccessfulReport report = new SuccessfulReport();
+		MessageReport report = new MessageReport();
 		report.setMessage("Successfully removed");
 		
 		Gson gson = new Gson();
@@ -109,7 +109,7 @@ public class DeleteUnitRecord extends HttpServlet {
 		}
 		
 		String jsonStr = "";
-		SuccessfulReport report = new SuccessfulReport();
+		MessageReport report = new MessageReport();
 		report.setMessage("Successfully removed");
 		
 		Gson gson = new Gson();
@@ -129,7 +129,7 @@ public class DeleteUnitRecord extends HttpServlet {
 		}
 		
 		String jsonStr = "";
-		SuccessfulReport report = new SuccessfulReport();
+		MessageReport report = new MessageReport();
 		report.setMessage("Successfully removed");
 		
 		Gson gson = new Gson();

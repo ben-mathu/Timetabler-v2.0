@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Admin;
@@ -66,7 +66,7 @@ public class RegisterAdmin extends HttpServlet {
 			int count = updateTableAdmin(adminRequest.getAdmin());
 			
 			if (count != 0) {
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage("Successfully created");
 				
 				String jsonResponse = gson.toJson(report);

@@ -14,6 +14,8 @@ public class Lecturer {
     private String middleName;
 	@SerializedName(Constants.USERNAME)
     private String username;
+	@SerializedName(Constants.EMAIL)
+	private String email;
 	@SerializedName(Constants.PASSWORD)
     private String password;
 	@SerializedName(Constants.FACULTY_ID)
@@ -27,7 +29,7 @@ public class Lecturer {
 
     public Lecturer(String id, String firstName,
     		String lastName, String middleName,
-    		String username, String password,
+    		String username, String email, String password,
     		String facultyId, String programmeId,
     		String departmentId, boolean inSession) {
         this.id = id;
@@ -35,6 +37,7 @@ public class Lecturer {
         this.lastName = lastName;
         this.middleName = middleName;
         this.username = username;
+        this.email = email;
         this.password = password;
         this.facultyId = facultyId;
         this.departmentId = departmentId;
@@ -117,11 +120,11 @@ public class Lecturer {
 		this.facultyId = facultyId;
 	}
 
-//	public String getProgrammeId() {
-//		return programmeId;
-//	}
-//
-//	public void setProgrammeId(String programmeId) {
-//		this.programmeId = programmeId;
-//	}
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

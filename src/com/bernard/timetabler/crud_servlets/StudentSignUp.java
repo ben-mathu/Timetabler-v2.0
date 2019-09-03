@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.SuccessfulReport;
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Lecturer;
@@ -58,7 +58,7 @@ public class StudentSignUp extends HttpServlet {
 		PrintWriter printWriter = response.getWriter();
 		try {
 			if (saveStudent(student)) {
-				SuccessfulReport report = new SuccessfulReport();
+				MessageReport report = new MessageReport();
 				report.setMessage("Successfully added");
 				String jsonReport = gson.toJson(report);
 				

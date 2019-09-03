@@ -2,7 +2,7 @@ package com.bernard.timetabler.crud_servlets.reponses;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SuccessfulReport {
+public class MessageReport {
 	@SerializedName("message")
 	private String message;
 	

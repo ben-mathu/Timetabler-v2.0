@@ -27,16 +27,16 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Servlet implementation class GetTimetable
  */
-@WebServlet("/students/timetables/*")
-public class GetTimetableByStudentId extends HttpServlet {
+@WebServlet("/lecturers/timetables/*")
+public class GetTimetableByLecturerId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = GetTimetableByStudentId.class.getSimpleName();
+	private static final String TAG = GetTimetableByLecturerId.class.getSimpleName();
 	
 	private Statement statement;
 	private Statement st;
 	private List<Table> list;
 	
-	public GetTimetableByStudentId() {
+	public GetTimetableByLecturerId() {
 		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
 		
 		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
@@ -45,12 +45,12 @@ public class GetTimetableByStudentId extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String studentId = request.getParameter(Constants.STUDENT_ID);
+		String userId = request.getParameter(Constants.LECTURER_ID);
 		
-		Log.d(TAG, studentId);
+		Log.d(TAG, userId);
 		
 		try {
-			list = queryTimetableByStudentId(studentId);
+			list = queryTimetableByLecturerId(userId);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,14 +77,14 @@ public class GetTimetableByStudentId extends HttpServlet {
 		}
 	}
 	
-	private List<Table> queryTimetableByStudentId(String studentId) throws SQLException {
+	private List<Table> queryTimetableByLecturerId(String userId) throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
 		String query = "SELECT tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY + ",tt." + Constants.UNIT_ID +
 				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
-				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
-				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
-				" WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+				"INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " tu " +
+				"ON tt." + Constants.UNIT_ID + "=tu." + Constants.UNIT_ID +
+				" WHERE tu." + Constants.LECTURER_ID + "='" + userId + "'";
 		
 		Log.d(TAG, "Query: " + query);
 		
