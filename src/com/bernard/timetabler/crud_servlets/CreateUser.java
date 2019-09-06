@@ -87,7 +87,7 @@ public class CreateUser extends HttpServlet {
 			
 			statement.executeUpdate(query);
 			
-			String grant = "GRANT SELECT, INSERT ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost'";
+			String grant = "GRANT ALL ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost'";
 			
 			statement.executeUpdate(grant);
 		}

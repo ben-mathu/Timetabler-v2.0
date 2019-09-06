@@ -33,6 +33,8 @@ public class Student {
     private String admissionDate;
 	@SerializedName(Constants.IN_SESSION)
     private boolean inSession = false;
+	@SerializedName(Constants.EMAIL)
+	private String email;
 
     public Student(String studentId, String fname, String lname, String mname, String username, String password, String departmentId, String programmeId, String campusId, String facultyId, String yearOfStudy, String admissionDate, boolean inSession) {
         this.studentId = studentId;
@@ -157,4 +159,12 @@ public class Student {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmail() {
+		return email;
+	}
 }

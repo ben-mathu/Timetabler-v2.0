@@ -56,7 +56,7 @@ public class LecturerSignUp extends HttpServlet {
 		Log.d(TAG, "populating lecturer details");
 		
 		// get db username from email
-		Pattern pattern = Pattern.compile("^(\\w*|(\\w*.\\w*)*).*$");
+		Pattern pattern = Pattern.compile("(\\w*|\\w*.\\w*)@.*$");
 		Matcher matcher = pattern.matcher(lecturer.getLecturer().getEmail());
 		String username = "";
 		if (matcher.find()) {
@@ -119,15 +119,13 @@ public class LecturerSignUp extends HttpServlet {
 	}
 
 	private boolean saveLecturer(LecturerRequest lecturer) throws SQLException {
-		String insertStatement = "INSERT INTO " + Constants.TABLE_LECTURERS + "("
-				+ Constants.USERNAME + "," + Constants.PASSWORD + "," + Constants.FACULTY_ID
-				+ "," + Constants.DEPARTMENT_ID + "," + Constants.IN_SESSION + ")" +
-				" VALUES ('" + lecturer.getLecturer().getUsername() +
-				"','" + lecturer.getLecturer().getPassword() +
-				"','" + lecturer.getLecturer().getFacultyId() +
-				"','" + lecturer.getLecturer().getDepartmentId() +
-				"'," + lecturer.getLecturer().isInSesson() +
-				")";
+		String insertStatement = "UPDATE " + Constants.TABLE_LECTURERS +
+				" SET " + Constants.USERNAME + "='" + lecturer.getLecturer().getUsername() +
+				"'," + Constants.PASSWORD + "='" + lecturer.getLecturer().getPassword() +
+				"'," + Constants.FACULTY_ID + "='"+ lecturer.getLecturer().getFacultyId() +
+				"'," + Constants.DEPARTMENT_ID + "='" + lecturer.getLecturer().getDepartmentId() +
+				"'," + Constants.IN_SESSION + "=" + lecturer.getLecturer().isInSesson() +
+				" WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'";
 		return statement.executeUpdate(insertStatement) > 0 ? true : false;
 	}
 

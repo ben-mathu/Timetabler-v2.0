@@ -97,6 +97,7 @@ public class StudentSignUp extends HttpServlet {
 				"','" + student.getStudent().getMname() +
 				"','" + student.getStudent().getUsername() +
 				"','" + student.getStudent().getPassword() +
+				"','" + student.getStudent().getEmail() +
 				"'," + student.getStudent().isInSession() +
 				",'" + student.getStudent().getDepartmentId() +
 				"','" + student.getStudent().getCampusId() +

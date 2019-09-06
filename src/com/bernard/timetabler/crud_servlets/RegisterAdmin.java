@@ -88,7 +88,8 @@ public class RegisterAdmin extends HttpServlet {
 				+ admin.getmName() + "','"
 				+ admin.getlName() + "','"
 				+ admin.getUsername() + "','"
-				+ admin.getPassword() + "')";
+				+ admin.getPassword() + "','"
+				+ admin.getEmail() + "')";
 		
 		return statement.executeUpdate(query);
 	}
