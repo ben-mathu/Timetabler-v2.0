@@ -1,6 +1,5 @@
 package com.bernard.timetabler.crud_servlets;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,6 +15,7 @@ import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Admin;
+import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -38,42 +38,40 @@ public class RegisterAdmin extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
-		PrintWriter writer = response.getWriter();
+		PrintWriter writer;
 		
-		StringBuffer strBuffer = new StringBuffer();
-		String line = "";
-		
-		try {
-			BufferedReader reader = request.getReader();
-			while ((line = reader.readLine()) != null) {
-				strBuffer.append(line);
-			}
-			
-			Log.d(TAG, "Buffered string line: " + strBuffer.toString());
-		}catch (Exception e) {
-			Log.e(TAG, e.getMessage());
-		}
+		String jsonRequest = BufferRequest.bufferRequest(request);
 		
 		Gson gson = new Gson();
-		AdminRequest adminRequest = gson.fromJson(strBuffer.toString(), AdminRequest.class);
+		AdminRequest adminRequest = gson.fromJson(jsonRequest, AdminRequest.class);
 		
 		ct = new CreateSchemaTimeTabler("benard", adminRequest.getDbPassword());
 		
 		statement = ct.getStatement();
 		try {
-			createAdminTableIfNotExist(Constants.TABLE_ADMIN);
-			
-			int count = updateTableAdmin(adminRequest.getAdmin());
-			
-			if (count != 0) {
+			if (createAdminTableIfNotExist(Constants.TABLE_ADMIN)) {
 				MessageReport report = new MessageReport();
-				report.setMessage("Successfully created");
-				
-				String jsonResponse = gson.toJson(report);
-				
-				Log.d(TAG, jsonResponse);
-				
-				writer.write(jsonResponse);
+				String jsonResponse = "";
+				if (updateTableAdmin(adminRequest.getAdmin())) {
+					
+					report.setMessage("Successfully created");
+					
+					jsonResponse = gson.toJson(report);
+					
+					Log.d(TAG, jsonResponse);
+					
+					response.setStatus(201);
+					writer = response.getWriter();
+					writer.write(jsonResponse);
+				} else {
+					report.setMessage("Admin not created");
+					
+					jsonResponse = gson.toJson(report);
+					
+					response.setStatus(304);
+					writer = response.getWriter();
+					writer.write(jsonRequest);
+				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -81,7 +79,7 @@ public class RegisterAdmin extends HttpServlet {
 		}
 	}
 	
-	private int updateTableAdmin(Admin admin) throws SQLException {
+	private boolean updateTableAdmin(Admin admin) throws SQLException {
 		String query = "INSERT INTO " + Constants.TABLE_ADMIN
 				+ " VALUES ('" + admin.getAdminId() + "','"
 				+ admin.getfName() + "','"
@@ -91,10 +89,14 @@ public class RegisterAdmin extends HttpServlet {
 				+ admin.getPassword() + "','"
 				+ admin.getEmail() + "')";
 		
-		return statement.executeUpdate(query);
+		if (statement.executeUpdate(query) > 0) {
+			return true;
+		}
+		
+		return false;
 	}
 
-	private void createAdminTableIfNotExist(String tableAdmin) throws SQLException {
+	private boolean createAdminTableIfNotExist(String tableAdmin) throws SQLException {
 		String query = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_ADMIN + "("
 				+ Constants.ADMIN_ID + " VARCHAR(15) PRIMARY KEY,"
 				+ Constants.F_NAME + " VARCHAR(15),"
@@ -104,7 +106,11 @@ public class RegisterAdmin extends HttpServlet {
 				+ Constants.PASSWORD + " VARCHAR(32) UNIQUE,"
 				+ Constants.EMAIL + " VARCHAR(255) UNIQUE)";
 		
-		int count = statement.executeUpdate(query);
+		if (statement.executeUpdate(query) == 0) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	private class AdminRequest {
@@ -117,6 +123,7 @@ public class RegisterAdmin extends HttpServlet {
 			return admin;
 		}
 		
+		@SuppressWarnings("unused")
 		public void setAdmin(Admin admin) {
 			this.admin = admin;
 		}
@@ -125,6 +132,7 @@ public class RegisterAdmin extends HttpServlet {
 			return dbPassword;
 		}
 		
+		@SuppressWarnings("unused")
 		public void setDbPassword(String dbPassword) {
 			this.dbPassword = dbPassword;
 		}
