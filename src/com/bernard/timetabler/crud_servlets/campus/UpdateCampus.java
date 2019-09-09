@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.campus;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,18 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.Campus;
-import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-@WebServlet("/add-campus")
-public class AddCampus extends HttpServlet {
+@WebServlet("/update-campus")
+public class UpdateCampus extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     private Statement statement;
-    public AddCampus() {
+    public UpdateCampus() {
         super();
         
         statement = UtilCommonFunctions.initialize("ben", "");
@@ -45,7 +44,8 @@ public class AddCampus extends HttpServlet {
 			
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
-			if (saveCampus(req)) {
+			
+			if (updateCampus(req)) {
 				report.setMessage("Successfully added" + req.getCampus().getCampusId());
 				jsonResponse = gson.toJson(report);
 				
@@ -65,14 +65,10 @@ public class AddCampus extends HttpServlet {
 		}
 	}
 	
-	private boolean saveCampus(CampusRequest req) throws SQLException {
-		// generate id for campus
-		GenerateRandomString rand = new GenerateRandomString(7);
-		String id = rand.nextString();
-		
-		String insertQuery = "INSERT INTO " + Constants.TABLE_CAMPUS
-				+ " VALUES('" + id + "','"
-				+ req.getCampus().getCampusName() + "')";
+	private boolean updateCampus(CampusRequest req) throws SQLException {		
+		String insertQuery = "UPDATE " + Constants.TABLE_CAMPUS
+				+ " SET " + Constants.CAMPUS_NAME + "='" + req.getCampus().getCampusName() + "'"
+				+ " WHERE " + Constants.CAMPUS_ID + "='" + req.getCampus().getCampusId() + "'";
 		
 		if (statement.executeUpdate(insertQuery) != 0) {
 			return true;
