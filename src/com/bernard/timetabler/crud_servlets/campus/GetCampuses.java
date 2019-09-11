@@ -79,7 +79,8 @@ public class GetCampuses extends HttpServlet {
 	private List<Campus> getCampuses() throws SQLException {
 		List<Campus> campusList = new ArrayList<>();
 		// query
-		String campusQuery = "SELECT * FROM " + Constants.TABLE_CAMPUS;
+		String campusQuery = "SELECT * FROM " + Constants.TABLE_CAMPUS
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet resultSet = statement.executeQuery(campusQuery);
 		

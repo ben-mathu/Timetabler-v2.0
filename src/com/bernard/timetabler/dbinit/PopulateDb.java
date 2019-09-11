@@ -74,8 +74,10 @@ public class PopulateDb {
             } else {
                 strReplace = campus.getCampusName();
             }
-            String strQuery = "INSERT INTO " + Constants.TABLE_CAMPUS +
-                    " VALUES ('" + campus.getCampusId() + "', '" + strReplace + "')";
+            String strQuery = "INSERT INTO " + Constants.TABLE_CAMPUS
+            		+ " VALUES ('" + campus.getCampusId()
+                    + "', '" + strReplace
+                    + "'," + campus.isRemoved() + ")";
 
             result += statement.executeUpdate(strQuery);
         }

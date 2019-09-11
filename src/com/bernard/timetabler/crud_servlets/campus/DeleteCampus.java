@@ -66,7 +66,8 @@ public class DeleteCampus extends HttpServlet {
 	}
 	
 	private boolean deleteCampus(CampusRequest req) throws SQLException {		
-		String insertQuery = "DELETE FROM " + Constants.TABLE_CAMPUS
+		String insertQuery = "UPDATE " + Constants.TABLE_CAMPUS
+				+ " SET " + Constants.IS_REMOVED + "=" + true
 				+ " WHERE " + Constants.CAMPUS_ID + "='" + req.getCampus().getCampusId() + "'";
 		
 		if (statement.executeUpdate(insertQuery) != 0) {

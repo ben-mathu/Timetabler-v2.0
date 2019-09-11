@@ -86,6 +86,7 @@ public class CreateSchemaTimeTabler {
             String campusStatement = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_CAMPUS + " (" +
                     Constants.CAMPUS_ID + " VARCHAR(10)," +
                     Constants.CAMPUS_NAME + " VARCHAR(255) UNIQUE," +
+                    Constants.IS_REMOVED + " BOOLEAN" +
                     "PRIMARY KEY (" + Constants.CAMPUS_ID + ")" +
                     ")";
             countResult = statement.executeUpdate(campusStatement);

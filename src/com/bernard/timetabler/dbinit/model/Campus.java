@@ -9,10 +9,13 @@ public class Campus {
     private String campusId;
 	@SerializedName(Constants.CAMPUS_NAME)
     private String campusName;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved;
 
-    public Campus(String campusId, String campusName) {
+    public Campus(String campusId, String campusName, boolean isRemoved) {
         this.campusId = campusId;
         this.campusName = campusName;
+        this.isRemoved = this.isRemoved;
     }
 
     public Campus() {
@@ -33,4 +36,12 @@ public class Campus {
     public void setCampusName(String campusName) {
         this.campusName = campusName;
     }
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
 }
