@@ -2,7 +2,7 @@ package com.bernard.timetabler.search_algorithm.entities;
 
 import java.util.HashMap;
 
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
 
 public class Timeslot {
 	HashMap<String, String> timeslot = new HashMap<>();

@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
 
 public class GetUnitsMethodsTest {
 	private GetUnitsMethods unitCrudOp;

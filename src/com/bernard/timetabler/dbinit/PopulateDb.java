@@ -1,7 +1,17 @@
 package com.bernard.timetabler.dbinit;
 
 import com.bernard.timetabler.dbinit.model.*;
-import com.bernard.timetabler.dbinit.model.Class;
+import com.bernard.timetabler.dbinit.model.campus.Campus;
+import com.bernard.timetabler.dbinit.model.course.Unit;
+import com.bernard.timetabler.dbinit.model.department.Department;
+import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
+import com.bernard.timetabler.dbinit.model.programme.Programme;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.relationships.LecturerProgramme;
+import com.bernard.timetabler.dbinit.model.relationships.LecturerUnit;
+import com.bernard.timetabler.dbinit.model.relationships.StudentUnit;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.student.Student;
 import com.bernard.timetabler.utils.Log;
 
 import java.sql.SQLException;

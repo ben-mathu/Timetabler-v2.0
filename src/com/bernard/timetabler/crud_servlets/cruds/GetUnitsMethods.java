@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.bernard.timetabler.utils.Log;
 
 public class GetUnitsMethods {

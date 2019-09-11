@@ -4,7 +4,12 @@ import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.PopulateDb;
 import com.bernard.timetabler.dbinit.model.*;
-import com.bernard.timetabler.dbinit.model.Class;
+import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.relationships.LecturerUnit;
+import com.bernard.timetabler.dbinit.model.relationships.StudentUnit;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
 import com.bernard.timetabler.utils.Log;
 
 import java.sql.ResultSet;

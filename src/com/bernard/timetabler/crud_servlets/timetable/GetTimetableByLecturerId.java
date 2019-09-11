@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.ClassUnit;
-import com.bernard.timetabler.dbinit.model.Timetable;
-import com.bernard.timetabler.dbinit.model.Unit;
-import com.bernard.timetabler.dbinit.model.Class;
+import com.bernard.timetabler.dbinit.model.course.Unit;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.timetable.Timetable;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

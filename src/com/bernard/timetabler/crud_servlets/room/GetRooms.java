@@ -21,8 +21,8 @@ import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Table;
 import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Timeslot;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Class;
-import com.bernard.timetabler.dbinit.model.ClassResponse;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.room.ClassResponse;
 import com.bernard.timetabler.utils.Log;
 
 /**

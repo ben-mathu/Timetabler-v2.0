@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.bernard.timetabler.dbinit.model.ClassUnit;
-import com.bernard.timetabler.dbinit.model.DayTimeUnit;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
 import com.bernard.timetabler.search_algorithm.Edge;
 import com.bernard.timetabler.search_algorithm.Node;
 import com.bernard.timetabler.utils.Log;

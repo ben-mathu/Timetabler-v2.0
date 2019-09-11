@@ -1,6 +1,6 @@
 package com.bernard.timetabler.crud_servlets.client;
 
-import com.bernard.timetabler.dbinit.model.Lecturer;
+import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.google.gson.annotations.SerializedName;
 
 public class ClientRegisterUserTest {

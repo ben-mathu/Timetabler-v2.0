@@ -1,8 +1,9 @@
-package com.bernard.timetabler.dbinit.model;
+package com.bernard.timetabler.dbinit.model.timetable;
 
 import java.util.List;
 
 import com.bernard.timetabler.dbinit.Constants;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
 import com.google.gson.annotations.SerializedName;
 
 public class DayTimeUnit {

@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.crud_servlets.cruds.GetUnitsMethods;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 

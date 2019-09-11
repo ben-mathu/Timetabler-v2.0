@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.ProgrammeRequest;
+import com.bernard.timetabler.dbinit.model.programme.ProgrammeRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;

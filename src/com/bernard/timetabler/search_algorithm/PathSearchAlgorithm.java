@@ -12,10 +12,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Class;
-import com.bernard.timetabler.dbinit.model.ClassUnit;
-import com.bernard.timetabler.dbinit.model.DayTimeUnit;
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
 import com.bernard.timetabler.search_algorithm.entities.Timeslot;
 import com.bernard.timetabler.search_algorithm.entities.TimeslotEdge;
 import com.bernard.timetabler.search_algorithm.entities.TimeslotNode;

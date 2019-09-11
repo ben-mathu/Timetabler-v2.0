@@ -1,4 +1,4 @@
-package com.bernard.timetabler.dbinit.model;
+package com.bernard.timetabler.dbinit.model.programme;
 
 import com.google.gson.annotations.SerializedName;
 

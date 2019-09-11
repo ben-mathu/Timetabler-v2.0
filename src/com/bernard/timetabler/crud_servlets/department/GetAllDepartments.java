@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.Department;
+import com.bernard.timetabler.dbinit.model.department.Department;
 import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
