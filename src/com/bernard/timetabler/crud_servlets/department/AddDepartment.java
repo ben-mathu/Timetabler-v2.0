@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.department;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,19 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.ProgrammeRequest;
+import com.bernard.timetabler.dbinit.model.DepartmentRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 
-@WebServlet("/add-programme")
-public class AddProgramme extends HttpServlet {
+@WebServlet("/add-department")
+public class AddDepartment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private Statement statement;
 	
-	public AddProgramme() {
+	public AddDepartment() {
 		statement = UtilCommonFunctions.initialize("ben", "");
 	}
 	
@@ -33,7 +33,7 @@ public class AddProgramme extends HttpServlet {
 		String jsonRequest = BufferRequest.bufferRequest(request);
 		
 		Gson gson = new Gson();
-		ProgrammeRequest req = gson.fromJson(jsonRequest, ProgrammeRequest.class);
+		DepartmentRequest req = gson.fromJson(jsonRequest, DepartmentRequest.class);
 		
 		try {
 			response.setContentType(Constants.APPLICATION_JSON);
@@ -41,8 +41,8 @@ public class AddProgramme extends HttpServlet {
 			String jsonResponse = "";
 			
 			PrintWriter writer;
-			if (addProgramme(req)) {
-				report.setMessage("Successfully added " + req.getProgramme().getProgrammeName());
+			if (addDepartment(req)) {
+				report.setMessage("Successfully added " + req.getDepartment().getDepartmentName());
 				
 				jsonResponse = gson.toJson(report);
 				response.setStatus(HttpServletResponse.SC_CREATED);
@@ -51,7 +51,7 @@ public class AddProgramme extends HttpServlet {
 				
 				writer.write(jsonResponse);
 			} else {
-				report.setMessage("Did not add " + req.getProgramme().getProgrammeName());
+				report.setMessage("Did not add " + req.getDepartment().getDepartmentName());
 				
 				jsonResponse = gson.toJson(report);
 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
@@ -66,15 +66,14 @@ public class AddProgramme extends HttpServlet {
 		}
 	}
 	
-	private boolean addProgramme(ProgrammeRequest req) throws SQLException {
+	private boolean addDepartment(DepartmentRequest req) throws SQLException {
 		GenerateRandomString rand = new GenerateRandomString(7);
 		String id = rand.nextString();
 		
-		String insertQuery = "INSERT INTO " + Constants.TABLE_PROGRAMMES
+		String insertQuery = "INSERT INTO " + Constants.TABLE_DEPARTMENTS
 				+ " VALUES('" + id + "','"
-				+ req.getProgramme().getProgrammeName() + "','"
-				+ req.getProgramme().getDepartmentId() + "','"
-				+ req.getProgramme().getFacultyId() + "')";
+				+ req.getDepartment().getDepartmentName() + "','"
+				+ req.getDepartment().getFacultyId() + "')";
 		
 		if (statement.executeUpdate(insertQuery) > 0) {
 			return true;

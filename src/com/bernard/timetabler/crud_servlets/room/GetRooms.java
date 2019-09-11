@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.room;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import com.bernard.timetabler.crud_servlets.GetTimetable.Table;
-import com.bernard.timetabler.crud_servlets.GetTimetable.Timeslot;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
+import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Table;
+import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Timeslot;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Class;

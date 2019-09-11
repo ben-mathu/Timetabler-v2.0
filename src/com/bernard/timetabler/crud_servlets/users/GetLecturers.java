@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.users;
 
 import java.io.IOException;
 import java.io.PrintWriter;

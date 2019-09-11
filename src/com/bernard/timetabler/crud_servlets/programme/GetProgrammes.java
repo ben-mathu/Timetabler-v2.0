@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.programme;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,25 +15,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
+import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Programme;
-import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class GetProgrammes
  */
-@WebServlet("/programmes")
-public class GetAllProgrammes extends HttpServlet {
+@WebServlet("/programmes/*")
+public class GetProgrammes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private Statement statement;
 	
 	private List<Programme> list;
 	
-	public GetAllProgrammes() {
+	public GetProgrammes() {
 		// initialize the db
-		statement = UtilCommonFunctions.initialize("ben", "");
+		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
+		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
+		statement = ct.getStatement();
 		
 		list = new ArrayList<>();
 	}
@@ -44,7 +46,7 @@ public class GetAllProgrammes extends HttpServlet {
 		// Query campuses then stringify the object list
 		String programmesJsonList = "";
 		try {
-			list = getProgrammes();
+			list = getProgrammes(request.getParameter(Constants.DEPARTMENT_ID));
 			
 			ProgrammesResponse resp = new ProgrammesResponse();
 			resp.setProgrammes(list);
@@ -61,10 +63,24 @@ public class GetAllProgrammes extends HttpServlet {
 		writer.write(programmesJsonList);
 	}
 	
-	private List<Programme> getProgrammes() throws SQLException {
+	private class ProgrammesResponse {
+		@SerializedName("programmes")
+		private List<Programme> programmes;
+		
+		public List<Programme> getProgrammes() {
+			return programmes;
+		}
+		
+		public void setProgrammes(List<Programme> programmes) {
+			this.programmes = programmes;
+		}
+	}
+		
+	private List<Programme> getProgrammes(String departmentId) throws SQLException {
 		List<Programme> programmeList = new ArrayList<>();
 		// query
-		String programmesQuery = "SELECT * FROM " + Constants.TABLE_PROGRAMMES;
+		String programmesQuery = "SELECT * FROM " + Constants.TABLE_PROGRAMMES +
+				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
 		
 		ResultSet resultSet = statement.executeQuery(programmesQuery);
 		
@@ -78,18 +94,5 @@ public class GetAllProgrammes extends HttpServlet {
 		}
 		return programmeList;
 	}
-	
-	private class ProgrammesResponse {
-		@SerializedName("programmes")
-		private List<Programme> programmes;
-		
-		@SuppressWarnings("unused")
-		public List<Programme> getProgrammes() {
-			return programmes;
-		}
-		
-		public void setProgrammes(List<Programme> programmes) {
-			this.programmes = programmes;
-		}
-	}
+
 }

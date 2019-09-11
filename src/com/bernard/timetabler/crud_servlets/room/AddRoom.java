@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.room;
 
 import java.io.BufferedReader;
 import java.io.IOException;
