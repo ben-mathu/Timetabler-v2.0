@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.course.Unit;
+import com.bernard.timetabler.dbinit.model.course.UnitReq;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class AddCourse
@@ -48,7 +48,7 @@ public class AddCourse extends HttpServlet {
 		Gson gson = new Gson();
 		UnitReq unitReq = gson.fromJson(strBuffer.toString(), UnitReq.class);
 		
-		String passCode = unitReq.passCode;
+		String passCode = unitReq.getPassCode();
 		inidb(passCode);
 		
 		try {
@@ -85,31 +85,6 @@ public class AddCourse extends HttpServlet {
 	}
 
 	private void inidb(String passCode) {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("benard", passCode);
-        
-        statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("benard", passCode);
 	}
-	
-	public class UnitReq {
-        @SerializedName("unit")
-        private Unit unit;
-        @SerializedName("passcode")
-        private String passCode;
-
-        public UnitReq(Unit unit, String passCode) {
-            this.unit = unit;
-            this.passCode = passCode;
-        }
-        
-        public UnitReq() {}
-        
-        public void setUnit(Unit unit) {
-            this.unit = unit;
-        }
-
-        public Unit getUnit() {
-            return unit;
-        }
-    }
 }

@@ -53,14 +53,12 @@ public class GetCampuses extends HttpServlet {
 			
 			Gson gson = new Gson();
 			campusesJsonList = gson.toJson(resp, CampusResponse.class);
+			
+			PrintWriter writer = response.getWriter();
+			writer.write(campusesJsonList);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		PrintWriter writer = response.getWriter();
-		
-		writer.write(campusesJsonList);
 	}
 	
 	private class CampusResponse {

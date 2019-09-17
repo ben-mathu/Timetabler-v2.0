@@ -13,15 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.utils.GenerateAlphanumeric;
+import com.bernard.timetabler.dbinit.model.lecturer.PackageRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class CreateUser
@@ -85,97 +83,22 @@ public class CreateUser extends HttpServlet {
 			
 			String query = "CREATE USER '" + username + "'@'localhost' IDENTIFIED BY '" + code + "'";
 			
-			statement.executeUpdate(query);
-			
-			String grant = "GRANT ALL ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost'";
-			
-			statement.executeUpdate(grant);
+			if (statement.executeUpdate(query) != 0) {
+				String grant = "GRANT ALL ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost'";
+				
+				if (statement.executeUpdate(grant) != 0) {
+					String insertQuery = "INSERT INTO " + Constants.TABLE_LECTURERS + "(" + Constants.LECTURER_ID + ","
+							+ Constants.EMAIL + "," + Constants.F_NAME + "," + Constants.M_NAME + ","
+							+ Constants.L_NAME + ") VALUES ('" + code + "','" + pacRequest.getLecRequest().getEmail() + "','"
+							+ pacRequest.getLecRequest().getFname() + "','" + pacRequest.getLecRequest().getMname() + "','"
+							+ pacRequest.getLecRequest().getLname() + "')";
+					
+					statement.executeUpdate(insertQuery);
+				}
+			}
 		}
-		
-		String insertQuery = "INSERT INTO " + Constants.TABLE_LECTURERS + "(" + Constants.LECTURER_ID + ","
-				+ Constants.EMAIL + "," + Constants.F_NAME + "," + Constants.M_NAME + ","
-				+ Constants.L_NAME + ") VALUES ('" + code + "','" + pacRequest.getLecRequest().getEmail() + "','"
-				+ pacRequest.getLecRequest().getFname() + "','" + pacRequest.getLecRequest().getMname() + "','"
-				+ pacRequest.getLecRequest().getLname() + "')";
-		
-		statement.executeUpdate(insertQuery);
 		
 		return code;
 	}
-	
-	private class PackageRequest {
-		@SerializedName("package")
-		private LecRequest lecRequest;
-		
-		public void setLecRequest(LecRequest lecRequest) {
-			this.lecRequest = lecRequest;
-		}
-		
-		public LecRequest getLecRequest() {
-			return lecRequest;
-		}
-	}
 
-	private class LecRequest {
-		@SerializedName("message")
-		private String message;
-        @SerializedName("email")
-        private String email;
-        @SerializedName(Constants.F_NAME)
-        private String fname;
-        @SerializedName(Constants.M_NAME)
-        private String mname;
-        @SerializedName(Constants.L_NAME)
-        private String lname;
-        @SerializedName("access_code")
-        private String code;
-
-        public void setMessage(String message) {
-			this.message = message;
-		}
-        
-        public String getMessage() {
-			return message;
-		}
-        
-        public void setEmail(String email) {
-			this.email = email;
-		}
-        
-        public String getEmail() {
-            return email;
-        }
-
-        public void setFname(String fname) {
-			this.fname = fname;
-		}
-        
-        public String getFname() {
-            return fname;
-        }
-
-        public void setLname(String lname) {
-			this.lname = lname;
-		}
-        
-        public String getLname() {
-            return lname;
-        }
-        
-        public void setMname(String mname) {
-			this.mname = mname;
-		}
-
-        public String getMname() {
-            return mname;
-        }
-        
-        public void setCode(String code) {
-			this.code = code;
-		}
-        
-        public String getCode() {
-			return code;
-		}
-    }
 }

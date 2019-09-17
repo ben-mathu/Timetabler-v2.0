@@ -167,9 +167,9 @@ public class GenerateEntityData {
             facultyId.add(resultSet.getString("faculty_id"));
         }
 
-        int length = rand.nextInt(10);
+        int length = rand.nextInt(1, 10);
 
-        for (int i = 0; i < length * facultyNames.length * 0.25; i++) {
+        for (int i = 0; i < length * facultyNames.length; i++) {
             randomItem = rand.nextInt(1, facultyNames.length);
             Department item = new Department();
             item.setDepartmentId(GenerateAlphanumeric.generateIdAlphanumeric(5));
@@ -276,7 +276,7 @@ public class GenerateEntityData {
         return programmes;
     }
 
-public List<Student> populateStudents() throws SQLException {
+    public List<Student> populateStudents() throws SQLException {
         List<Student> students = new ArrayList<>();
         List<String> campusId = new ArrayList<>();
         List<String> programmeId = new ArrayList<>();

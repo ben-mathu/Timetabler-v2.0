@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
+import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
@@ -53,7 +54,7 @@ public class DeleteCampus extends HttpServlet {
 				writer = response.getWriter();
 				writer.write(jsonRequest);
 			} else {
-				report.setMessage("Could not save " + req.getCampus().getCampusName());
+				report.setMessage("Could not delete " + req.getCampus().getCampusName());
 				jsonResponse = gson.toJson(report);
 				
 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
@@ -74,22 +75,5 @@ public class DeleteCampus extends HttpServlet {
 			return true;
 		}
 		return false;
-	}
-
-	public class CampusRequest {
-	    @SerializedName("campus")
-	    private Campus campus;
-
-	    public CampusRequest(Campus campus) {
-	        this.campus = campus;
-	    }
-
-	    public Campus getCampus() {
-	        return campus;
-	    }
-
-	    public void setCampus(Campus campus) {
-	        this.campus = campus;
-	    }
 	}
 }

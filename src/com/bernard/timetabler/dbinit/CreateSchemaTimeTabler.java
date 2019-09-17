@@ -86,7 +86,7 @@ public class CreateSchemaTimeTabler {
             String campusStatement = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_CAMPUS + " (" +
                     Constants.CAMPUS_ID + " VARCHAR(10)," +
                     Constants.CAMPUS_NAME + " VARCHAR(255) UNIQUE," +
-                    Constants.IS_REMOVED + " BOOLEAN" +
+                    Constants.IS_REMOVED + " BOOLEAN, " +
                     "PRIMARY KEY (" + Constants.CAMPUS_ID + ")" +
                     ")";
             countResult = statement.executeUpdate(campusStatement);
@@ -274,6 +274,7 @@ public class CreateSchemaTimeTabler {
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.IS_PRACTICAL + " BOOLEAN," +
                     Constants.IS_COMMON + " BOOLEAN," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.UNIT_ID + ")," +
                     "FOREIGN KEY fk_units_programmes(" + Constants.PROGRAMME_ID + ") " +
                     "REFERENCES " + Constants.TABLE_PROGRAMMES + "(" + Constants.PROGRAMME_ID + ") " +

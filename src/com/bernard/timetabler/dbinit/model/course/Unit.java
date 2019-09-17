@@ -18,13 +18,20 @@ public class Unit {
     private boolean isPractical = false;
 	@SerializedName(Constants.IS_COMMON)
 	private boolean isCommon = false;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
-    public Unit(String id, String unitName, String programmeId, String facultyId, boolean isPractical) {
+    public Unit(String id, String unitName,
+    		String programmeId,
+    		String facultyId,
+    		boolean isPractical,
+    		boolean isRemoved) {
         this.id = id;
         this.unitName = unitName;
         this.programmeId = programmeId;
         this.facultyId = facultyId;
         this.isPractical = isPractical;
+        this.isRemoved = isRemoved;
     }
 
     public Unit() {
@@ -84,5 +91,13 @@ public class Unit {
     
     public boolean isCommon() {
 		return isCommon;
+	}
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
 	}
 }

@@ -46,8 +46,8 @@ public class AddCampus extends HttpServlet {
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
 			if (saveCampus(req)) {
-				report.setMessage("Successfully added" + req.getCampus().getCampusId());
-				jsonResponse = gson.toJson(report);
+				report.setMessage("Successfully added" + req.getCampus().getCampusName());
+				jsonResponse = gson.toJson(req);
 				
 				response.setStatus(HttpServletResponse.SC_CREATED);
 				writer = response.getWriter();
@@ -69,6 +69,8 @@ public class AddCampus extends HttpServlet {
 		// generate id for campus
 		GenerateRandomString rand = new GenerateRandomString(7);
 		String id = rand.nextString();
+		
+		req.getCampus().setCampusId(id);
 		
 		String insertQuery = "INSERT INTO " + Constants.TABLE_CAMPUS
 				+ " VALUES('" + id + "','"

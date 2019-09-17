@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets.campus;
+package com.bernard.timetabler.crud_servlets.course;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,46 +13,48 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
+import com.bernard.timetabler.dbinit.model.course.UnitReq;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 
-@WebServlet("/update-campus")
-public class UpdateCampus extends HttpServlet {
+/**
+ * Servlet implementation class DeleteCourse
+ */
+@WebServlet("/delete-course")
+public class DeleteCourse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     private Statement statement;
-    public UpdateCampus() {
+    
+    public DeleteCourse() {
         super();
-        
         statement = UtilCommonFunctions.initialize("ben", "");
     }
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String jsonRequest = BufferRequest.bufferRequest(request);
+		String  jsonrequest = BufferRequest.bufferRequest(request);
 		
-		// deserialization of json strings
+		// deserialize json string: jsonRequest
 		Gson gson = new Gson();
-		CampusRequest req = gson.fromJson(jsonRequest, CampusRequest.class);
+		UnitReq req = gson.fromJson(jsonrequest, UnitReq.class);
 		
 		try {
-			// prepare response
 			response.setContentType(Constants.APPLICATION_JSON);
 			PrintWriter writer;
 			
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
 			
-			if (updateCampus(req)) {
-				report.setMessage("Successfully added" + req.getCampus().getCampusId());
+			if (deleteCourse(req)) {
+				report.setMessage("Successfully deleted course" + req.getUnit().getUnitName());
 				jsonResponse = gson.toJson(report);
 				
-				response.setStatus(HttpServletResponse.SC_CREATED);
+				response.setStatus(HttpServletResponse.SC_OK);
 				writer = response.getWriter();
-				writer.write(jsonRequest);
+				writer.write(jsonResponse);
 			} else {
-				report.setMessage("Could not save " + req.getCampus().getCampusName());
+				report.setMessage("Could not delete " + req.getUnit().getUnitName());
 				jsonResponse = gson.toJson(report);
 				
 				response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
@@ -63,15 +65,16 @@ public class UpdateCampus extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	private boolean updateCampus(CampusRequest req) throws SQLException {		
-		String insertQuery = "UPDATE " + Constants.TABLE_CAMPUS
-				+ " SET " + Constants.CAMPUS_NAME + "='" + req.getCampus().getCampusName() + "'"
-				+ " WHERE " + Constants.CAMPUS_ID + "='" + req.getCampus().getCampusId() + "'";
+
+	private boolean deleteCourse(UnitReq req) throws SQLException{
+		String updateQuery = "UPDATE " + Constants.TABLE_UNITS
+				+ " SET " + Constants.IS_REMOVED + "=" + true
+				+ " WHERE " + Constants.UNIT_ID + "='" + req.getUnit().getId() + "'";
 		
-		if (statement.executeUpdate(insertQuery) != 0) {
+		if (statement.executeUpdate(updateQuery) != 0) {
 			return true;
 		}
 		return false;
 	}
+
 }

@@ -363,6 +363,7 @@ public class PopulateDb {
                     "', '" + unit.getDepartmentId() +
                     "', " + unit.isPractical() +
                     ", " + unit.isCommon() +
+                    ", " + unit.isRemoved() +
                     ")";
             result += statement.executeUpdate(strQuery);
         }

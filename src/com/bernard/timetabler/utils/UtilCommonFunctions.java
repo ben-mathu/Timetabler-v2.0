@@ -1,10 +1,7 @@
 package com.bernard.timetabler.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.sql.Statement;
 
-import javax.servlet.http.HttpServletRequest;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
