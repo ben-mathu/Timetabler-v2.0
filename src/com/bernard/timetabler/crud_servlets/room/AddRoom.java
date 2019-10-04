@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.room.RoomReq;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class AddRoom
@@ -29,6 +29,10 @@ public class AddRoom extends HttpServlet {
 	private static final String TAG = AddRoom.class.getSimpleName();
 	
 	private Statement statement;
+	
+	public AddRoom() {
+		statement = UtilCommonFunctions.initialize("ben", "");
+	}
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		StringBuffer strBuffer = new StringBuffer();
@@ -49,8 +53,8 @@ public class AddRoom extends HttpServlet {
 		Gson gson = new Gson();
 		RoomReq roomReq = gson.fromJson(strBuffer.toString(), RoomReq.class);
 		
-		String passCode = roomReq.passCode;
-		inidb(passCode);
+		String passCode = roomReq.getPassCode();
+		statement = UtilCommonFunctions.initialize("benard", passCode);
 		
 		try {
 			if (addRoom(roomReq.getRoom())) {
@@ -83,34 +87,4 @@ public class AddRoom extends HttpServlet {
 		else
 			return false;
 	}
-
-	private void inidb(String passCode) {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("benard", passCode);
-        
-        statement = ct.getStatement();
-	}
-	
-	public class RoomReq {
-        @SerializedName("room")
-        private Class room;
-        @SerializedName("passcode")
-        private String passCode;
-
-        public RoomReq(Class room, String passCode) {
-            this.room = room;
-            this.passCode = passCode;
-        }
-        
-        public RoomReq() {}
-        
-        public void setRoom(Class room) {
-            this.room = room;
-        }
-
-        public Class getRoom() {
-            return room;
-        }
-    }
-
 }

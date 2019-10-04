@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.admin.Admin;
+import com.bernard.timetabler.dbinit.model.admin.AdminRequest;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class RegisterAdmin
@@ -29,12 +29,7 @@ public class RegisterAdmin extends HttpServlet {
 	
 	private static final String TAG = RegisterAdmin.class.getSimpleName();
 	
-	private CreateSchemaTimeTabler ct;
 	private Statement statement;
-	
-	public RegisterAdmin() {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
@@ -45,9 +40,7 @@ public class RegisterAdmin extends HttpServlet {
 		Gson gson = new Gson();
 		AdminRequest adminRequest = gson.fromJson(jsonRequest, AdminRequest.class);
 		
-		ct = new CreateSchemaTimeTabler("benard", adminRequest.getDbPassword());
-		
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("benard", adminRequest.getDbPassword());
 		try {
 			if (createAdminTableIfNotExist(Constants.TABLE_ADMIN)) {
 				MessageReport report = new MessageReport();
@@ -112,30 +105,4 @@ public class RegisterAdmin extends HttpServlet {
 		
 		return false;
 	}
-
-	private class AdminRequest {
-		@SerializedName("admin")
-		private Admin admin;
-		@SerializedName("password")
-		private String dbPassword;
-		
-		public Admin getAdmin() {
-			return admin;
-		}
-		
-		@SuppressWarnings("unused")
-		public void setAdmin(Admin admin) {
-			this.admin = admin;
-		}
-		
-		public String getDbPassword() {
-			return dbPassword;
-		}
-		
-		@SuppressWarnings("unused")
-		public void setDbPassword(String dbPassword) {
-			this.dbPassword = dbPassword;
-		}
-	}
-
 }

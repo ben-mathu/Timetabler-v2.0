@@ -15,12 +15,15 @@ public class Programme {
     private String departmentId;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
-    public Programme(String programmeId, String programmeName, String departmentId, String facultyId) {
+    public Programme(String programmeId, String programmeName, String departmentId, String facultyId, boolean isRemoved) {
         this.programmeId = programmeId;
         this.programmeName = programmeName;
         this.departmentId = departmentId;
         this.facultyId = facultyId;
+        this.isRemoved = isRemoved;
     }
 
     public Programme() {
@@ -57,4 +60,12 @@ public class Programme {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
 }

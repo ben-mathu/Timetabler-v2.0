@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.lecturer.PackageRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 
 /**
@@ -33,11 +33,7 @@ public class CreateUser extends HttpServlet {
     
     public CreateUser() {
         super();
-        
-        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-        statement = ct.getStatement();
+        statement = UtilCommonFunctions.initialize("ben", "");
     }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -89,9 +85,10 @@ public class CreateUser extends HttpServlet {
 				if (statement.executeUpdate(grant) != 0) {
 					String insertQuery = "INSERT INTO " + Constants.TABLE_LECTURERS + "(" + Constants.LECTURER_ID + ","
 							+ Constants.EMAIL + "," + Constants.F_NAME + "," + Constants.M_NAME + ","
-							+ Constants.L_NAME + ") VALUES ('" + code + "','" + pacRequest.getLecRequest().getEmail() + "','"
+							+ Constants.L_NAME + "," + Constants.IS_REMOVED
+							+ ") VALUES ('" + code + "','" + pacRequest.getLecRequest().getEmail() + "','"
 							+ pacRequest.getLecRequest().getFname() + "','" + pacRequest.getLecRequest().getMname() + "','"
-							+ pacRequest.getLecRequest().getLname() + "')";
+							+ pacRequest.getLecRequest().getLname() + "'," + false + ")";
 					
 					statement.executeUpdate(insertQuery);
 				}

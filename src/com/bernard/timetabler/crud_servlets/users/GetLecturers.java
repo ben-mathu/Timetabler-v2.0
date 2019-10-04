@@ -15,12 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
-import com.bernard.timetabler.dbinit.model.lecturer.LecturerResponse;
+import com.bernard.timetabler.dbinit.model.lecturer.LecturerResponseList;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class GetLectures
@@ -33,11 +32,7 @@ public class GetLecturers extends HttpServlet {
 	
     public GetLecturers() {
         super();
-        
-        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-        statement = ct.getStatement();
+        statement = UtilCommonFunctions.initialize("ben", "");
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,7 +58,8 @@ public class GetLecturers extends HttpServlet {
 	private LecturerResponseList getList() throws SQLException {
 		LecturerResponseList list = new LecturerResponseList();
 		List<Lecturer> lecturers = new ArrayList<>();
-		String query = "SELECT * FROM " + Constants.TABLE_LECTURERS;
+		String query = "SELECT * FROM " + Constants.TABLE_LECTURERS
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet result = statement.executeQuery(query);
 		
@@ -84,18 +80,4 @@ public class GetLecturers extends HttpServlet {
 		
 		return list;
 	}
-
-	public class LecturerResponseList {
-		@SerializedName("lecturers")
-		private List<Lecturer> list;
-		
-		public List<Lecturer> getList() {
-			return list;
-		}
-		
-		public void setList(List<Lecturer> list) {
-			this.list = list;
-		}
-	}
-
 }

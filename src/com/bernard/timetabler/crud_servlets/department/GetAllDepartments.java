@@ -61,7 +61,8 @@ public class GetAllDepartments extends HttpServlet {
 	private List<Department> getDepartments() throws SQLException {
 		departments = new ArrayList<Department>();
 		
-		String query = "SELECT * FROM " + Constants.TABLE_DEPARTMENTS;
+		String query = "SELECT * FROM " + Constants.TABLE_DEPARTMENTS
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet resultSet = statement.executeQuery(query);
 		

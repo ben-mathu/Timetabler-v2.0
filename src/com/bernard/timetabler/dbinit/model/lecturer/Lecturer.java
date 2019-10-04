@@ -26,12 +26,14 @@ public class Lecturer {
     private String departmentId;
 	@SerializedName(Constants.IN_SESSION)
     private boolean inSesson;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
     public Lecturer(String id, String firstName,
     		String lastName, String middleName,
     		String username, String email, String password,
     		String facultyId, String programmeId,
-    		String departmentId, boolean inSession) {
+    		String departmentId, boolean inSession, boolean isRemoved) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -42,6 +44,7 @@ public class Lecturer {
         this.facultyId = facultyId;
         this.departmentId = departmentId;
         this.inSesson = inSession;
+        this.isRemoved = isRemoved;
     }
 
     public Lecturer() {
@@ -126,5 +129,13 @@ public class Lecturer {
 	
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public boolean isRemoved() {
+		return isRemoved;
+	}
+	
+	public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
 	}
 }

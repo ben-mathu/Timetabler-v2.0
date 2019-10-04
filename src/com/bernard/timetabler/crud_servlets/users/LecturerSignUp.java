@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,11 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
+import com.bernard.timetabler.dbinit.model.lecturer.LecturerRequest;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class UserSignUp
@@ -32,7 +29,6 @@ public class LecturerSignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LecturerSignUp.class.getSimpleName();
 	
-	private CreateSchemaTimeTabler ct;
 	private Statement statement;
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,9 +59,11 @@ public class LecturerSignUp extends HttpServlet {
 			username = matcher.group(1);
 		}
 		
+		// initialize DB
 		initDb(!username.isEmpty() ? username : "lecturer", lecturer.getPassword());
 		PrintWriter printWriter = response.getWriter();
 		try {
+			// save the lecturer in database
 			if (saveLecturer(lecturer)) {
 				MessageReport report = new MessageReport();
 				report.setMessage("Successfully added");
@@ -84,38 +82,9 @@ public class LecturerSignUp extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	private class LecturerRequest {
-		@SerializedName("lecturer")
-		private Lecturer lecturer;
-		@SerializedName("password")
-		private String password;
-		
-		public LecturerRequest() {
-			// TODO Auto-generated constructor stub
-		}
-		
-		public void setLecturer(Lecturer lecturer) {
-			this.lecturer = lecturer;
-		}
-		
-		public Lecturer getLecturer() {
-			return lecturer;
-		}
-		
-		public void setPassword(String password) {
-			this.password = password;
-		}
-		
-		public String getPassword() {
-			return password;
-		}
-	}
 
 	private void initDb(String username, String password) {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler(username, password);
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize(username, password);
 	}
 
 	private boolean saveLecturer(LecturerRequest lecturer) throws SQLException {
@@ -125,7 +94,8 @@ public class LecturerSignUp extends HttpServlet {
 				"'," + Constants.FACULTY_ID + "='"+ lecturer.getLecturer().getFacultyId() +
 				"'," + Constants.DEPARTMENT_ID + "='" + lecturer.getLecturer().getDepartmentId() +
 				"'," + Constants.IN_SESSION + "=" + lecturer.getLecturer().isInSesson() +
-				" WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'";
+				" WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'" +
+				" AND " + Constants.IS_REMOVED + "=" + false;
 		return statement.executeUpdate(insertStatement) > 0 ? true : false;
 	}
 

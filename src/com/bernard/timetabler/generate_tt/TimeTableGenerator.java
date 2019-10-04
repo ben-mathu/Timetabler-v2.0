@@ -4,6 +4,7 @@ import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.PopulateDb;
 import com.bernard.timetabler.dbinit.model.*;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
 import com.bernard.timetabler.dbinit.model.relationships.LecturerUnit;

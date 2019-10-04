@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Faculty;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
+import com.bernard.timetabler.dbinit.model.faculty.FacultyList;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class GetFaculties
@@ -48,28 +48,15 @@ public class GetFaculties extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	
-	private class FacultyList {
-		@SerializedName("faculties")
-		private List<Faculty> facultyList;
-		
-		public void setFacultyList(List<Faculty> facultyList) {
-			this.facultyList = facultyList;
-		}
-		
-		public List<Faculty> getFacultyList() {
-			return facultyList;
-		}
-	}
 
 	private List<Faculty> queryFaculties() throws SQLException {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-		Statement statement = ct.getStatement();
+		Statement statement = UtilCommonFunctions.initialize("ben", "");
 		
 		List<Faculty> list = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + Constants.TABLE_FACULTIES;
+		String query = "SELECT * FROM " + Constants.TABLE_FACULTIES
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
+		
 		ResultSet resultSet = statement.executeQuery(query);
 		
 		while (resultSet.next()) {

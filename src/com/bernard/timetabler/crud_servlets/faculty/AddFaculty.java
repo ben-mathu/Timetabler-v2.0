@@ -13,12 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.Faculty;
+import com.bernard.timetabler.dbinit.model.faculty.FacultyRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 @WebServlet("/add-faculty")
 public class AddFaculty extends HttpServlet {
@@ -79,22 +78,5 @@ public class AddFaculty extends HttpServlet {
 			return true;
 		}
 		return false;
-	}
-
-	public class FacultyRequest {
-	    @SerializedName("faculty")
-	    private Faculty faculty;
-
-	    public FacultyRequest(Faculty faculty) {
-	        this.faculty = faculty;
-	    }
-
-	    public void setFaculty(Faculty faculty) {
-	        this.faculty = faculty;
-	    }
-
-	    public Faculty getFaculty() {
-	        return faculty;
-	    }
 	}
 }

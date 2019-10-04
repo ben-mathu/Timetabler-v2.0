@@ -1,4 +1,4 @@
-package com.bernard.timetabler.dbinit.model;
+package com.bernard.timetabler.dbinit.model.faculty;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.google.gson.annotations.SerializedName;
@@ -13,11 +13,14 @@ public class Faculty {
     private String facultyName;
 	@SerializedName(Constants.CAMPUS_ID)
     private String campusId;
+	@SerializedName(Constants.IS_REMOVED)
+    private boolean isRemoved = false;
 
-    public Faculty(String facultyId, String facultyName, String campusId) {
+    public Faculty(String facultyId, String facultyName, String campusId, boolean isRemoved) {
         this.facultyId = facultyId;
         this.facultyName = facultyName;
         this.campusId = campusId;
+        this.isRemoved = isRemoved;
     }
 
     public Faculty() {
@@ -47,4 +50,12 @@ public class Faculty {
     public void setCampusId(String campusId) {
         this.campusId = campusId;
     }
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
 }

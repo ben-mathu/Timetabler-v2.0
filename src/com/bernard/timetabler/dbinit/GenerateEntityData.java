@@ -4,6 +4,7 @@ import com.bernard.timetabler.dbinit.model.*;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.bernard.timetabler.dbinit.model.department.Department;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
 import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
@@ -14,6 +15,7 @@ import com.bernard.timetabler.dbinit.model.room.Class;
 import com.bernard.timetabler.dbinit.model.student.Student;
 import com.bernard.timetabler.dbinit.utils.GenerateAlphanumeric;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,10 +34,8 @@ public class GenerateEntityData {
     private static String[] facultyNames = new String[]{"Theology", "Arts and Social Sciences", "School of Business", "Education", "Law", "Science", "Center for Social Justice and ethics", "Institute of Canon Law", "Institute of Regional Integration and Development", "Library and Information Science", "School of Graduate Studies"};
 
     public GenerateEntityData() {
-    	CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
         
-        statement = ct.getStatement();
+        statement = UtilCommonFunctions.initialize("ben", "");
     }
 
     public List<Campus> populateCampus() {
@@ -56,7 +56,8 @@ public class GenerateEntityData {
         List<String> campusId = new ArrayList<>();
 
         System.out.println("Querying db for " + Constants.FACULTY_ID);
-        String strFacultyId = "SELECT " + Constants.CAMPUS_ID + " FROM " + Constants.TABLE_CAMPUS;
+        String strFacultyId = "SELECT " + Constants.CAMPUS_ID + " FROM " + Constants.TABLE_CAMPUS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         ResultSet resultSet = statement.executeQuery(strFacultyId);
 
         while (resultSet.next()) {
@@ -83,7 +84,8 @@ public class GenerateEntityData {
         List<String> faculty_id = new ArrayList<>();
 
         System.out.println("Querying " + Constants.TABLE_FACULTIES);
-        String strFacultyIdQuery = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String strFacultyIdQuery = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL query statement " + strFacultyIdQuery);
 
         ResultSet resultSet = statement.executeQuery(strFacultyIdQuery);
@@ -117,7 +119,8 @@ public class GenerateEntityData {
         rand = ThreadLocalRandom.current();
         int randomItem, randomfacId = 0;
 
-        String strClassItem = "Select " + Constants.HALL_ID + " FROM " + Constants.TABLE_HALLS;
+        String strClassItem = "Select " + Constants.HALL_ID + " FROM " + Constants.TABLE_HALLS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("The SQL query is: " + strClassItem);
 
         ResultSet resultSet = statement.executeQuery(strClassItem);
@@ -125,7 +128,8 @@ public class GenerateEntityData {
             hallId.add(resultSet.getString("hall_id"));
         }
 
-        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 
         ResultSet resultSetFacId = statement.executeQuery(strFacultyId);
         while (resultSetFacId.next()) {
@@ -159,7 +163,8 @@ public class GenerateEntityData {
         rand = ThreadLocalRandom.current();
         int randomItem = 0;
 
-        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("The SQL query is: " + strFacultyId);
         ResultSet resultSet = statement.executeQuery(strFacultyId);
 
@@ -187,7 +192,8 @@ public class GenerateEntityData {
 
         rand = ThreadLocalRandom.current();
 
-        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS;
+        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement: " + strDepartmentId);
         ResultSet resultSet = statement.executeQuery(strDepartmentId);
 
@@ -195,7 +201,8 @@ public class GenerateEntityData {
             departmentId.add(resultSet.getString("department_id"));
         }
         
-        String queryFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES;
+        String queryFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_FACULTIES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         Log.d(TAG, "SQL Statement: " + queryFacultyId);
         ResultSet resultProgId = statement.executeQuery(queryFacultyId);
         
@@ -237,7 +244,8 @@ public class GenerateEntityData {
         rand = ThreadLocalRandom.current();
         int randomItem = 0;
 
-        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS;
+        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement: " + strDepartmentId);
 
         ResultSet resultSet = statement.executeQuery(strDepartmentId);
@@ -246,7 +254,9 @@ public class GenerateEntityData {
         }
 
         for (String id : departmentId) {
-            String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_DEPARTMENTS + " WHERE " + Constants.DEPARTMENT_ID + "='" + id + "'";
+            String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_DEPARTMENTS
+            		+ " WHERE " + Constants.DEPARTMENT_ID + "='" + id + "'"
+            		+ " AND" + Constants.IS_REMOVED + "=" + false;
             ResultSet resultSetFacId = statement.executeQuery(strFacultyId);
 
             // move cursor to point to the next row
@@ -285,8 +295,10 @@ public class GenerateEntityData {
 
         int randomCampusId = 0, randomProgrammeId = 0, randomDepartmentId = 0, randomIndexFacultyId = 0;
 
-        String strCampusId = "SELECT " + Constants.CAMPUS_ID + " FROM " + Constants.TABLE_CAMPUS;
-        String strProgrammeId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_PROGRAMMES;
+        String strCampusId = "SELECT " + Constants.CAMPUS_ID + " FROM " + Constants.TABLE_CAMPUS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
+        String strProgrammeId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_PROGRAMMES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement:\n" + strCampusId +
                 "\n" + strProgrammeId);
 
@@ -303,14 +315,16 @@ public class GenerateEntityData {
 
         for (String id : programmeId) {
             String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_PROGRAMMES +
-                    " WHERE " + Constants.PROGRAMME_ID + "='" + id + "'";
+                    " WHERE " + Constants.PROGRAMME_ID + "='" + id + "'"
+                    + " AND " + Constants.IS_REMOVED + "=" + false;
             ResultSet resultSetFaculty = statement.executeQuery(strFacultyId);
             if (resultSetFaculty.next()) {
                 facultyId.add(resultSetFaculty.getString(Constants.FACULTY_ID));
             }
 
             String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_PROGRAMMES +
-                    " WHERE " + Constants.PROGRAMME_ID + "='" + id + "'";
+                    " WHERE " + Constants.PROGRAMME_ID + "='" + id + "'"
+                    + " AND " + Constants.IS_REMOVED + "=" + false;
             ResultSet resultSetDepartment = statement.executeQuery(strDepartmentId);
             while (resultSetDepartment.next()) {
                 departmentId.add(resultSetDepartment.getString(Constants.DEPARTMENT_ID));
@@ -359,7 +373,8 @@ public class GenerateEntityData {
 
         int randomItem = 0;
 
-        String strProgrammeId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_PROGRAMMES;
+        String strProgrammeId = "SELECT " + Constants.PROGRAMME_ID + " FROM " + Constants.TABLE_PROGRAMMES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement: " + strProgrammeId);
         ResultSet resultSet = statement.executeQuery(strProgrammeId);
 
@@ -367,7 +382,8 @@ public class GenerateEntityData {
             programmeId.add(resultSet.getString(Constants.PROGRAMME_ID));
         }
 
-        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_PROGRAMMES;
+        String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_PROGRAMMES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("Query statement " + strFacultyId);
         ResultSet resultSetFaculty = statement.executeQuery(strFacultyId);
 
@@ -375,7 +391,8 @@ public class GenerateEntityData {
             facultyId.add(resultSetFaculty.getString(Constants.FACULTY_ID));
         }
         
-        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS;
+        String strDepartmentId = "SELECT " + Constants.DEPARTMENT_ID + " FROM " + Constants.TABLE_DEPARTMENTS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement: " + strDepartmentId);
         ResultSet resultSetDepartment = statement.executeQuery(strDepartmentId);
         
@@ -414,8 +431,10 @@ public class GenerateEntityData {
 
         int randomProgrammeId = 0;
 
-        String strQueryLec = "SELECT " + Constants.LECTURER_ID + " FROM " + Constants.TABLE_LECTURERS;
-        String strQueryProg = "SELECT " + Constants.PROGRAMME_ID  + " FROM " + Constants.TABLE_PROGRAMMES;
+        String strQueryLec = "SELECT " + Constants.LECTURER_ID + " FROM " + Constants.TABLE_LECTURERS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
+        String strQueryProg = "SELECT " + Constants.PROGRAMME_ID  + " FROM " + Constants.TABLE_PROGRAMMES
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL statement:\n" + strQueryLec + "\n" + strQueryProg);
 
         ResultSet resultSetLec = statement.executeQuery(strQueryLec);
@@ -468,8 +487,10 @@ public class GenerateEntityData {
         List<String> lecturerId = new ArrayList<>();
         List<String> unitId = new ArrayList<>();
 
-        String strQueryLec = "SELECT " + Constants.LECTURER_ID + " FROM " + Constants.TABLE_LECTURERS;
-        String strQueryUnit = "SELECT " + Constants.UNIT_ID + " FROM " + Constants.TABLE_UNITS;
+        String strQueryLec = "SELECT " + Constants.LECTURER_ID + " FROM " + Constants.TABLE_LECTURERS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
+        String strQueryUnit = "SELECT " + Constants.UNIT_ID + " FROM " + Constants.TABLE_UNITS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false;
         System.out.println("SQL  statement:\n" + strQueryLec + "\n" + strQueryUnit);
 
         ResultSet resultSetLec = statement.executeQuery(strQueryLec);
@@ -504,8 +525,15 @@ public class GenerateEntityData {
         List<String> studentId = new ArrayList<>();
         List<String> unitId = new ArrayList<>();
 
-        String strQueryStu = "SELECT " + Constants.STUDENT_ID + " FROM " + Constants.TABLE_STUDENTS + " WHERE " + Constants.IN_SESSION + " = 1";
-        String strQueryUnits = "SELECT distinct(" + Constants.UNIT_ID + ") FROM " + Constants.TABLE_LECTURER_UNITS + " lu INNER JOIN " + Constants.TABLE_LECTURERS + " lec on lu." + Constants.LECTURER_ID + "=lec." + Constants.LECTURER_ID + " WHERE lec." + Constants.IN_SESSION + "=1 order by " + Constants.UNIT_ID;
+        String strQueryStu = "SELECT " + Constants.STUDENT_ID + " FROM " + Constants.TABLE_STUDENTS
+        		+ " WHERE " + Constants.IN_SESSION + " = 1"
+        		+ " AND " + Constants.IS_REMOVED + "=" + false;
+        String strQueryUnits = "SELECT distinct(" + Constants.UNIT_ID + ") " 
+        		+ "FROM " + Constants.TABLE_LECTURER_UNITS + " lu" 
+        		+ " INNER JOIN " + Constants.TABLE_LECTURERS + " lec on lu." + Constants.LECTURER_ID + "=lec." + Constants.LECTURER_ID
+        		+ " WHERE lec." + Constants.IN_SESSION + "=1 "
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + false
+        		+ " order by " + Constants.UNIT_ID;
         System.out.println("SQL  statement:\n" + strQueryStu + "\n" + strQueryUnits);
 
         ResultSet resultSetStu = statement.executeQuery(strQueryStu);

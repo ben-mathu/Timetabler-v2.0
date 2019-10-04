@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
+import com.bernard.timetabler.dbinit.model.programme.ProgrammesResponse;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class GetProgrammes
@@ -64,7 +64,8 @@ public class GetAllProgrammes extends HttpServlet {
 	private List<Programme> getProgrammes() throws SQLException {
 		List<Programme> programmeList = new ArrayList<>();
 		// query
-		String programmesQuery = "SELECT * FROM " + Constants.TABLE_PROGRAMMES;
+		String programmesQuery = "SELECT * FROM " + Constants.TABLE_PROGRAMMES
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet resultSet = statement.executeQuery(programmesQuery);
 		
@@ -77,19 +78,5 @@ public class GetAllProgrammes extends HttpServlet {
 			programmeList.add(prog);
 		}
 		return programmeList;
-	}
-	
-	private class ProgrammesResponse {
-		@SerializedName("programmes")
-		private List<Programme> programmes;
-		
-		@SuppressWarnings("unused")
-		public List<Programme> getProgrammes() {
-			return programmes;
-		}
-		
-		public void setProgrammes(List<Programme> programmes) {
-			this.programmes = programmes;
-		}
 	}
 }

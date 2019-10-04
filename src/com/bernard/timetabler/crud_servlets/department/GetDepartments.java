@@ -66,7 +66,8 @@ public class GetDepartments extends HttpServlet {
 		initializeDb();
 		
 		String query = "SELECT * FROM " + Constants.TABLE_DEPARTMENTS +
-				" WHERE " + Constants.FACULTY_ID + "='" + id + "'";
+				" WHERE " + Constants.FACULTY_ID + "='" + id + "'"
+				+ " AND " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet resultSet = statement.executeQuery(query);
 		

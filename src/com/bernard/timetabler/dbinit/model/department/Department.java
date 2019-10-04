@@ -13,11 +13,14 @@ public class Department {
     private String departmentName;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
-
-    public Department(String departmentId, String departmentName, String facultyId) {
+	@SerializedName(Constants.IS_REMOVED)
+    private boolean isRemoved = false;
+	
+    public Department(String departmentId, String departmentName, String facultyId, boolean isRemoved) {
         this.departmentId = departmentId;
         this.departmentName = departmentName;
         this.facultyId = facultyId;
+        this.isRemoved = isRemoved;
     }
 
     public Department() {
@@ -46,4 +49,12 @@ public class Department {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
 }

@@ -2,6 +2,7 @@ package com.bernard.timetabler.dbinit;
 
 import com.bernard.timetabler.dbinit.test_package.PopulateEntitiesForTests;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,8 +51,7 @@ public class CreateSchemaTimeTabler {
             	database = Constants.DATABASE_NAME;
             }
         	
-            CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-            Statement statement = ct.getStatement();
+            Statement statement = UtilCommonFunctions.initialize("ben", "");
             
             if (env.equals("update")) {
         		PopulateEntitiesForTests.populateEntities();
@@ -98,6 +98,7 @@ public class CreateSchemaTimeTabler {
                     Constants.FACULTY_ID + " VARCHAR(10)," +
                     Constants.FACULTY_NAME + " VARCHAR(255)," +
                     Constants.CAMPUS_ID + " VARCHAR(10)," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.FACULTY_ID + ")," +
                     "FOREIGN KEY fk_campuses(" + Constants.CAMPUS_ID + ") " +
                     "REFERENCES " + Constants.TABLE_CAMPUS + "(" + Constants.CAMPUS_ID + ") " +
@@ -115,6 +116,7 @@ public class CreateSchemaTimeTabler {
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.DEPARTMENT_NAME + " VARCHAR(255)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.DEPARTMENT_ID + ")," +
                     "FOREIGN KEY fk_faculties(" + Constants.FACULTY_ID + ") " +
                     "REFERENCES " + Constants.TABLE_FACULTIES + "(" + Constants.FACULTY_ID + ") " +
@@ -133,6 +135,7 @@ public class CreateSchemaTimeTabler {
                     Constants.PROGRAMME_NAME + " VARCHAR(255)," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.PROGRAMME_ID + ")," +
                     "FOREIGN KEY fk_departments(" + Constants.DEPARTMENT_ID + ") " +
                     "REFERENCES " + Constants.TABLE_DEPARTMENTS + "(" + Constants.DEPARTMENT_ID + ") " +
@@ -165,6 +168,7 @@ public class CreateSchemaTimeTabler {
                     Constants.PROGRAMME_ID + " VARCHAR(10)," +
                     Constants.YEAR_OF_STUDY + " VARCHAR(10)," +
                     Constants.ADMISSION_DATE + " VARCHAR(255)," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.STUDENT_ID + ")," +
                     "KEY fk_depart(" + Constants.DEPARTMENT_ID + ")," +
                     "KEY fk_campus(" + Constants.CAMPUS_ID + ")," +
@@ -208,6 +212,7 @@ public class CreateSchemaTimeTabler {
                     Constants.FACULTY_ID + " VARCHAR(10)," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.IN_SESSION + " BOOLEAN," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.LECTURER_ID + ")," +
                     "FOREIGN KEY fk_lecturers(" + Constants.DEPARTMENT_ID + ") " +
                     "REFERENCES " + Constants.TABLE_DEPARTMENTS + "(" + Constants.DEPARTMENT_ID + ") " +
@@ -249,6 +254,7 @@ public class CreateSchemaTimeTabler {
                     Constants.VOLUME + " VARCHAR(10)," +
                     Constants.AVAILABILITY + " BOOLEAN," +
                     Constants.IS_LAB + " BOOLEAN," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.CLASS_ID + ")," +
                     "FOREIGN KEY fk_classes(" + Constants.HALL_ID + ") " +
                     "REFERENCES " + Constants.TABLE_HALLS + "(" + Constants.HALL_ID + ") " +

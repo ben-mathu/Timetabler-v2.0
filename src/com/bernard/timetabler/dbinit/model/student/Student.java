@@ -35,8 +35,10 @@ public class Student {
     private boolean inSession = false;
 	@SerializedName(Constants.EMAIL)
 	private String email;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
-    public Student(String studentId, String fname, String lname, String mname, String username, String password, String departmentId, String programmeId, String campusId, String facultyId, String yearOfStudy, String admissionDate, boolean inSession) {
+    public Student(String studentId, String fname, String lname, String mname, String username, String password, String departmentId, String programmeId, String campusId, String facultyId, String yearOfStudy, String admissionDate, boolean inSession, boolean isRemoved) {
         this.studentId = studentId;
         this.fname = fname;
         this.lname = lname;
@@ -50,6 +52,7 @@ public class Student {
         this.yearOfStudy = yearOfStudy;
         this.admissionDate = admissionDate;
         this.inSession = inSession;
+        this.isRemoved = isRemoved;
     }
 
     public Student() {
@@ -166,5 +169,13 @@ public class Student {
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public boolean isRemoved() {
+		return isRemoved;
+	}
+	
+	public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
 	}
 }

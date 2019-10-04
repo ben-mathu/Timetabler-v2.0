@@ -16,14 +16,17 @@ public class Class {
     private boolean isLab;
 	@SerializedName(Constants.AVAILABILITY)
     private boolean availability;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
-    public Class(String id, String hall_id, String facultyId, String volume, boolean isLab, boolean availability) {
+    public Class(String id, String hall_id, String facultyId, String volume, boolean isLab, boolean availability, boolean isRemoved) {
         this.id = id;
         this.hall_id = hall_id;
         this.facultyId = facultyId;
         this.volume = volume;
         this.isLab = isLab;
         this.availability = availability;
+        this.isRemoved = isRemoved;
     }
 
     public Class() {
@@ -76,4 +79,12 @@ public class Class {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
 }

@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -32,10 +32,7 @@ public class GetProgrammes extends HttpServlet {
 	private List<Programme> list;
 	
 	public GetProgrammes() {
-		// initialize the db
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("ben", "");
 		
 		list = new ArrayList<>();
 	}
@@ -80,7 +77,8 @@ public class GetProgrammes extends HttpServlet {
 		List<Programme> programmeList = new ArrayList<>();
 		// query
 		String programmesQuery = "SELECT * FROM " + Constants.TABLE_PROGRAMMES +
-				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
+				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'" 
+				+ " AND " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet resultSet = statement.executeQuery(programmesQuery);
 		

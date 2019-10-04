@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Faculty;
 import com.bernard.timetabler.dbinit.model.admin.Admin;
 import com.bernard.timetabler.dbinit.model.admin.AdminResponse;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.department.Department;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.lecturer.LecturerResponse;
 import com.bernard.timetabler.dbinit.model.programme.Programme;

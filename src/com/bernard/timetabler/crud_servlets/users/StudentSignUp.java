@@ -20,6 +20,7 @@ import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.student.Student;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -30,8 +31,6 @@ import com.google.gson.annotations.SerializedName;
 public class StudentSignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TAG = LecturerSignUp.class.getSimpleName();
-	
-	private CreateSchemaTimeTabler ct;
 	private Statement statement;
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -84,9 +83,7 @@ public class StudentSignUp extends HttpServlet {
 	}
 
 	private void initDb() {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler("ben", "");
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("ben", "");
 	}
 
 	private boolean saveStudent(StudentRequest student) throws SQLException {

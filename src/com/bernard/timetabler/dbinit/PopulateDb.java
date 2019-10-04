@@ -4,6 +4,7 @@ import com.bernard.timetabler.dbinit.model.*;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.bernard.timetabler.dbinit.model.department.Department;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
 import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
@@ -119,7 +120,7 @@ public class PopulateDb {
                     " VALUES ('" + faculty.getFacultyId() +
                     "', '" + faculty.getFacultyName() +
                     "', '" + faculty.getCampusId() +
-                    "')";
+                    "'," + faculty.isRemoved() + ")";
 
             result += statement.executeUpdate(strQuery);
         }
@@ -150,7 +151,7 @@ public class PopulateDb {
             String strQuery = "INSERT INTO " + Constants.TABLE_HALLS +
                     " VALUES ('" + hall.getHallId() +
                     "', '" + hall.getHallName() +
-                    "', '" + hall.getFacultyId()+
+                    "', '" + hall.getFacultyId() +
                     "')";
 
             result += statement.executeUpdate(strQuery);
@@ -186,7 +187,7 @@ public class PopulateDb {
                     "', '" + item.getVolume() +
                     "', " + item.isAvailability() +
                     ", " + item.isLab() +
-                    ")";
+                    "'," + item.isRemoved() + ")";
 
             result += statement.executeUpdate(strQuery);
         }
@@ -217,7 +218,8 @@ public class PopulateDb {
             String strQuery = "INSERT INTO " + Constants.TABLE_DEPARTMENTS +
                     " VALUES ('" + department.getDepartmentId() +
                     "', '" + department.getDepartmentName() +
-                    "', '" + department.getFacultyId() + "')";
+                    "', '" + department.getFacultyId() +
+                    "'," + department.isRemoved() + ")";
 
             result += statement.executeUpdate(strQuery);
         }
@@ -256,7 +258,7 @@ public class PopulateDb {
                     "', '" + lecturer.getFacultyId() +
                     "', '" + lecturer.getDepartmentId() +
                     "', " + lecturer.isInSesson() +
-                    ")";
+                    "," + lecturer.isRemoved() + ")";
             result += statement.executeUpdate(strQuery);
         }
 
@@ -288,7 +290,7 @@ public class PopulateDb {
                     "', '" + programme.getProgrammeName() +
                     "', '" + programme.getDepartmentId() +
                     "', '" + programme.getFacultyId() +
-                    "')";
+                    "'," + programme.isRemoved() + ")";
             result += statement.executeUpdate(strQuery);
         }
 
@@ -331,7 +333,7 @@ public class PopulateDb {
                     "', '" + student.getProgrammeId() +
                     "', '" + student.getYearOfStudy() +
                     "', '" + student.getAdmissionDate() +
-                    "')";
+                    "'," + student.isRemoved() + ")";
             result += statement.executeUpdate(strQuery);
         }
 
@@ -364,7 +366,7 @@ public class PopulateDb {
                     "', " + unit.isPractical() +
                     ", " + unit.isCommon() +
                     ", " + unit.isRemoved() +
-                    ")";
+                    "," + unit.isRemoved() + ")";
             result += statement.executeUpdate(strQuery);
         }
 

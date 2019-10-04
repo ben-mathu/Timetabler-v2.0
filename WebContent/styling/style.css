@@ -1,9 +1,17 @@
 @charset "UTF-8";
 
-html, body {
-	background-color: #FFFFFF;
+/* html, body {
 	align-items: center;
-	padding-top: 70px
+    background-color: #01222F;
+} */
+
+html, body {
+	align-items: center;
+    background-image: url(../images/Background_Image_bak.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 body {
@@ -12,8 +20,8 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #212529;
-    text-align: left;
+    color: #FFF;
+    text-align: center;
 }
 
 div {
@@ -37,9 +45,22 @@ div {
 }
 
 .title {
+	width: 100%;
+	max-width: 500px;
+	padding-top : 8rem;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	margin: auto;
+}
+
+/* .title {
+	width: 100%;
 	float: left;
 	max-width: 500px;
-}
+	margin: auto;
+	display: inline-block;
+} */
 
 .actual-form {
 	float: right;
@@ -113,5 +134,5 @@ button {
 }
 
 .copy-right {
-    margin-top: 8rem;
+    margin-top: 6rem;
 }

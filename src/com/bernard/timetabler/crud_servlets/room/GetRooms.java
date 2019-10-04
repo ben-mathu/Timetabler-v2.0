@@ -15,15 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
-import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
-import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Table;
-import com.bernard.timetabler.crud_servlets.timetable.GetTimetable.Timeslot;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.room.Class;
 import com.bernard.timetabler.dbinit.model.room.ClassResponse;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 
 /**
  * Servlet implementation class GetRooms
@@ -38,10 +34,8 @@ public class GetRooms extends HttpServlet {
 	private List<Class> list;
     public GetRooms() {
         super();
-        CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-        CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
         
-         statement = ct.getStatement();
+         statement = UtilCommonFunctions.initialize("ben", "");
     }
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
@@ -81,7 +75,8 @@ public class GetRooms extends HttpServlet {
 	private List<Class> queryTimetable() throws SQLException {
 		List<Class> classList = new ArrayList<>();
 		
-		String query = "SELECT * FROM " + Constants.TABLE_CLASSES;
+		String query = "SELECT * FROM " + Constants.TABLE_CLASSES
+				+ " WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		Log.d(TAG, "Query: " + query);
 		
@@ -104,18 +99,5 @@ public class GetRooms extends HttpServlet {
 		Log.d(TAG, "Size: " + classList.size());
 		
 		return classList;
-	}
-
-	public class RoomResponse {
-	    @SerializedName("rooms")
-	    private List<Class> list;
-
-	    public List<Class> getList() {
-	        return list;
-	    }
-
-	    public void setList(List<Class> list) {
-	        this.list = list;
-	    }
 	}
 }
