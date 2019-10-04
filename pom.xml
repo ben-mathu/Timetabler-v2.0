@@ -54,17 +54,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <source>11</source>
-   		  <target>11</target>
-   		  <verbose>true</verbose>
+          <release>11</release>
         </configuration>
-        <dependencies>
-	        <dependency>
-			  <groupId>org.ow2.asm</groupId>
-			  <artifactId>asm</artifactId>
-			  <version>7.2</version>
-			</dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
