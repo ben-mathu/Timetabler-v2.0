@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 /**
  * Servlet implementation class DeleteCourse
  */
-@WebServlet("/delete-faculty")
+@WebServlet("/delete-room")
 public class DeleteRoom extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
