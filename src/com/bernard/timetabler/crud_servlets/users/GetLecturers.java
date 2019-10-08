@@ -36,6 +36,7 @@ public class GetLecturers extends HttpServlet {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType(Constants.APPLICATION_JSON);
 		try {
 			LecturerResponseList list = getList();
 			
@@ -44,14 +45,19 @@ public class GetLecturers extends HttpServlet {
 			
 			Log.d(TAG, "Json String: " + jsonStr);
 			
-			response.setContentType(Constants.APPLICATION_JSON);
-			
 			PrintWriter writer = response.getWriter();
 			
 			writer.write(jsonStr);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			LecturerResponseList items = new LecturerResponseList();
+			Gson gson = new Gson();
+			String jsonStr = gson.toJson(items);
+			PrintWriter writer =  response.getWriter();
+			writer.write(jsonStr);
 		}
 	}
 	
