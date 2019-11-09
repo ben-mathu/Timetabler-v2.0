@@ -10,6 +10,8 @@ public class Hall {
     private String hallName;
 	@SerializedName(Constants.FACULTY_ID)
     private String facultyId;
+	@SerializedName(Constants.IS_REMOVED)
+	private boolean isRemoved = false;
 
     public Hall(String hallId, String hallName, String facultyId) {
         this.hallId = hallId;
@@ -43,4 +45,12 @@ public class Hall {
     public void setFacultyId(String facultyId) {
         this.facultyId = facultyId;
     }
+    
+    public void setRemoved(boolean isRemoved) {
+		this.isRemoved = isRemoved;
+	}
+    
+    public boolean isRemoved() {
+		return isRemoved;
+	}
 }

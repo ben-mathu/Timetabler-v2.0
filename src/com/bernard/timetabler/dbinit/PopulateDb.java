@@ -152,7 +152,8 @@ public class PopulateDb {
                     " VALUES ('" + hall.getHallId() +
                     "', '" + hall.getHallName() +
                     "', '" + hall.getFacultyId() +
-                    "')";
+                    "', " + hall.isRemoved() +
+                    ")";
 
             result += statement.executeUpdate(strQuery);
         }
@@ -187,7 +188,7 @@ public class PopulateDb {
                     "', '" + item.getVolume() +
                     "', " + item.isAvailability() +
                     ", " + item.isLab() +
-                    "'," + item.isRemoved() + ")";
+                    "," + item.isRemoved() + ")";
 
             result += statement.executeUpdate(strQuery);
         }
@@ -365,8 +366,7 @@ public class PopulateDb {
                     "', '" + unit.getDepartmentId() +
                     "', " + unit.isPractical() +
                     ", " + unit.isCommon() +
-                    ", " + unit.isRemoved() +
-                    "," + unit.isRemoved() + ")";
+                    ", " + unit.isRemoved() +")";
             result += statement.executeUpdate(strQuery);
         }
 

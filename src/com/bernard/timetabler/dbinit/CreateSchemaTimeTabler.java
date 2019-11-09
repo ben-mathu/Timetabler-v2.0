@@ -1,13 +1,13 @@
 package com.bernard.timetabler.dbinit;
 
-import com.bernard.timetabler.dbinit.test_package.PopulateEntitiesForTests;
-import com.bernard.timetabler.utils.Log;
-import com.bernard.timetabler.utils.UtilCommonFunctions;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.bernard.timetabler.dbinit.test_package.PopulateEntitiesForTests;
+import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 
 public class CreateSchemaTimeTabler {
 	private static final String TAG = CreateSchemaTimeTabler.class.getSimpleName();
@@ -20,9 +20,9 @@ public class CreateSchemaTimeTabler {
     public CreateSchemaTimeTabler(String user, String password) {
         Connection conn = null;
         try {
-        	Class.forName("com.mysql.jdbc.Driver");
+        	Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/" + database,
+                    "jdbc:mysql://localhost:3306/" + database + "?allowMultiQueries=true",
                     user, password
             );
 
@@ -60,7 +60,7 @@ public class CreateSchemaTimeTabler {
             // Create a database if it is not already created
             System.out.println();
 
-            System.out.println("Delete a database...");
+            System.out.println("Deleting database " + Constants.DATABASE_NAME + "...");
             String dropSchema = "DROP DATABASE IF EXISTS " + Constants.DATABASE_NAME;
             int countResult = statement.executeUpdate(dropSchema);
             System.out.println("Database created. Result: " + countResult + " affected");
@@ -85,7 +85,7 @@ public class CreateSchemaTimeTabler {
             System.out.println("Creating table campus...");
             String campusStatement = "CREATE TABLE IF NOT EXISTS " + Constants.TABLE_CAMPUS + " (" +
                     Constants.CAMPUS_ID + " VARCHAR(10)," +
-                    Constants.CAMPUS_NAME + " VARCHAR(255) UNIQUE," +
+                    Constants.CAMPUS_NAME + " VARCHAR(255)," +
                     Constants.IS_REMOVED + " BOOLEAN, " +
                     "PRIMARY KEY (" + Constants.CAMPUS_ID + ")" +
                     ")";
@@ -234,6 +234,7 @@ public class CreateSchemaTimeTabler {
                     Constants.HALL_ID + " VARCHAR(10)," +
                     Constants.HALL_NAME + " VARCHAR(255)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
+                    Constants.IS_REMOVED + " BOOLEAN," +
                     "PRIMARY KEY (" + Constants.HALL_ID + ")," +
                     "FOREIGN KEY fk_faculty_id(" + Constants.FACULTY_ID + ") " +
                     "REFERENCES " + Constants.TABLE_FACULTIES + "(" + Constants.FACULTY_ID + ") " +

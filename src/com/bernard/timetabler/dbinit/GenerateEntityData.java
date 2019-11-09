@@ -256,7 +256,7 @@ public class GenerateEntityData {
         for (String id : departmentId) {
             String strFacultyId = "SELECT " + Constants.FACULTY_ID + " FROM " + Constants.TABLE_DEPARTMENTS
             		+ " WHERE " + Constants.DEPARTMENT_ID + "='" + id + "'"
-            		+ " AND" + Constants.IS_REMOVED + "=" + false;
+            		+ " AND " + Constants.IS_REMOVED + "=" + false;
             ResultSet resultSetFacId = statement.executeQuery(strFacultyId);
 
             // move cursor to point to the next row
@@ -531,9 +531,9 @@ public class GenerateEntityData {
         String strQueryUnits = "SELECT distinct(" + Constants.UNIT_ID + ") " 
         		+ "FROM " + Constants.TABLE_LECTURER_UNITS + " lu" 
         		+ " INNER JOIN " + Constants.TABLE_LECTURERS + " lec on lu." + Constants.LECTURER_ID + "=lec." + Constants.LECTURER_ID
-        		+ " WHERE lec." + Constants.IN_SESSION + "=1 "
-        		+ " WHERE " + Constants.IS_REMOVED + "=" + false
-        		+ " order by " + Constants.UNIT_ID;
+        		+ " WHERE lec." + Constants.IN_SESSION + "=" + true
+        		+ " AND lec." + Constants.IS_REMOVED + "=" + false
+        		+ " ORDER BY lu." + Constants.UNIT_ID;
         System.out.println("SQL  statement:\n" + strQueryStu + "\n" + strQueryUnits);
 
         ResultSet resultSetStu = statement.executeQuery(strQueryStu);

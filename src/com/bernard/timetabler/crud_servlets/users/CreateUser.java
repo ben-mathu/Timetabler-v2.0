@@ -79,8 +79,9 @@ public class CreateUser extends HttpServlet {
 			
 			String query = "CREATE USER '" + username + "'@'localhost' IDENTIFIED BY '" + code + "'";
 			
-			if (statement.executeUpdate(query) != 0) {
-				String grant = "GRANT ALL ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost'";
+			if (statement.executeUpdate(query) == 0) {
+			
+				String grant = "GRANT ALL PRIVILEGES ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost';FLUSH PRIVILEGES";
 				
 				if (statement.executeUpdate(grant) != 0) {
 					String insertQuery = "INSERT INTO " + Constants.TABLE_LECTURERS + "(" + Constants.LECTURER_ID + ","
@@ -90,12 +91,11 @@ public class CreateUser extends HttpServlet {
 							+ pacRequest.getLecRequest().getFname() + "','" + pacRequest.getLecRequest().getMname() + "','"
 							+ pacRequest.getLecRequest().getLname() + "'," + false + ")";
 					
+					Log.d(TAG, "Insert statement: " + insertQuery);
 					statement.executeUpdate(insertQuery);
 				}
 			}
 		}
-		
 		return code;
 	}
-
 }

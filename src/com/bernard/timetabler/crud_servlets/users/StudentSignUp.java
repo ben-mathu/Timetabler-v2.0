@@ -102,7 +102,8 @@ public class StudentSignUp extends HttpServlet {
 				"','" + student.getStudent().getProgrammeId() +
 				"','" + student.getStudent().getYearOfStudy() +
 				"','" + student.getStudent().getAdmissionDate() +
-				"')";
+				"'," + student.getStudent().isRemoved() +
+				")";
 		return statement.executeUpdate(insertStatement) > 0 ? true : false;
 	}
 

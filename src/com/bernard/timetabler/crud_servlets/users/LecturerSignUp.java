@@ -78,7 +78,6 @@ public class LecturerSignUp extends HttpServlet {
 				printWriter.write(jsonReport);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -96,6 +95,8 @@ public class LecturerSignUp extends HttpServlet {
 				"'," + Constants.IN_SESSION + "=" + lecturer.getLecturer().isInSesson() +
 				" WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'" +
 				" AND " + Constants.IS_REMOVED + "=" + false;
+		
+		Log.d(TAG, "update statement: " + insertStatement);
 		return statement.executeUpdate(insertStatement) > 0 ? true : false;
 	}
 
