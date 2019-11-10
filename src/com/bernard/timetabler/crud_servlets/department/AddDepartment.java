@@ -73,7 +73,9 @@ public class AddDepartment extends HttpServlet {
 		String insertQuery = "INSERT INTO " + Constants.TABLE_DEPARTMENTS
 				+ " VALUES('" + id + "','"
 				+ req.getDepartment().getDepartmentName() + "','"
-				+ req.getDepartment().getFacultyId() + "')";
+				+ req.getDepartment().getFacultyId() + "',"
+				+ req.getDepartment().isRemoved()
+				+ ")";
 		
 		if (statement.executeUpdate(insertQuery) > 0) {
 			return true;

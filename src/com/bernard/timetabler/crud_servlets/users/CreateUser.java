@@ -83,7 +83,7 @@ public class CreateUser extends HttpServlet {
 			
 				String grant = "GRANT ALL PRIVILEGES ON " + Constants.DATABASE_NAME + ".* TO '" + username + "'@'localhost';FLUSH PRIVILEGES";
 				
-				if (statement.executeUpdate(grant) != 0) {
+				if (statement.executeUpdate(grant) == 0) {
 					String insertQuery = "INSERT INTO " + Constants.TABLE_LECTURERS + "(" + Constants.LECTURER_ID + ","
 							+ Constants.EMAIL + "," + Constants.F_NAME + "," + Constants.M_NAME + ","
 							+ Constants.L_NAME + "," + Constants.IS_REMOVED

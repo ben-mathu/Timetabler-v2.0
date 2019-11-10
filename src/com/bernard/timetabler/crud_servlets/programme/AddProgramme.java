@@ -74,7 +74,9 @@ public class AddProgramme extends HttpServlet {
 				+ " VALUES('" + id + "','"
 				+ req.getProgramme().getProgrammeName() + "','"
 				+ req.getProgramme().getDepartmentId() + "','"
-				+ req.getProgramme().getFacultyId() + "')";
+				+ req.getProgramme().getFacultyId() + "',"
+				+ req.getProgramme().isRemoved()
+				+ ")";
 		
 		if (statement.executeUpdate(insertQuery) > 0) {
 			return true;

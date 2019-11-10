@@ -34,7 +34,7 @@ public class Student {
 	@SerializedName(Constants.IN_SESSION)
     private boolean inSession = false;
 	@SerializedName(Constants.EMAIL)
-	private String email;
+	private String email = "jonas@gmail.com";
 	@SerializedName(Constants.IS_REMOVED)
 	private boolean isRemoved = false;
 
