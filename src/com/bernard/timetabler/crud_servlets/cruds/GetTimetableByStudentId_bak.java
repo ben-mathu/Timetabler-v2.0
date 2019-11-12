@@ -49,7 +49,6 @@ public class GetTimetableByStudentId_bak extends HttpServlet {
 			jsonTimetableResponse = gson.toJson(timetableResponse);
 			writer.write(jsonTimetableResponse);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -41,7 +41,6 @@ public class GetRooms extends HttpServlet {
 		try {
 			list = queryTimetable();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

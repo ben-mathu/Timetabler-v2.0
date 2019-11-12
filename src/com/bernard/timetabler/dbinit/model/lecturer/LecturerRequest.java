@@ -9,7 +9,6 @@ public class LecturerRequest {
 	private String password;
 	
 	public LecturerRequest() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void setLecturer(Lecturer lecturer) {

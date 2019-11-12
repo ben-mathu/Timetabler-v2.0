@@ -52,7 +52,6 @@ public class GetAllProgrammes extends HttpServlet {
 			Gson gson = new Gson();
 			programmesJsonList = gson.toJson(resp, ProgrammesResponse.class);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

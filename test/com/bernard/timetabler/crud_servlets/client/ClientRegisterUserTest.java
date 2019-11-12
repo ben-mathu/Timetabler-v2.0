@@ -14,7 +14,6 @@ public class ClientRegisterUserTest {
 		private Lecturer lecturer;
 		
 		public LecturerResponse() {
-			// TODO Auto-generated constructor stub
 		}
 		
 		public Lecturer getLecturer() {

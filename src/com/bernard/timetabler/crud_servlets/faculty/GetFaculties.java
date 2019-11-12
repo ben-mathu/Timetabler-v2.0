@@ -44,7 +44,6 @@ public class GetFaculties extends HttpServlet {
 			
 			printWriter.write(jsonFaculties);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,7 +1,6 @@
 package com.bernard.timetabler.dbinit;
 
 import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
-import com.bernard.timetabler.generate_tt.TimeTableGenerator;
 import com.bernard.timetabler.search_algorithm.PathSearchAlgorithm;
 
 import java.util.HashMap;

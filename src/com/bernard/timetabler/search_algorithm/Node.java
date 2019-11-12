@@ -3,7 +3,6 @@ package com.bernard.timetabler.search_algorithm;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.bernard.timetabler.utils.Log;
 
 /*
  * Generic class - defines a node's attributes

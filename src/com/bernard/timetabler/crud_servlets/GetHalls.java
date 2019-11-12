@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.Hall;
-import com.bernard.timetabler.dbinit.model.department.Department;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

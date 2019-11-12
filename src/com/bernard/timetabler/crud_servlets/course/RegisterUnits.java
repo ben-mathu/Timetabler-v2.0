@@ -17,7 +17,6 @@ import com.bernard.timetabler.crud_servlets.reponses.ErrorReport;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.bernard.timetabler.dbinit.model.relationships.LecturerUnit;
 import com.bernard.timetabler.dbinit.model.relationships.StudentUnit;
 import com.bernard.timetabler.utils.Log;
@@ -70,7 +69,7 @@ public class RegisterUnits extends HttpServlet {
 				strBuffer.append(line);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		Gson gson = new Gson();
@@ -95,7 +94,6 @@ public class RegisterUnits extends HttpServlet {
 				out.write(jsonResponse);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -113,7 +111,7 @@ public class RegisterUnits extends HttpServlet {
 				strBuffer.append(line);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		Gson gson = new Gson();

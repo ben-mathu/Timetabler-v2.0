@@ -60,7 +60,6 @@ public class GetRegisteredUnits extends HttpServlet {
 				
 				writer.write(json);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else if (request.getParameterMap().containsKey(Constants.LECTURER_ID)) {
@@ -77,7 +76,6 @@ public class GetRegisteredUnits extends HttpServlet {
 				
 				writer.write(json);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -93,7 +91,6 @@ public class GetRegisteredUnits extends HttpServlet {
 				
 				writer.write(json);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

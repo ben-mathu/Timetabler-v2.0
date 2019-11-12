@@ -26,7 +26,6 @@ public class GetUnitsMethodsTest {
 		try {
 			unitList = unitCrudOp.getUnitsByStudentId("ZAGQO");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

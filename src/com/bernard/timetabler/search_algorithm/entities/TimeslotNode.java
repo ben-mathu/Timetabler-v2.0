@@ -2,14 +2,12 @@ package com.bernard.timetabler.search_algorithm.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
 import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
 import com.bernard.timetabler.search_algorithm.Edge;
 import com.bernard.timetabler.search_algorithm.Node;
-import com.bernard.timetabler.utils.Log;
 
 public class TimeslotNode extends Node<Timeslot> {
 	private static final String TAG = TimeslotNode.class.getSimpleName();
@@ -34,7 +32,6 @@ public class TimeslotNode extends Node<Timeslot> {
 	
 	@Override
 	public void addEdge(Edge<Timeslot> edge) {
-		// TODO Auto-generated method stub
 		super.addEdge(edge);
 	}
 	

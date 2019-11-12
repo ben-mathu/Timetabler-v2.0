@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.course.UnitReq;
 import com.bernard.timetabler.dbinit.model.department.DepartmentRequest;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;

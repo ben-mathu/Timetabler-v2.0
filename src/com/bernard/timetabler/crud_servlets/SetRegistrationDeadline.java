@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -82,7 +81,6 @@ public class SetRegistrationDeadline extends HttpServlet {
 				
 				saveScheduleLec(startDate, endDate, true);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -153,7 +151,6 @@ public class SetRegistrationDeadline extends HttpServlet {
 							statement = ct.getStatement();
 							statement.executeUpdate(updateStatement);
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						
@@ -165,7 +162,6 @@ public class SetRegistrationDeadline extends HttpServlet {
 				}
 			}, 0, 1000);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

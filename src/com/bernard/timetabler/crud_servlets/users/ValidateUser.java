@@ -2,7 +2,6 @@ package com.bernard.timetabler.crud_servlets.users;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,10 +21,8 @@ import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.department.Department;
 import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
-import com.bernard.timetabler.dbinit.model.lecturer.LecturerResponse;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
 import com.bernard.timetabler.dbinit.model.student.Student;
-import com.bernard.timetabler.dbinit.model.student.StudentResponse;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;

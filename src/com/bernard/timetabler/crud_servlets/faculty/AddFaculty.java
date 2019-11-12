@@ -60,7 +60,6 @@ public class AddFaculty extends HttpServlet {
 				writer.write(jsonResponse);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

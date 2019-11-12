@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 @WebServlet("/delete-campus")
 public class DeleteCampus extends HttpServlet {

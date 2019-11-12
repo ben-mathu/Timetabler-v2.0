@@ -14,13 +14,11 @@ import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Base64;
 
 /**
  * Servlet implementation class Extreneous
@@ -68,7 +66,6 @@ public class Extreneous extends HttpServlet {
 		try {
 			saveSaltedRole(saltStr, role);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -3,7 +3,6 @@ package com.bernard.timetabler.generate_tt;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.PopulateDb;
-import com.bernard.timetabler.dbinit.model.*;
 import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
@@ -215,7 +214,6 @@ public class TimeTableGenerator {
         // 	Save class-unit relationship
 			saveClassUnitRelationship(classUnits);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return dayTime_ClassUnitsTimetable;

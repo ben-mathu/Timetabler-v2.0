@@ -61,7 +61,6 @@ public class AddProgramme extends HttpServlet {
 				writer.write(jsonResponse);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

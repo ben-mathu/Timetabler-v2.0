@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.course.Unit;
-import com.bernard.timetabler.dbinit.model.course.UnitList;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -56,7 +55,6 @@ public class GetUnitsByLecturerId extends HttpServlet {
 			writer.write(jsonResponse);
 			
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

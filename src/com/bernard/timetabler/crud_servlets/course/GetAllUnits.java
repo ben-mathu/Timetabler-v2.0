@@ -57,7 +57,6 @@ public class GetAllUnits extends HttpServlet {
 			
 			writer.write(json);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

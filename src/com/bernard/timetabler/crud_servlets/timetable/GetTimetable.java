@@ -18,9 +18,7 @@ import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.course.Unit;
-import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
 import com.bernard.timetabler.dbinit.model.room.Class;
-import com.bernard.timetabler.dbinit.model.timetable.Timetable;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -50,7 +48,6 @@ public class GetTimetable extends HttpServlet {
 		try {
 			list = queryTimetable();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

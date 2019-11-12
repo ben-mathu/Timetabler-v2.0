@@ -49,7 +49,6 @@ public class GetLecturers extends HttpServlet {
 			
 			writer.write(jsonStr);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NullPointerException e) {
 			e.printStackTrace();

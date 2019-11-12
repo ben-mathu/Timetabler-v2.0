@@ -1,8 +1,6 @@
 package com.bernard.timetabler.crud_servlets.users;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.security.SecureRandom;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

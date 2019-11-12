@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.student.Student;
 import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
@@ -45,7 +40,7 @@ public class StudentSignUp extends HttpServlet {
 				strBuffer.append(line);
 			}
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		
 		Gson gson = new Gson();
@@ -64,7 +59,6 @@ public class StudentSignUp extends HttpServlet {
 				printWriter.write(jsonReport);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
