@@ -1,3 +1,4 @@
 build/*
 target/*
 .vscode/*
+target/Timetabler-v2.0-0.0.1-SNAPSHOT/WEB-INF/lib/
