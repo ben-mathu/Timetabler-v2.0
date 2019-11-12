@@ -68,6 +68,9 @@
         		<phase>package</phase>
                 <goals><goal>copy-dependencies</goal></goals>
                 <configuration>
+                  <outputDirectory>${project.basedir}/WebContent/WEB-INF/lib</outputDirectory>
+                  <overWriteReleases>false</overWriteReleases>
+                  <overWriteSnapshots>true</overWriteSnapshots>
                 	<artifactItems>
                 		<artifactItem>
                 			<groupId>com.github.jsimone</groupId>
