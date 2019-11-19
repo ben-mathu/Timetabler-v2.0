@@ -69,11 +69,11 @@ public class UpdateCourse extends HttpServlet {
 	private boolean updateCourse(UnitReq req) throws SQLException {
 		String updateQuery = "UPDATE " + Constants.TABLE_UNITS
 				+ " SET " + Constants.UNIT_NAME + "='" + req.getUnit().getUnitName() + "'"
-				+ " SET " + Constants.PROGRAMME_ID + "='" + req.getUnit().getProgrammeId() + "'"
-				+ " SET " + Constants.FACULTY_ID + "='" + req.getUnit().getFacultyId() + "'"
-				+ " SET " + Constants.DEPARTMENT_ID + "='" + req.getUnit().getDepartmentId() + "'"
-				+ " SET " + Constants.IS_PRACTICAL + "=" + req.getUnit().isPractical()
-				+ " SET " + Constants.IS_COMMON + "=" + req.getUnit().isCommon()
+				+ " , " + Constants.PROGRAMME_ID + "='" + req.getUnit().getProgrammeId() + "'"
+				+ " , " + Constants.FACULTY_ID + "='" + req.getUnit().getFacultyId() + "'"
+				+ " , " + Constants.DEPARTMENT_ID + "='" + req.getUnit().getDepartmentId() + "'"
+				+ " , " + Constants.IS_PRACTICAL + "=" + req.getUnit().isPractical()
+				+ " , " + Constants.IS_COMMON + "=" + req.getUnit().isCommon()
 				+ " WHERE " + Constants.UNIT_ID + "='" + req.getUnit().getId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {
