@@ -13,7 +13,7 @@
 	    <groupId>mysql</groupId>
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>8.0.18</version>
-	    <scope>provided</scope>
+	    <scope>compile</scope>
 	</dependency>
 	<dependency>
 	    <groupId>com.google.code.gson</groupId>
@@ -41,6 +41,7 @@
 	  </dependency>
   </dependencies>
   <build>
+    <finalName>timetabler</finalName>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <plugins>
@@ -68,9 +69,6 @@
         		<phase>package</phase>
                 <goals><goal>copy</goal></goals>
                 <configuration>
-                  <outputDirectory>${project.basedir}/WebContent/WEB-INF/lib</outputDirectory>
-                  <overWriteReleases>false</overWriteReleases>
-                  <overWriteSnapshots>true</overWriteSnapshots>
                 	<artifactItems>
                 		<artifactItem>
                 			<groupId>com.github.jsimone</groupId>

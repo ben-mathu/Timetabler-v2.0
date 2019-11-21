@@ -80,10 +80,6 @@ public class DeleteLecturer extends HttpServlet {
         String updateQuery ="UPDATE " + Constants.TABLE_LECTURERS
                 + " SET " + Constants.IS_REMOVED + "=" + true
                 + " WHERE " + Constants.LECTURER_ID + "='" + lecRequest.getLecturer().getId() + "'";
-        if (statement.executeUpdate(updateQuery) != 0) {
-            return true;
-        }
-
-        return false;
+        return statement.executeUpdate(updateQuery) != 0;
     }
 }
