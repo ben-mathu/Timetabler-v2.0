@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets.users;
+package com.bernard.timetabler.crud_servlets.users.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -63,7 +63,7 @@ public class RegisterAdmin extends HttpServlet {
 					
 					response.setStatus(304);
 					writer = response.getWriter();
-					writer.write(jsonRequest);
+					writer.write(jsonResponse);
 				}
 			}
 		} catch (SQLException e) {
@@ -80,12 +80,8 @@ public class RegisterAdmin extends HttpServlet {
 				+ admin.getUsername() + "','"
 				+ admin.getPassword() + "','"
 				+ admin.getEmail() + "')";
-		
-		if (statement.executeUpdate(query) > 0) {
-			return true;
-		}
-		
-		return false;
+
+		return statement.executeUpdate(query) > 0;
 	}
 
 	private boolean createAdminTableIfNotExist(String tableAdmin) throws SQLException {
@@ -97,11 +93,7 @@ public class RegisterAdmin extends HttpServlet {
 				+ Constants.USERNAME + " VARCHAR(15) UNIQUE,"
 				+ Constants.PASSWORD + " VARCHAR(32) UNIQUE,"
 				+ Constants.EMAIL + " VARCHAR(255) UNIQUE)";
-		
-		if (statement.executeUpdate(query) == 0) {
-			return true;
-		}
-		
-		return false;
+
+		return statement.executeUpdate(query) == 0;
 	}
 }

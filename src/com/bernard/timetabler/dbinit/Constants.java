@@ -32,7 +32,7 @@ public class Constants {
     // Lecturers
     public static final String TABLE_LECTURERS = "lecturers";
     public static final String LECTURER_ID = "lecturer_id";
-    public static final String ROLE = "user_role";
+    public static final String ROLE = "role";
 
     // Programmes
     public static final String TABLE_PROGRAMMES = "programmes";
@@ -112,6 +112,8 @@ public class Constants {
 	public static final String IS_REMOVED = "is_removed";
 
 	public static final String EMAIL = "email";
+
+    public static final String USER_ID = "user_id";
 
     public static class ENV {
         public static final String DEV = "dev";

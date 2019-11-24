@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets.users;
+package com.bernard.timetabler.crud_servlets.users.lecturer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,22 +32,22 @@ public class LecturerSignUp extends HttpServlet {
 	private Statement statement;
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		StringBuffer strBuffer = new StringBuffer();
-		String line = "";
-		
+		StringBuilder sb = new StringBuilder();
+
 		response.setContentType("application/json");
 		
 		try {
 			BufferedReader reader = request.getReader();
+			String line = "";
 			while ((line = reader.readLine()) != null) {
-				strBuffer.append(line);
+				sb.append(line);
 			}
 		}catch (Exception e) {
 			Log.e(TAG, e.getMessage());
 		}
 		
 		Gson gson = new Gson();
-		LecturerRequest lecturer = gson.fromJson(strBuffer.toString(), LecturerRequest.class);
+		LecturerRequest lecturer = gson.fromJson(sb.toString(), LecturerRequest.class);
 		
 		Log.d(TAG, "populating lecturer details");
 		
@@ -97,7 +97,7 @@ public class LecturerSignUp extends HttpServlet {
 				" AND " + Constants.IS_REMOVED + "=" + false;
 		
 		Log.d(TAG, "update statement: " + insertStatement);
-		return statement.executeUpdate(insertStatement) > 0 ? true : false;
+		return statement.executeUpdate(insertStatement) > 0;
 	}
 
 }

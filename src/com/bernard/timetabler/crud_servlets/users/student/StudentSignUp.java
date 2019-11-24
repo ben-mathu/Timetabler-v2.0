@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets.users;
+package com.bernard.timetabler.crud_servlets.users.student;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,11 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
-import com.bernard.timetabler.dbinit.model.student.Student;
+import com.bernard.timetabler.dbinit.model.student.StudentRequest;
 import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 /**
  * Servlet implementation class UserSignUp
@@ -25,26 +24,27 @@ import com.google.gson.annotations.SerializedName;
 @WebServlet("/student-sign-up")
 public class StudentSignUp extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = LecturerSignUp.class.getSimpleName();
+	private static final String TAG = StudentSignUp.class.getSimpleName();
+
 	private Statement statement;
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		StringBuffer strBuffer = new StringBuffer();
-		String line = "";
-		
+		StringBuilder sb = new StringBuilder();
+
 		response.setContentType("application/json");
 		
 		try {
 			BufferedReader reader = request.getReader();
+			String line = "";
 			while ((line = reader.readLine()) != null) {
-				strBuffer.append(line);
+				sb.append(line);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		Gson gson = new Gson();
-		StudentRequest student = gson.fromJson(strBuffer.toString(), StudentRequest.class);
+		StudentRequest student = gson.fromJson(sb.toString(), StudentRequest.class);
 		
 		Log.d(TAG, "populating Student details");
 		
@@ -60,19 +60,6 @@ public class StudentSignUp extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private class StudentRequest {
-		@SerializedName("student")
-		private Student student;
-		
-		public void setStudent(Student student) {
-			this.student = student;
-		}
-		
-		public Student getStudent() {
-			return student;
 		}
 	}
 
@@ -98,7 +85,7 @@ public class StudentSignUp extends HttpServlet {
 				"','" + student.getStudent().getAdmissionDate() +
 				"'," + student.getStudent().isRemoved() +
 				")";
-		return statement.executeUpdate(insertStatement) > 0 ? true : false;
+		return statement.executeUpdate(insertStatement) > 0;
 	}
 
 }
