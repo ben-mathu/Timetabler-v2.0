@@ -114,6 +114,9 @@ public class Constants {
 	public static final String EMAIL = "email";
 
     public static final String USER_ID = "user_id";
+    public static final String MESSAGE_SUCCESS = "Successfully updated.";
+    public static final String DELETED_ACCOUNT_MESSAGE = "Account deleted successfully";
+    public static final String OTHER_ISSUE = "Please contact the administrator to resolve the issue.\n";
 
     public static class ENV {
         public static final String DEV = "dev";

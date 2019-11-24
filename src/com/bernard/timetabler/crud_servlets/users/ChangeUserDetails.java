@@ -1,5 +1,6 @@
-package com.bernard.timetabler.crud_servlets.users.student;
+package com.bernard.timetabler.crud_servlets.users;
 
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.admin.Admin;
 import com.bernard.timetabler.dbinit.model.admin.AdminResponse;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.PreparedStatement;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -45,9 +46,27 @@ public class ChangeUserDetails extends HttpServlet {
         String role = req.getParameter(Constants.ROLE);
         String userid = req.getParameter(Constants.USER_ID);
 
+        PrintWriter writer;
+        String jsonResponse;
+        MessageReport report = new MessageReport();
+
         try {
             if (changeUserDetails(jsonRequest, role, userid)) {
+                report.setMessage(Constants.MESSAGE_SUCCESS);
 
+                jsonResponse = gson.toJson(report);
+
+                resp.setStatus(HttpServletResponse.SC_OK);
+                writer = resp.getWriter();
+                writer.write(jsonResponse);
+            } else {
+                report.setMessage(Constants.OTHER_ISSUE);
+
+                jsonResponse = gson.toJson(report);
+
+                resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+                writer = resp.getWriter();
+                writer.write(jsonResponse);
             }
         } catch (SQLException e) {
             Log.e(TAG, "Error: " + e.getMessage());
