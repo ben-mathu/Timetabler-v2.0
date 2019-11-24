@@ -2,6 +2,8 @@ package com.bernard.timetabler.crud_servlets.users;
 
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
+import com.bernard.timetabler.dbinit.model.UserResponse;
+import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
@@ -36,16 +38,16 @@ public class ChangePassword extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userId = req.getParameter(Constants.USER_ID);
-        String role = req.getParameter(Constants.ROLE);
-        String passwd = req.getParameter(Constants.PASSWORD);
+        String jsonRequest = BufferRequest.bufferRequest(req);
 
         resp.setContentType(Constants.APPLICATION_JSON);
         PrintWriter writer;
 
+        UserResponse response = gson.fromJson(jsonRequest, UserResponse.class);
+
         try {
             MessageReport report = new MessageReport();
-            if (changePassword(userId, role, passwd)) {
+            if (changePassword(response.getUserId(), response.getRole(), response.getPassword())) {
                 report.setMessage("Successfully changed password.");
 
                 resp.setStatus(HttpServletResponse.SC_OK);
@@ -69,21 +71,21 @@ public class ChangePassword extends HttpServlet {
     private boolean changePassword(String userId, String role, String passwd) throws SQLException {
         if (role.equalsIgnoreCase("admin")) {
 
-            String update = "UPDATE TABLE " + Constants.TABLE_ADMIN +
+            String update = "UPDATE " + Constants.TABLE_ADMIN +
                     " SET " + Constants.PASSWORD + "='" + passwd + "'" +
-                    " WHERE " + Constants.USER_ID + "='" + userId + "'";
+                    " WHERE " + Constants.ADMIN_ID + "='" + userId + "'";
 
             return statement.executeUpdate(update) > 0;
         } else if (role.equalsIgnoreCase("student")) {
-            String update = "UPDATE TABLE " + Constants.TABLE_STUDENTS +
+            String update = "UPDATE " + Constants.TABLE_STUDENTS +
                     " SET " + Constants.PASSWORD + "='" + passwd + "'" +
-                    " WHERE " + Constants.USER_ID + "='" + userId + "'";
+                    " WHERE " + Constants.STUDENT_ID + "='" + userId + "'";
 
             return statement.executeUpdate(update) > 0;
         } else if (role.equalsIgnoreCase("lecturer")) {
-            String update = "UPDATE TABLE " + Constants.TABLE_LECTURERS +
+            String update = "UPDATE " + Constants.TABLE_LECTURERS +
                     " SET " + Constants.PASSWORD + "='" + passwd + "'" +
-                    " WHERE " + Constants.USER_ID + "='" + userId + "'";
+                    " WHERE " + Constants.LECTURER_ID + "='" + userId + "'";
 
             return statement.executeUpdate(update) > 0;
         }
