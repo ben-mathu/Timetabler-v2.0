@@ -79,11 +79,11 @@ public class ChangeUserDetails extends HttpServlet {
             StudentResponse resp = gson.fromJson(jsonRequest, StudentResponse.class);
             Student student = resp.getStudent();
 
-            String updateStm = "UPDATE TABLE " + Constants.TABLE_STUDENTS +
-                    " SET " + Constants.F_NAME + "='" + student.getFname() +
-                    " SET " + Constants.M_NAME + "='" + student.getMname() +
-                    " SET " + Constants.L_NAME + "='" + student.getLname() +
-                    " SET " + Constants.EMAIL + "='" + student.getEmail() +
+            String updateStm = "UPDATE " + Constants.TABLE_STUDENTS +
+                    " SET " + Constants.F_NAME + "='" + student.getFname() + "'," +
+                    Constants.M_NAME + "='" + student.getMname() + "'," +
+                    Constants.L_NAME + "='" + student.getLname() + "'," +
+                    Constants.EMAIL + "='" + student.getEmail() + "'" +
                     " WHERE " + Constants.STUDENT_ID + "='" + userId + "'";
 
             return statement.executeUpdate(updateStm) > 0;
@@ -91,11 +91,11 @@ public class ChangeUserDetails extends HttpServlet {
             LecturerResponse resp = gson.fromJson(jsonRequest, LecturerResponse.class);
             Lecturer lecturer = resp.getLecturer();
 
-            String updateStm = "UPDATE TABLE " + Constants.TABLE_LECTURERS +
-                    " SET " + Constants.F_NAME + "='" + lecturer.getFirstName() +
-                    " SET " + Constants.M_NAME + "='" + lecturer.getMiddleName() +
-                    " SET " + Constants.L_NAME + "='" + lecturer.getLastName() +
-                    " SET " + Constants.EMAIL + "='" + lecturer.getEmail() +
+            String updateStm = "UPDATE " + Constants.TABLE_LECTURERS +
+                    " SET " + Constants.F_NAME + "='" + lecturer.getFirstName() + "'," +
+                    Constants.M_NAME + "='" + lecturer.getMiddleName() + "'," +
+                    Constants.L_NAME + "='" + lecturer.getLastName() + "'," +
+                    Constants.EMAIL + "='" + lecturer.getEmail() + "'" +
                     " WHERE " + Constants.LECTURER_ID + "='" + userId + "'";
 
             return statement.executeUpdate(updateStm) > 0;
@@ -103,11 +103,11 @@ public class ChangeUserDetails extends HttpServlet {
             AdminResponse resp = gson.fromJson(jsonRequest, AdminResponse.class);
             Admin admin = resp.getAdmin();
 
-            String updateStm = "UPDATE TABLE " + Constants.TABLE_ADMIN +
-                    " SET " + Constants.F_NAME + "='" + admin.getfName() +
-                    " SET " + Constants.M_NAME + "='" + admin.getmName() +
-                    " SET " + Constants.L_NAME + "='" + admin.getlName() +
-                    " SET " + Constants.EMAIL + "='" + admin.getEmail() +
+            String updateStm = "UPDATE " + Constants.TABLE_ADMIN +
+                    " SET " + Constants.F_NAME + "='" + admin.getfName() + "'," +
+                    Constants.M_NAME + "='" + admin.getmName() + "'," +
+                    Constants.L_NAME + "='" + admin.getlName() + "'," +
+                    Constants.EMAIL + "='" + admin.getEmail() + "'" +
                     " WHERE " + Constants.ADMIN_ID + "='" + userId + "'";
 
             return statement.executeUpdate(updateStm) > 0;
