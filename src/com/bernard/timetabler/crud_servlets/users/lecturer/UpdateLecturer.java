@@ -20,7 +20,7 @@ import java.sql.Statement;
 /**
  * @author bernard
  */
-@WebServlet("/update-lecturer")
+@WebServlet("/update-lecturer/*")
 public class UpdateLecturer extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

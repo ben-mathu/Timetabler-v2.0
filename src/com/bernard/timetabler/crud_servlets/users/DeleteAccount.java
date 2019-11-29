@@ -21,7 +21,7 @@ import java.sql.Statement;
 /**
  * @author bernard
  */
-@WebServlet("/delete-account")
+@WebServlet("/delete-account/*")
 public class DeleteAccount extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String TAG = DeleteAccount.class.getSimpleName();

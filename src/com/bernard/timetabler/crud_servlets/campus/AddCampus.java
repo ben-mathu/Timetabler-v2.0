@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
+import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
@@ -81,22 +82,5 @@ public class AddCampus extends HttpServlet {
 			return true;
 		}
 		return false;
-	}
-
-	public class CampusRequest {
-	    @SerializedName("campus")
-	    private Campus campus;
-
-	    public CampusRequest(Campus campus) {
-	        this.campus = campus;
-	    }
-
-	    public Campus getCampus() {
-	        return campus;
-	    }
-
-	    public void setCampus(Campus campus) {
-	        this.campus = campus;
-	    }
 	}
 }

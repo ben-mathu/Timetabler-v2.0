@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 /**
  * Servlet implementation class DeleteCourse
  */
-@WebServlet("/delete-course")
+@WebServlet("/delete-unit")
 public class DeleteCourse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -47,7 +47,7 @@ public class DeleteCourse extends HttpServlet {
 			String jsonResponse = "";
 			
 			if (deleteCourse(req)) {
-				report.setMessage("Successfully deleted course" + req.getUnit().getUnitName());
+				report.setMessage("Successfully deleted course: " + req.getUnit().getUnitName());
 				jsonResponse = gson.toJson(report);
 				
 				response.setStatus(HttpServletResponse.SC_OK);

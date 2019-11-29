@@ -29,7 +29,7 @@ import java.sql.Statement;
 /**
  * @author bernard
  */
-@WebServlet("/user-details")
+@WebServlet("/user-details/*")
 public class GetUserDetails extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String TAG = GetUserDetails.class.getSimpleName();
