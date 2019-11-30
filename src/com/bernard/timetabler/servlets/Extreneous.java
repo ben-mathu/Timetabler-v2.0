@@ -95,7 +95,7 @@ public class Extreneous extends HttpServlet {
 		@SerializedName("salt")
 		private String salt;
 		
-		public void setSalt(String salt) {
+		void setSalt(String salt) {
 			this.salt = salt;
 		}
 		
@@ -107,7 +107,7 @@ public class Extreneous extends HttpServlet {
 	private String getSaltByRole(String role) throws SQLException {
 		String query = "SELECT " + Constants.SALT +
 				" FROM " + Constants.SALTROLE +
-				" WHERE " + Constants.ROLE + "='" + role + "'";
+				" WHERE user_role='" + role + "'";
 		
 		ResultSet resultSet = statement.executeQuery(query);
 		String salt = "";

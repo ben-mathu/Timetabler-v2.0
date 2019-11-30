@@ -60,7 +60,7 @@ public class Constants {
     public static final String IS_PRACTICAL = "is_practical";
 
     // Lecturers Programmes
-    public static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
+    static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
 
     // Class units
     public static final String TABLE_CLASS_UNITS = "class_units";
@@ -98,14 +98,12 @@ public class Constants {
 
 	public static final String UNIT = "unit";
 
-	public static final String STARTDATE = "start_date";
-	public static final String DEADLINE = "deadline";
+    public static final String TABLE_SCHEDULE = "schedule_unit_registration";
+    public static final String SCHEDULE_ID = "schedule_id";
+    public static final String STARTDATE = "start_date";
+    public static final String DEADLINE = "deadline";
+    public static final String ACTIVITY = "activity";
 
-	public static final String TABLE_SCHEDULE = "schedule_unit_registration";
-
-	public static final String ACTIVITY = "activity";
-
-	public static final String SCHEDULE_ID = "schedule_id";
 
 	public static final String TABLE_SCHEDULE_LEC = "schedule_lec";
 
@@ -117,6 +115,7 @@ public class Constants {
     public static final String MESSAGE_SUCCESS = "Successfully updated.";
     public static final String DELETED_ACCOUNT_MESSAGE = "Account deleted successfully";
     public static final String OTHER_ISSUE = "Please contact the administrator to resolve the issue.\n";
+    public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm:ss.SSS";
 
     public static class ENV {
         public static final String DEV = "dev";

@@ -190,7 +190,7 @@ public class GetUserDetails extends HttpServlet {
         Faculty faculty = new Faculty();
 
         String query = "SELECT * FROM " + Constants.TABLE_FACULTIES +
-                " WHERE " + Constants.LECTURER_ID + "='" + facultyId + "'" +
+                " WHERE " + Constants.FACULTY_ID + "='" + facultyId + "'" +
                 " AND " + Constants.IS_REMOVED + "=" + false;
 
         ResultSet resultSet = statement.executeQuery(query);

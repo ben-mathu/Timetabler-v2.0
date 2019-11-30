@@ -60,9 +60,9 @@ public class GetUnitsMethods {
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
 				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
 				",un." + Constants.IS_COMMON +
-				" FROM " + Constants.TABLE_UNITS +
-				" un INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu " +
-				"ON un." + Constants.UNIT_ID + "=lu." + Constants.UNIT_ID +
+				" FROM " + Constants.TABLE_UNITS + " un" +
+				" INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu " +
+				"ON lu." + Constants.UNIT_ID + "=un." + Constants.UNIT_ID +
 				" WHERE lu." + Constants.LECTURER_ID + "='" + lecturerId + "'"
 				+ " AND lu." + Constants.IS_REMOVED + "=0";
 		

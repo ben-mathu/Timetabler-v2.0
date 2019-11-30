@@ -111,6 +111,8 @@ public class GetRegistrationSchedule extends HttpServlet {
 		String query = "SELECT * FROM " + Constants.TABLE_SCHEDULE + " WHERE " + Constants.ACTIVITY + "=1";
 		
 		ResultSet resultSet = st.executeQuery(query);
+
+
 		
 		while (resultSet.next()) {
 			scheduleSettings.setStartDate(resultSet.getString(Constants.STARTDATE));
@@ -121,18 +123,18 @@ public class GetRegistrationSchedule extends HttpServlet {
 	}
 
 	public class DeadlineSettings {
-	    @SerializedName("start_date")
+	    @SerializedName(Constants.STARTDATE)
 	    private String startDate;
-	    @SerializedName("deadline")
+	    @SerializedName(Constants.DEADLINE)
 	    private String deadline;
-	    @SerializedName("activity")
+	    @SerializedName(Constants.ACTIVITY)
 	    private boolean isActive = false;
 
 	    public String getDeadline() {
 	        return deadline;
 	    }
 
-	    public void setDeadline(String deadline) {
+	    void setDeadline(String deadline) {
 	        this.deadline = deadline;
 	    }
 
@@ -140,7 +142,7 @@ public class GetRegistrationSchedule extends HttpServlet {
 	        return startDate;
 	    }
 
-	    public void setStartDate(String startDate) {
+	    void setStartDate(String startDate) {
 	        this.startDate = startDate;
 	    }
 
@@ -148,7 +150,7 @@ public class GetRegistrationSchedule extends HttpServlet {
 	        return isActive;
 	    }
 
-	    public void setActive(boolean active) {
+	    void setActive(boolean active) {
 	        isActive = active;
 	    }
 	}

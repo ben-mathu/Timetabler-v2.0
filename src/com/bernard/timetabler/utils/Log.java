@@ -1,11 +1,21 @@
 package com.bernard.timetabler.utils;
 
+import com.bernard.timetabler.dbinit.Constants;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.SimpleTimeZone;
+
 public class Log {
+	private static SimpleDateFormat sf = new SimpleDateFormat(Constants.DATE_FORMAT);
+
 	public static void d(String tag, String message) {
-		System.out.println("D/" + tag + ": " + message);
+		Date date = new Date();
+		System.out.println("T:" + sf.format(date.getTime()) + " D/" + tag + ": " + message);
 	}
 	
 	public static void e(String tag, String error) {
-		System.out.println("E/" + tag + ": " + error);
+		Date date = new Date();
+		System.out.println("T:" + sf.format(date.getTime()) + " E/" + tag + ": " + error);
 	}
 }
