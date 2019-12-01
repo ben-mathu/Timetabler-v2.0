@@ -4,7 +4,7 @@
 # Table of Content
 1. [Installation](#installation)
     <details>
-    <summary> Tomcat Installation</summary>
+    <a href="#tomcat-installation"><summary>Tomcat Installation</summary></a>
 
     1. [Tomcat Installation](#tomcat-installation)
        <details>
