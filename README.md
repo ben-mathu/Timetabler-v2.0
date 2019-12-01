@@ -1,3 +1,21 @@
+<details>
+
+# Table of Content
+1. [Installation](#installation)
+    <details>
+
+    1. [Tomcat Installation](#tomcat-installation)
+       <details>
+
+       1. [Tomcat installation on Ubuntu](#tomcat-installation-on-ubuntu)
+       2. [Steps](#steps)
+       </details>
+    2. [MySQL Installation](#mysql-installation)
+    3. [Project Installations](#project-installation)
+    4. [Android App Installation](#android-app-installation)
+    </details>
+</details>
+
 # Timetabler-v2.0
 Server-side application for the Timetable Scheduling application.
 
@@ -5,14 +23,15 @@ Server-side application for the Timetable Scheduling application.
 Packages, libraries in use and the project’s code are installed and maintained by Maven.
 All installation instructions can be found on [Apache Maven site](https://maven.apache.org)
 
+### Tomcat Installation
 Other packages required for installation are:
 Tomcat installation instructions can be found [here](https://tomcat.apache.org/tomcat-9.0-doc/setup.html),
 for both Windows and Linux operating systems.
 
-### Tomcat installation on Ubuntu.
+#### Tomcat installation on Ubuntu.
 Tomcat requires Java to run run, install openJDK 11, OpenJDK is also required for project class files.
 
-#### Steps
+##### Steps
 Open terminal by pressing _CTRL+ALT+T_ to run these commands.
 
 create tomcat user:
@@ -122,14 +141,14 @@ Restart tomcat service
 Check that tomcat installed properly by going to 
 *http://localhost:8080*, it should open a tomcat home page.
 
-### MySQL installation
+#### MySQL installation
 Run:
 
 `sudo apt install mysql-server`
 
 on the terminal.
 
-### Project installations
+#### Project Installations
 Run the project deploy script file *deploy.sh* 
 after installing the project’s dependencies above.
 The file can be found the project’s root directory, ie *Timetabler-v2.0/*, or 
@@ -145,7 +164,7 @@ it will be under tomcat/latest/webapps/.
 Open this url [localhost](http://localhost:8080/timetabler) 
 to determine if the installation was successful.
 
-### Android App installation
+#### Android App installation
 Android application installation can be found in the 
 release section of github packages, 
 which can be found [here](https://github.com/ben-mathu/TimetablerApp/releases)
