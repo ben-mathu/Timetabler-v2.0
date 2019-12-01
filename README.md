@@ -4,9 +4,9 @@
 # Table of Content
 1. [Installation](#installation)
     <details>
-    <summary><a href="#tomcat-installation">Tomcat Installation</a></summary>
 
-    1. [Tomcat Installation](#tomcat-installation)
+    1. <summary><a href="#tomcat-installation">Tomcat Installation</a></summary>
+
        <details>
 
        1. [Tomcat installation on Ubuntu](#tomcat-installation-on-ubuntu)
