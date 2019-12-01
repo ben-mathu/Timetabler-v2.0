@@ -144,11 +144,14 @@ Check that tomcat installed properly by going to
 *http://localhost:8080*, it should open a tomcat home page.
 
 #### MySQL installation
+Install MySQL Server. Download installation files from [here](https://dev.mysql.com/downloads/mysql/).
+The MySQL Server you install must be the same as the MySQL Connector library used
+by the project.
 Run:
 
 `sudo apt install mysql-server`
 
-on the terminal.
+on the terminal to install the MySQL server.
 
 #### Project Installations
 Run the project deploy script file *deploy.sh* 
