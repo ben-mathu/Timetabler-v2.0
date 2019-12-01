@@ -1,6 +1,6 @@
 <details>
 
-# Table of Content
+# <summary>Table of Content</summary>
 1. [Installation](#installation)
     <details>
     <summary>Installation</summary>
