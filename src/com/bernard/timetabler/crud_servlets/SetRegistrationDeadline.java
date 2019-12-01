@@ -101,21 +101,20 @@ public class SetRegistrationDeadline extends HttpServlet {
 			String startDate = format.format(end.getTime() - TimeUnit.DAYS.toMillis(2));
 			String endDate = deadlineRequest.getStartDate();
 
-			saveScheduleLec(startDate, endDate, true);
+			saveScheduleLec(startDate, endDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void saveSchedule(DeadlineRequest deadlineRequest) throws SQLException {
-		boolean isActive = true;
 		String insertStatement = "INSERT INTO " + Constants.TABLE_SCHEDULE + "(" 
 				+ Constants.STARTDATE + ","
 				+ Constants.DEADLINE + ","
 				+ Constants.ACTIVITY + ")"
 				+ " VALUES('" + deadlineRequest.getStartDate() + "','"
 				+ deadlineRequest.getDeadline() + "', "
-				+ isActive + ")";
+				+ true + ")";
 		statement = ct.getStatement();
 		statement.executeUpdate(insertStatement);
 		
@@ -125,14 +124,14 @@ public class SetRegistrationDeadline extends HttpServlet {
 		startTimer(deadlineRequest, result.next() ? result.getString("LAST_INSERT_ID()") : "");
 	}
 	
-	private void saveScheduleLec(String startDate, String endDate, boolean isActive) throws SQLException {
+	private void saveScheduleLec(String startDate, String endDate) throws SQLException {
 		String insertStatement = "INSERT INTO " + Constants.TABLE_SCHEDULE_LEC + "(" 
 				+ Constants.STARTDATE + ","
 				+ Constants.DEADLINE + ","
 				+ Constants.ACTIVITY + ")"
 				+ " VALUES('" + startDate + "','"
 				+ endDate + "', "
-				+ isActive + ")";
+				+ true + ")";
 		statement = ct.getStatement();
 		statement.executeUpdate(insertStatement);
 
@@ -146,7 +145,7 @@ public class SetRegistrationDeadline extends HttpServlet {
 			Date today = Calendar.getInstance().getTime();
 			Date end = format.parse(deadlineRequest.getDeadline());
 			
-			Log.d(TAG, "time today" + new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(today));
+			Log.d(TAG, "time today" + new SimpleDateFormat(Constants.DATE_FORMAT).format(today));
 			
 			remainder = end.getTime() - today.getTime();
 			Timer timer = new Timer();
@@ -156,7 +155,7 @@ public class SetRegistrationDeadline extends HttpServlet {
 				public void run() {
 					remainder -= 1000;
 					
-					Log.d(TAG, "Timer" + remainder);
+					Log.d(TAG, "Timer " + remainder);
 					deactivateSchedule(timer, id);
 				}
 			}, 0, 1000);

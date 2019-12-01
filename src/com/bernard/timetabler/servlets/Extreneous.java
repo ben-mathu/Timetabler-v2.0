@@ -107,7 +107,7 @@ public class Extreneous extends HttpServlet {
 	private String getSaltByRole(String role) throws SQLException {
 		String query = "SELECT " + Constants.SALT +
 				" FROM " + Constants.SALTROLE +
-				" WHERE user_role='" + role + "'";
+				" WHERE " + Constants.ROLE + "='" + role + "'";
 		
 		ResultSet resultSet = statement.executeQuery(query);
 		String salt = "";
