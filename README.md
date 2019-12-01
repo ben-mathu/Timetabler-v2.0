@@ -3,6 +3,7 @@
 # Table of Content
 1. [Installation](#installation)
     <details>
+    <summary>Installation</summary>
 
     1. [Tomcat Installation](#tomcat-installation)
        <details>
