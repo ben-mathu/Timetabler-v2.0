@@ -1,9 +1,10 @@
 <details>
+<summary>Table of Content</summary>
 
-# <summary>Table of Content</summary>
+# Table of Content
 1. [Installation](#installation)
     <details>
-    <summary>Installation</summary>
+    <summary> Tomcat Installation</summary>
 
     1. [Tomcat Installation](#tomcat-installation)
        <details>
