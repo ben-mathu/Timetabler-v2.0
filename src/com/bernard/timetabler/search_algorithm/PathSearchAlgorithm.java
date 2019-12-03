@@ -19,6 +19,7 @@ import com.bernard.timetabler.search_algorithm.entities.Timeslot;
 import com.bernard.timetabler.search_algorithm.entities.TimeslotEdge;
 import com.bernard.timetabler.search_algorithm.entities.TimeslotNode;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 
 public class PathSearchAlgorithm {
 	private static final String TAG = PathSearchAlgorithm.class.getSimpleName();
@@ -65,9 +66,7 @@ public class PathSearchAlgorithm {
 	
 	public PathSearchAlgorithm() {
 		// initialize db
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		ct = new CreateSchemaTimeTabler("ben", "");
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("ben", "");
 		
 		// populate list daylist
 		dayList = new String[] {"Mon", "Tue", "Wen", "Thur", "Fri"};
@@ -103,7 +102,7 @@ public class PathSearchAlgorithm {
 			unit.setFacultyId(Constants.FACULTY_ID);
 			unit.setPractical(result.getBoolean(Constants.IS_PRACTICAL));
 			unit.setCommon(result.getBoolean(Constants.IS_COMMON));
-			
+
 			registeredUnits.add(unit);
 		}
 		
@@ -140,7 +139,8 @@ public class PathSearchAlgorithm {
 			classList = getListOfClasses();
 			int classCount = 0;
 			
-			next:for (int i = 0;;i++) {
+			for (int i = 0;;i++) {
+
 				unitsNotInTimetable.clear();
 				
 				for (Unit unit : unitList) {
@@ -202,7 +202,7 @@ public class PathSearchAlgorithm {
 						child1.setParent(currentNode);
 						String daykey = dayList[rand.nextInt(0, dayList.length - 1)];
 						String timeValue = currentNode.getItem().getTimeslot().get(daykey);
-						
+
 						if (timeValue == null) {
 							timeValue = "6";
 						} else {
@@ -251,12 +251,10 @@ public class PathSearchAlgorithm {
 						}
 					}
 				}
-				
+
 				if (!unitsNotInTimetable.isEmpty()) {
 					unitList.clear();
 					unitList.addAll(unitsNotInTimetable);
-					
-					continue next;
 				} else {
 					break;
 				}
@@ -303,7 +301,7 @@ public class PathSearchAlgorithm {
 		
 		return dayTime_ClassUnitsTimetable;
 	}
-	
+
 	private String getHallId(String classId) throws SQLException {
 		String hallId = "";
 		String query = "SELECT " + Constants.HALL_ID + " FROM " + Constants.TABLE_CLASSES
@@ -368,7 +366,7 @@ public class PathSearchAlgorithm {
 				Class cl = getRoom();
 				if (!classUnit.containsValue(n.getClassUnitMapping().get(unit.getId())) &&
 						Integer.parseInt(cl.getVolume()) >= studentIdList.size()) {
-					if (cl.getFacultyId() == unit.getFacultyId()) {
+					if (cl.getFacultyId().equals(unit.getFacultyId())) {
 						constraintValue -= 0.1;
 					}
 					

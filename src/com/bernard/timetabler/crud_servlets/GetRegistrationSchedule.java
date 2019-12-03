@@ -37,7 +37,8 @@ public class GetRegistrationSchedule extends HttpServlet {
 		
 		st = ct.getStatement();
 	}
-	
+
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if (request.getParameterMap().containsKey(Constants.LECTURER_ID)) {

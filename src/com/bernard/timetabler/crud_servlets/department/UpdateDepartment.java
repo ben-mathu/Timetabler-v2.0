@@ -15,6 +15,7 @@ import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.department.DepartmentRequest;
 import com.bernard.timetabler.utils.BufferRequest;
+import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 @WebServlet("/update-department")
 public class UpdateDepartment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = UpdateDepartment.class.getSimpleName();
 
 	private Statement statement;
 	
@@ -32,7 +34,7 @@ public class UpdateDepartment extends HttpServlet {
         
         statement = UtilCommonFunctions.initialize("ben", "");
     }
-    
+
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jsonRequest = BufferRequest.bufferRequest(request);
 		
@@ -69,8 +71,10 @@ public class UpdateDepartment extends HttpServlet {
 	private boolean updateDepart(DepartmentRequest req) throws SQLException {
 		String updateQuery = "UPDATE " + Constants.TABLE_DEPARTMENTS
 				+ " SET " + Constants.DEPARTMENT_NAME + "='" + req.getDepartment().getDepartmentName()+ "'"
-				+ " SET " + Constants.FACULTY_ID + "='" + req.getDepartment().getFacultyId() + "'"
-				+ " WHERE " + Constants.UNIT_ID + "='" + req.getDepartment().getDepartmentId() + "'";
+				+ "," + Constants.FACULTY_ID + "='" + req.getDepartment().getFacultyId() + "'"
+				+ " WHERE " + Constants.DEPARTMENT_ID + "='" + req.getDepartment().getDepartmentId() + "'";
+
+		Log.d(TAG, updateQuery);
 		
 		if (statement.executeUpdate(updateQuery) != 0) {
 			return true;

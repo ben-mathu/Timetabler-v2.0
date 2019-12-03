@@ -51,7 +51,8 @@ public class SetRegistrationDeadline extends HttpServlet {
     	
     	ct = new CreateSchemaTimeTabler("ben", "");
     }
-    
+
+    @Override
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		StringBuilder sb = new StringBuilder();
 		String line;

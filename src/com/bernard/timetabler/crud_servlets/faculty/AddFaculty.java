@@ -71,7 +71,8 @@ public class AddFaculty extends HttpServlet {
 		String insertQuery = "INSERT INTO " + Constants.TABLE_FACULTIES
 				+ " VALUES('" + id + "','"
 				+ req.getFaculty().getFacultyName() + "','"
-				+ req.getFaculty().getCampusId() + "')";
+				+ req.getFaculty().getCampusId() + "',"
+				+ req.getFaculty().isRemoved() + ")";
 		
 		if (statement.executeUpdate(insertQuery) > 0) {
 			return true;
