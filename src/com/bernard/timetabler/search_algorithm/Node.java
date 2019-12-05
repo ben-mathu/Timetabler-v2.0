@@ -62,7 +62,7 @@ public class Node<T> {
 	}
 	
 	public int getCount() {
-		int count = 0;
+		int count = 1;
 		Node<T> currNode = this.getParent();
 		
 		if (currNode == null) {

@@ -3,10 +3,9 @@ package com.bernard.timetabler.search_algorithm;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.bernard.timetabler.dbinit.Constants;
@@ -20,6 +19,8 @@ import com.bernard.timetabler.search_algorithm.entities.TimeslotEdge;
 import com.bernard.timetabler.search_algorithm.entities.TimeslotNode;
 import com.bernard.timetabler.utils.Log;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
+
+import javax.swing.text.DateFormatter;
 
 public class PathSearchAlgorithm {
 	private static final String TAG = PathSearchAlgorithm.class.getSimpleName();
@@ -63,16 +64,16 @@ public class PathSearchAlgorithm {
 	private String lecturerId;
 	
 	private String[] dayList;
-	
+
 	public PathSearchAlgorithm() {
 		// initialize db
 		statement = UtilCommonFunctions.initialize("ben", "");
-		
+
 		// populate list daylist
 		dayList = new String[] {"Mon", "Tue", "Wen", "Thur", "Fri"};
-		
+
 		rand = ThreadLocalRandom.current();
-		
+
 		try {
 			classList = getListOfClasses();
 		} catch (SQLException e) {
@@ -80,7 +81,12 @@ public class PathSearchAlgorithm {
 		}
 	}
 
-	// get a list of registered course
+	/**
+	 * get a list of registered courses
+	 *
+	 * @return registered units
+	 * @throws SQLException throws exception.
+	 */
 	public List<Unit> getRegisteredUnits() throws SQLException {
 		List<Unit> registeredUnits = new ArrayList<>();
 		
@@ -109,7 +115,12 @@ public class PathSearchAlgorithm {
 		Log.d(TAG, registeredUnits.size() + " Units");
 		return registeredUnits;
 	}
-	
+
+	/**
+	 * get list  of classes/rooms
+	 * @return list of rooms
+	 * @throws SQLException throws exception.
+	 */
 	public List<Class> getListOfClasses() throws SQLException {
 		List<Class> classList = new ArrayList<>();
 		
@@ -132,7 +143,12 @@ public class PathSearchAlgorithm {
 		Log.d(TAG, classList.size() + " units");
 		return  classList;
 	}
-	
+
+	/**
+	 * generates a timetable.
+	 * @param period semester whose timetable is being created.
+	 * @return hashmap containing a list of time slots generated.
+	 */
 	public HashMap<String, DayTimeUnit> pathFindingAlgorithm(String period) {
 		try {
 			List<Unit> unitList = getRegisteredUnits();
@@ -235,20 +251,22 @@ public class PathSearchAlgorithm {
 					// nodes can only have 2 nodes
 					if (nodeList.size() == 2 && !child1.isRoot()) {
 						if (nodeList.get(0).getFn() > nodeList.get(1).getFn()) {
-							nodeList.get(1).setParent(currentNode);
 							currentNode = nodeList.get(1);
 							
 							unitsNotInTimetable.add(nodeList.get(0).getItem().getUnit());
 							
 							nodeList.removeAll(nodeList);
 						} else {
-							nodeList.get(0).setParent(currentNode);
 							currentNode = nodeList.get(0);
 							
 							unitsNotInTimetable.add(nodeList.get(1).getItem().getUnit());
 							
 							nodeList.removeAll(nodeList);
 						}
+					} else if (nodeList.size() < 2 && !child1.isRoot() && unitList.indexOf(unit) == unitList.size() - 1) {
+						currentNode = nodeList.get(0);
+
+						nodeList.removeAll(nodeList);
 					}
 				}
 
@@ -265,8 +283,10 @@ public class PathSearchAlgorithm {
 			// weight of the edge is the duration of the lecture
 			
 			// print timetable
-			currentNode.toString();
-		
+			if (currentNode != null) {
+				currentNode.printToConsole();
+			}
+
 			List<TimeslotNode> nodes =  currentNode.getNodeList();
 			
 			for (TimeslotNode n : nodes) {
@@ -274,6 +294,7 @@ public class PathSearchAlgorithm {
 				for (String key : n.getItem().getTimeslot().keySet()) {
 					dayTimeUnit.setDayOfWeek(key);
 					dayTimeUnit.setTimeOfDay(n.getItem().getTimeslot().get(key));
+					dayTimeUnit.setPeriod(period);
 				}
 				
 				List<ClassUnit> classUnitList = new ArrayList<>();
@@ -282,7 +303,7 @@ public class PathSearchAlgorithm {
 					classUnit.setClassId(n.getClassUnitMapping().get(key));
 					classUnit.setDay(dayTimeUnit.getDayOfWeek());
 					classUnit.setHallId(getHallId(n.getClassUnitMapping().get(key)));
-					classUnit.setPeriod(null);
+					classUnit.setPeriod(period);
 					classUnit.setTime(dayTimeUnit.getTimeOfDay());
 					classUnit.setUnitId(n.getClassUnitMapping().get(key));
 					classUnitList.add(classUnit);
@@ -302,6 +323,22 @@ public class PathSearchAlgorithm {
 		return dayTime_ClassUnitsTimetable;
 	}
 
+	/**
+	 * get period the timetabler is created for.
+	 *
+	 * @return string for a period in the year.
+	 */
+	private String getPeriod() {
+		SimpleDateFormat sf = new SimpleDateFormat("MMM yyyy");
+		return sf.format(new Date());
+	}
+
+	/**
+	 * gets the hall id from the db.
+	 * @param classId to identify the hall.
+	 * @return string containing hall id.
+	 * @throws SQLException throws exception when something is wrong.
+	 */
 	private String getHallId(String classId) throws SQLException {
 		String hallId = "";
 		String query = "SELECT " + Constants.HALL_ID + " FROM " + Constants.TABLE_CLASSES
@@ -314,6 +351,11 @@ public class PathSearchAlgorithm {
 		return hallId;
 	}
 
+	/**
+	 * saves the classes for the time slots allocated.
+	 * @param dayTime_ClassUnitsTimetable hashmap containing time slots.
+	 * @throws SQLException throws exception when something goes wrong.
+	 */
 	private void saveClassUnits(HashMap<String, DayTimeUnit> dayTime_ClassUnitsTimetable) throws SQLException {
 		String del = "DELETE FROM " + Constants.TABLE_CLASS_UNITS;
 		statement.executeUpdate(del);
@@ -327,13 +369,18 @@ public class PathSearchAlgorithm {
 		}
 	}
 
+	/**
+	 * save time slots into table timetable.
+	 * @param dayTime_ClassUnitsTimetable
+	 * @throws SQLException throws exception when something goes wrong.
+	 */
 	private void saveGeneratedTimetable(HashMap<String, DayTimeUnit> dayTime_ClassUnitsTimetable) throws SQLException {
     	int count = 0;
     	String del = "DELETE FROM " + Constants.TABLE_TIMTABLE;
     	statement.executeUpdate(del);
 		for (Map.Entry<String, DayTimeUnit> map : dayTime_ClassUnitsTimetable.entrySet()) {
 			String addQuery = "INSERT INTO " + Constants.TABLE_TIMTABLE +
-					" VALUES ('Jan 2018/2019','" +
+					" VALUES ('"+ map.getValue().getPeriod() +"','" +
 					map.getValue().getDayOfWeek() + "','" +
 					map.getValue().getTimeOfDay() + "','" +
 					map.getKey() + "')";
@@ -344,8 +391,8 @@ public class PathSearchAlgorithm {
 		}
 	}
 
-	/*
-	 * Check
+	/**
+	 * Check constraints, and calculate the heuristic of each state.
 	 * 	1. room availability -
 	 *  2. room capacity does not exceed number of student
 	 * 	3. student conflict -
@@ -353,10 +400,13 @@ public class PathSearchAlgorithm {
 	 *  5. lecturer conflict -
 	 *  6. Full time
 	 *  7. Part Time
+	 *  8. timetable satisfies all constraints.
 	 *  
 	 *  0.1 priority class assigned to their faculty hall -
 	 *  0.2 practical class -
 	 *  0.3 common class -
+	 *
+	 *  subtract constraint to get
 	 */
 	private void calculateHeuristics(Unit unit) {
 		int count = 0;
@@ -447,6 +497,13 @@ public class PathSearchAlgorithm {
 		return c;
 	}
 
+	/**
+	 * get Lecturer from db from table lecturer_units.
+	 *
+	 * @param id unit id
+	 * @return
+	 * @throws SQLException
+	 */
 	private List<String> getLecturerByUnitId(String id) throws SQLException {
 		lecturerIdList = new ArrayList<>();
 		
@@ -460,6 +517,12 @@ public class PathSearchAlgorithm {
 		return lecturerIdList;
 	}
 
+	/**
+	 * get number of student doing a particular unit.
+	 *
+	 * @param unit unit registered by the student.
+	 * @throws SQLException throws exception if an sql error occurs.
+	 */
 	private void getNumberOfStudentsForClass(Unit unit) throws SQLException {
 		int count = 0;
 		studentIdList = new ArrayList<>();
@@ -479,6 +542,6 @@ public class PathSearchAlgorithm {
 	
 	public static void main(String[] args) {
 		PathSearchAlgorithm pa = new PathSearchAlgorithm();
-		pa.pathFindingAlgorithm("sine");
+		pa.pathFindingAlgorithm(pa.getPeriod());
 	}
 }

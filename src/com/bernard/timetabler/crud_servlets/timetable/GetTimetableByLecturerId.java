@@ -19,6 +19,7 @@ import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.bernard.timetabler.dbinit.model.room.Class;
 import com.bernard.timetabler.utils.Log;
+import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -35,11 +36,7 @@ public class GetTimetableByLecturerId extends HttpServlet {
 	private List<Table> list;
 	
 	public GetTimetableByLecturerId() {
-		CreateSchemaTimeTabler.setDatabase(Constants.DATABASE_NAME);
-		
-		CreateSchemaTimeTabler ct = new CreateSchemaTimeTabler("ben", "");
-		
-		statement = ct.getStatement();
+		statement = UtilCommonFunctions.initialize("ben", "");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,7 +74,8 @@ public class GetTimetableByLecturerId extends HttpServlet {
 	private List<Table> queryTimetableByLecturerId(String userId) throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY + ",tt." + Constants.UNIT_ID +
+		String query = "SELECT DISTINCT tt." + Constants.UNIT_ID + ",tt." + Constants.PERIOD + "," +
+				"tt." + Constants.TIME + ",tt." + Constants.DAY +
 				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
 				"INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " tu " +
 				"ON tt." + Constants.UNIT_ID + "=tu." + Constants.UNIT_ID +

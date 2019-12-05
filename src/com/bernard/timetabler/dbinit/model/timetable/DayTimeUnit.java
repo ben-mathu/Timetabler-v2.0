@@ -10,11 +10,13 @@ public class DayTimeUnit {
     private boolean isFinal = false;
     private List<ClassUnit> classUnits;
     private ClassUnit roomUnit;
+    private String period;
 
-    public DayTimeUnit(String dayOfWeek, String timeOfDay, boolean isFinal) {
+    public DayTimeUnit(String dayOfWeek, String timeOfDay, boolean isFinal, String period) {
         this.dayOfWeek = dayOfWeek;
         this.timeOfDay = timeOfDay;
         this.isFinal = isFinal;
+        this.period = period;
     }
 
     public DayTimeUnit() {
@@ -51,4 +53,12 @@ public class DayTimeUnit {
     public ClassUnit getRoomUnit() {
 		return roomUnit;
 	}
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
 }

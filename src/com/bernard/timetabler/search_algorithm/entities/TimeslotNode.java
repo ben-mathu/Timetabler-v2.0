@@ -122,12 +122,11 @@ public class TimeslotNode extends Node<Timeslot> {
 	public double getFn() {
 		return fn;
 	}
-	
-	@Override
-	public String toString() {
+
+	public String printToConsole() {
 		int count = this.getCount();
 		StringBuilder str = new StringBuilder();
-		
+
 		str.append("Number of nodes: " + getCount() + "\n");
 		str.append("Time\n");
 		for (int i = 0; i < count; i++) {
