@@ -41,7 +41,7 @@
 	  </dependency>
   </dependencies>
   <build>
-    <finalName>timetabler</finalName>
+    <finalName>timetabler-1.0.0</finalName>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <plugins>
