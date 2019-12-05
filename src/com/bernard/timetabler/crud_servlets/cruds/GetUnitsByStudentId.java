@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Unit;
-import com.bernard.timetabler.dbinit.model.UnitList;
+import com.bernard.timetabler.dbinit.model.course.Unit;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -56,7 +55,6 @@ public class GetUnitsByStudentId extends HttpServlet {
 			writer.write(jsonResponse);
 			
 		} catch (SQLException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,7 +72,8 @@ public class GetUnitsByStudentId extends HttpServlet {
 		String unitQuery = "SELECT * FROM " + Constants.TABLE_UNITS + " un"
 						+ " INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su"
 						+ " ON un." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID
-						+ " WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+						+ " WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'"
+						+ " AND su." + Constants.IS_REMOVED + "=0";
 		ResultSet resultSet = statement.executeQuery(unitQuery);
 		while (resultSet.next()) {
 			Unit unit = new Unit();

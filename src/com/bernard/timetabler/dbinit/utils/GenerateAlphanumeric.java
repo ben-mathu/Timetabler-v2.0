@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GenerateAlphanumeric {
-    private static String alphaNum = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private static String alphaNum = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
     private static String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static String num = "1234567890";
     private static final Random rand = ThreadLocalRandom.current();

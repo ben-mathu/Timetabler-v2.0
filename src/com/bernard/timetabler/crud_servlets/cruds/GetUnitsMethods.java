@@ -8,9 +8,11 @@ import java.sql.Statement;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Unit;
+import com.bernard.timetabler.dbinit.model.course.Unit;
+import com.bernard.timetabler.utils.Log;
 
 public class GetUnitsMethods {
+	private static final String TAG = GetUnitsMethods.class.getSimpleName();
 	private Statement statement;
 	
 	private List<Unit> unitList;
@@ -24,13 +26,15 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByStudentId (String studentId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
+		String unitsQuery = "SELECT DISTINCT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
 				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
-				" FROM " + Constants.TABLE_UNITS +
-				" un INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
+				",un." + Constants.IS_COMMON +
+				" FROM " + Constants.TABLE_UNITS + " un" +
+				" INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON un." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
-				" WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+				" WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'"
+				+ " AND su." + Constants.IS_REMOVED + "=0";
 		
 		ResultSet resultSet = statement.executeQuery(unitsQuery);
 		
@@ -42,6 +46,7 @@ public class GetUnitsMethods {
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
 			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
+			unit.setCommon(resultSet.getBoolean(Constants.IS_COMMON));
 			unitList.add(unit);
 		}
 		
@@ -51,13 +56,15 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByLecturerId(String lecturerId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
+		String unitsQuery = "SELECT DISTINCT un." + Constants.UNIT_ID + ",un." + Constants.UNIT_NAME +
 				", un." + Constants.PROGRAMME_ID + ",un." + Constants.FACULTY_ID +
 				",un." + Constants.IS_PRACTICAL + ",un." + Constants.DEPARTMENT_ID +
-				" FROM " + Constants.TABLE_UNITS +
-				" un INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu " +
-				"ON un." + Constants.UNIT_ID + "=lu." + Constants.UNIT_ID +
-				" WHERE lu." + Constants.STUDENT_ID + "='" + lecturerId + "'";
+				",un." + Constants.IS_COMMON +
+				" FROM " + Constants.TABLE_UNITS + " un" +
+				" INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu " +
+				"ON lu." + Constants.UNIT_ID + "=un." + Constants.UNIT_ID +
+				" WHERE lu." + Constants.LECTURER_ID + "='" + lecturerId + "'"
+				+ " AND lu." + Constants.IS_REMOVED + "=0";
 		
 		ResultSet resultSet = statement.executeQuery(unitsQuery);
 		
@@ -69,6 +76,7 @@ public class GetUnitsMethods {
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
 			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
+			unit.setCommon(resultSet.getBoolean(Constants.IS_COMMON));
 			unitList.add(unit);
 		}
 		
@@ -78,7 +86,7 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByProgrammeId(String programmeId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitsQuery = "SELECT * FROM " + Constants.TABLE_UNITS +
+		String unitsQuery = "SELECT DISTINCT * FROM " + Constants.TABLE_UNITS +
 				" WHERE " + Constants.PROGRAMME_ID + "='" + programmeId + "'"; 
 		
 		ResultSet resultSet = statement.executeQuery(unitsQuery);
@@ -91,6 +99,7 @@ public class GetUnitsMethods {
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
 			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
+			unit.setCommon(resultSet.getBoolean(Constants.IS_COMMON));
 			unitList.add(unit);
 		}
 		return unitList;
@@ -99,8 +108,16 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByDepartment(String departmentId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitQuery = "SELECT * FROM " + Constants.TABLE_UNITS +
-				" WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'";
+		String unitQuery = "SELECT DISTINCT "
+				+ Constants.UNIT_ID + "," + Constants.UNIT_NAME + "," + Constants.PROGRAMME_ID
+				+ "," + Constants.FACULTY_ID + "," + Constants.DEPARTMENT_ID
+				+ "," + Constants.IS_PRACTICAL
+				+ "," + Constants.IS_COMMON
+				+ " FROM " + Constants.TABLE_UNITS
+				+ " WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'"
+				+ " AND " + Constants.IS_REMOVED + "=0";
+		
+		Log.d(TAG, "Query " + unitQuery);
 		
 		ResultSet resultSet = statement.executeQuery(unitQuery);
 		
@@ -112,6 +129,7 @@ public class GetUnitsMethods {
 			unit.setProgrammeId(resultSet.getString(Constants.PROGRAMME_ID));
 			unit.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
 			unit.setUnitName(resultSet.getString(Constants.UNIT_NAME));
+			unit.setCommon(resultSet.getBoolean(Constants.IS_COMMON));
 			unitList.add(unit);
 		}
 		return unitList;

@@ -32,7 +32,7 @@ public class Constants {
     // Lecturers
     public static final String TABLE_LECTURERS = "lecturers";
     public static final String LECTURER_ID = "lecturer_id";
-    public static final String ROLE = "user_role";
+    public static final String ROLE = "role";
 
     // Programmes
     public static final String TABLE_PROGRAMMES = "programmes";
@@ -49,14 +49,22 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String IN_SESSION = "in_session";
     public static final String YEAR_OF_STUDY = "year_of_study";
+    public static final String ADMISSION_DATE = "admission_date";
 
     // Units
     public static final String TABLE_UNITS = "units";
     public static final String UNIT_ID = "unit_id";
     public static final String UNIT_NAME = "unit_name";
+	public static final String IS_COMMON = "is_common";
+	public static final String IS_LAB = "is_lab";
+    public static final String IS_PRACTICAL = "is_practical";
+
+    // stored procedure
+    public static final String TIME_TABLE_FOR_LECTURER = "GetTimetableForLecturer";
+    public static final String TIME_TABLE_FOR_STUDENTS = "GetTimetableForStudent";
 
     // Lecturers Programmes
-    public static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
+    static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
 
     // Class units
     public static final String TABLE_CLASS_UNITS = "class_units";
@@ -66,9 +74,6 @@ public class Constants {
 
     // Student units
     public static final String TABLE_STUDENT_UNITS = "student_units";
-    public static final String ADMISSION_DATE = "admission_date";
-    public static final String IS_LAB = "is_lab";
-    public static final String IS_PRACTICAL = "is_practical";
     
     // other parameters
     public static final String MESSAGE = "message";
@@ -97,10 +102,25 @@ public class Constants {
 
 	public static final String UNIT = "unit";
 
-	public static final String STARTDATE = "start_date";
-	public static final String DEADLINE = "deadline";
+    public static final String TABLE_SCHEDULE = "schedule_unit_registration";
+    public static final String SCHEDULE_ID = "schedule_id";
+    public static final String STARTDATE = "start_date";
+    public static final String DEADLINE = "deadline";
+    public static final String ACTIVITY = "activity";
 
-	public static final String TABLE_SCHEDULE = "schedule_unit_registration";
+
+	public static final String TABLE_SCHEDULE_LEC = "schedule_lec";
+
+	public static final String IS_REMOVED = "is_removed";
+
+	public static final String EMAIL = "email";
+
+    public static final String USER_ID = "user_id";
+    public static final String MESSAGE_SUCCESS = "Successfully updated.";
+    public static final String DELETED_ACCOUNT_MESSAGE = "Account deleted successfully";
+    public static final String OTHER_ISSUE = "Please contact the administrator to resolve the issue.\n";
+    public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm:ss.SSS";
+
     public static class ENV {
         public static final String DEV = "dev";
     }

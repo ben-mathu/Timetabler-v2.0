@@ -2,9 +2,15 @@ package com.bernard.timetabler.generate_tt;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.GenerateEntityData;
-import com.bernard.timetabler.dbinit.model.*;
-import com.bernard.timetabler.dbinit.model.Class;
+import com.bernard.timetabler.dbinit.PopulateDb;
+import com.bernard.timetabler.dbinit.model.faculty.Faculty;
+import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
+import com.bernard.timetabler.dbinit.model.relationships.ClassUnit;
+import com.bernard.timetabler.dbinit.model.relationships.LecturerUnit;
+import com.bernard.timetabler.dbinit.model.relationships.StudentUnit;
+import com.bernard.timetabler.dbinit.model.room.Class;
+import com.bernard.timetabler.dbinit.model.timetable.DayTimeUnit;
+import com.bernard.timetabler.utils.Log;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TimeTableGenerator {
+	private static final String TAG = TimeTableGenerator.class.getSimpleName();
     private ThreadLocalRandom rand;
 
     private List<Class> classes;
@@ -54,7 +61,8 @@ public class TimeTableGenerator {
     public void getStudentUnits() throws SQLException {
 
         System.out.println("Querying " + Constants.TABLE_STUDENT_UNITS);
-        String strStudentUnitQuery = "SELECT * FROM " + Constants.TABLE_STUDENT_UNITS;
+        String strStudentUnitQuery = "SELECT DISTINCT(" + Constants.UNIT_ID + ")," + Constants.STUDENT_ID + "," + Constants.IS_REMOVED + " FROM " + Constants.TABLE_STUDENT_UNITS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + 0;
 
         ResultSet resultSet = statement.executeQuery(strStudentUnitQuery);
 
@@ -63,14 +71,18 @@ public class TimeTableGenerator {
             StudentUnit su = new StudentUnit();
             su.setStudentId(resultSet.getString(Constants.STUDENT_ID));
             su.setUnitId(resultSet.getString(Constants.UNIT_ID));
+            su.setIsRemoved(resultSet.getBoolean(Constants.IS_REMOVED));
             studentUnits.add(su);
         }
+        
+        Log.d(TAG, studentUnits.size() + " student - units Records obtained");
     }
 
     public void getLecturerUnits() throws SQLException {
 
         System.out.println("Querying " + Constants.TABLE_LECTURER_UNITS);
-        String strLecturerUnitsQuery = "SELECT * FROM " + Constants.TABLE_LECTURER_UNITS;
+        String strLecturerUnitsQuery = "SELECT * FROM " + Constants.TABLE_LECTURER_UNITS
+        		+ " WHERE " + Constants.IS_REMOVED + "=" + 0;
 
         ResultSet resultSet = statement.executeQuery(strLecturerUnitsQuery);
 
@@ -79,6 +91,7 @@ public class TimeTableGenerator {
             LecturerUnit lu = new LecturerUnit();
             lu.setLecturerId(resultSet.getString(Constants.LECTURER_ID));
             lu.setUnitId(resultSet.getString(Constants.UNIT_ID));
+            lu.setRemoved(resultSet.getBoolean(Constants.IS_REMOVED));
             lecturerUnits.add(lu);
         }
     }
@@ -89,7 +102,7 @@ public class TimeTableGenerator {
      *
      * @param n describe the number of days to set for the timetable
      */
-    public HashMap<DayTimeUnit, String> generateTimeTable(int n, String semester) {
+    public HashMap<String, DayTimeUnit> generateTimeTable(int n, String semester) {
         System.out.println("Initializing...");
 
         rand = ThreadLocalRandom.current();
@@ -134,7 +147,7 @@ public class TimeTableGenerator {
          *              lbl2
          */
 
-        HashMap<DayTimeUnit, String> dayTime_ClassUnitsTimetable =  new HashMap<>();
+        HashMap<String, DayTimeUnit> dayTime_ClassUnitsTimetable =  new HashMap<>();
         List<ClassUnit> classUnits = new ArrayList<ClassUnit>();
 
         int count = 0;
@@ -167,14 +180,16 @@ public class TimeTableGenerator {
                         classUnit.setHallId(hallId.get(0));
                         classUnits.add(classUnit);
                     }
+                    
 
                     if (i != dayTimeUnits.size() - 1) {
-                        if (!dayTime_ClassUnitsTimetable.containsValue(unitId)) {
+                        if (!dayTime_ClassUnitsTimetable.containsKey(unitId)) {
                             // get lecturer who teaches the unit
                             List<Lecturer> lecturers = getLecturer(unitId);
+                            Log.d(TAG, "lecs" + lecturers.size());
                             if (!lecturers.isEmpty()) {
                             	if (i < dayTimeUnits.size()) {
-                            		dayTime_ClassUnitsTimetable.put(dayTimeUnits.get(i), unitId);
+                            		dayTime_ClassUnitsTimetable.put(unitId, dayTimeUnits.get(i));
                             	}
 //                                dayTimeUnits.remove(dayTimeUnit);
                                 timeSlotCount++;
@@ -199,7 +214,6 @@ public class TimeTableGenerator {
         // 	Save class-unit relationship
 			saveClassUnitRelationship(classUnits);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return dayTime_ClassUnitsTimetable;
@@ -245,6 +259,9 @@ public class TimeTableGenerator {
                 " INNER JOIN " + Constants.TABLE_LECTURERS + " lec" +
                 " ON lu." + Constants.LECTURER_ID + "=lec." + Constants.LECTURER_ID +
                 " WHERE lu." + Constants.UNIT_ID + "='" + unitId + "'";
+        
+        Log.d(TAG, "Query: " + query);
+        
         try {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -255,7 +272,7 @@ public class TimeTableGenerator {
                     lecturer.setLastName(resultSet.getString(Constants.L_NAME));
                     lecturer.setMiddleName(resultSet.getString(Constants.M_NAME));
                     lecturer.setDepartmentId(resultSet.getString(Constants.DEPARTMENT_ID));
-                    lecturer.setInSesson(resultSet.getBoolean(Constants.IN_SESSION));
+                    lecturer.setInSession(resultSet.getBoolean(Constants.IN_SESSION));
                     lecturers.add(lecturer);
                 }
             }
@@ -369,9 +386,7 @@ public class TimeTableGenerator {
     private List<String> getRegisteredUnits() {
         List<String> units = new ArrayList<String>();
         for (StudentUnit studentUnit : studentUnits) {
-            if (!units.contains(studentUnit.getUnitId())) {
-                units.add(studentUnit.getUnitId());
-            }
+            units.add(studentUnit.getUnitId());
         }
         return units;
     }
@@ -401,19 +416,31 @@ public class TimeTableGenerator {
      * @param period the semester the application is created for
      * @throws SQLException 
      */
-    private void saveGeneratedTimetable(HashMap<DayTimeUnit, String> timetable, String period) throws SQLException {
+    private void saveGeneratedTimetable(HashMap<String, DayTimeUnit> timetable, String period) throws SQLException {
     	int count = 0;
-    	for (HashMap.Entry<DayTimeUnit, String> timetableItem : timetable.entrySet()) {
+    	// clear entries for the period specified
+    	String delQuery = "DELETE FROM " + Constants.TIMETABLES + " WHERE " + Constants.PERIOD + "='" + period + "'";
+    	int items = statement.executeUpdate(delQuery);
+    	
+    	Log.d(TAG, "Items modified " + items);
+    	
+    	for (HashMap.Entry<String, DayTimeUnit> timetableItem : timetable.entrySet()) {
     		String updateTimetable = "INSERT INTO " + Constants.TIMETABLES +
-        			" VALUES ('" + period + "','" + timetableItem.getKey().getDayOfWeek() + 
-        			" " + timetableItem.getKey().getTimeOfDay() +
-        			"','" + timetableItem.getValue() + "')";
-    		count = statement.executeUpdate(updateTimetable);
+        			" VALUES ('" + period + "','"+ timetableItem.getValue().getTimeOfDay() +
+        			"','"  + timetableItem.getValue().getDayOfWeek() + 
+        			"','" + timetableItem.getKey() + "')";
+    		count += statement.executeUpdate(updateTimetable);
 		}
+    	
+    	Log.d(TAG, "Number of slots created " + count);
     }
     
     private void saveClassUnitRelationship(List<ClassUnit> classUnitList) throws SQLException {
-    	GenerateEntityData gen = new GenerateEntityData();
-    	gen.populateClassUnits(classUnitList);
+    	PopulateDb gen = new PopulateDb();
+    	if (gen.populateClassUnits(classUnitList)) {
+    		Log.d(TAG, "Successfully saved");
+    	} else {
+    		Log.d(TAG, "no records were save");
+    	}
     }
 }

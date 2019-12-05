@@ -1,6 +1,6 @@
 package com.bernard.timetabler.crud_servlets.client;
 
-import com.bernard.timetabler.dbinit.model.Lecturer;
+import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.google.gson.annotations.SerializedName;
 
 public class ClientRegisterUserTest {
@@ -14,7 +14,6 @@ public class ClientRegisterUserTest {
 		private Lecturer lecturer;
 		
 		public LecturerResponse() {
-			// TODO Auto-generated constructor stub
 		}
 		
 		public Lecturer getLecturer() {
@@ -32,7 +31,7 @@ public class ClientRegisterUserTest {
 		lecturer.setPassword("help");
 		lecturer.setDepartmentId("od99e");
 		lecturer.setFacultyId("oisjd884");
-		lecturer.setProgrammeId("oosj8e9f");
+//		lecturer.setProgrammeId("oosj8e9f");
 		ClientRegisterUserTest clientRegTest = new ClientRegisterUserTest(lecturer);
 		
 		
