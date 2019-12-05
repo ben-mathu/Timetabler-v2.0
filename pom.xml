@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Timetabler-v2.0</groupId>
   <artifactId>Timetabler-v2.0</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>war</packaging>
   <name>TimetablerSchedulingSystemApi</name>
   <description>Server system to manage APIs and the business logic.</description>
