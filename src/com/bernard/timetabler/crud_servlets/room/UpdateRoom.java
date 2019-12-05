@@ -69,9 +69,9 @@ public class UpdateRoom extends HttpServlet {
 	private boolean updateRoom(RoomRequest req) throws SQLException {
 		String updateQuery = "UPDATE " + Constants.TABLE_CLASSES
 				+ " SET " + Constants.CLASS_ID + "='" + req.getRoom().getId() + "'"
-				+ " SET " + Constants.FACULTY_ID + "='" + req.getRoom().getFacultyId() + "'"
-				+ " SET " + Constants.HALL_ID + "='" + req.getRoom().getHall_id() + "'"
-				+ " SET " + Constants.VOLUME + "='" + req.getRoom().getVolume() + "'"
+				+ " , " + Constants.FACULTY_ID + "='" + req.getRoom().getFacultyId() + "'"
+				+ " , " + Constants.HALL_ID + "='" + req.getRoom().getHall_id() + "'"
+				+ " , " + Constants.VOLUME + "='" + req.getRoom().getVolume() + "'"
 				+ " WHERE " + Constants.CLASS_ID + "='" + req.getRoom().getId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

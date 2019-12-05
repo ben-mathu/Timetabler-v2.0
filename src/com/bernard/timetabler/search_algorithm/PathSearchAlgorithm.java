@@ -195,7 +195,7 @@ public class PathSearchAlgorithm {
 					
 					if (child1.isRoot() && currentNode == null) {
 						String daykey = dayList[rand.nextInt(0, dayList.length - 1)];
-						timeslotMap.put(daykey, "6");
+						timeslotMap.put(daykey, "8");
 						child1.getItem().setTimeslot(timeslotMap);
 						currentNode = child1;
 					} else {
@@ -438,13 +438,13 @@ public class PathSearchAlgorithm {
 	}
 
 	private Class getRoom() {
-		Class cla = new Class();
+		Class c = new Class();
 		for (Class cl : classList) {
 			if (cl.getId().equals(classId)) {
-				cla = cl;
+				c = cl;
 			}
 		}
-		return cla;
+		return c;
 	}
 
 	private List<String> getLecturerByUnitId(String id) throws SQLException {

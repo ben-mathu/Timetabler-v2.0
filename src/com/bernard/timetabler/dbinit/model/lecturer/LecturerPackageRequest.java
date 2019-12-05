@@ -1,5 +1,6 @@
 package com.bernard.timetabler.dbinit.model.lecturer;
 
+import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.model.department.Department;
 import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.google.gson.annotations.SerializedName;
@@ -10,9 +11,9 @@ import com.google.gson.annotations.SerializedName;
 public class LecturerPackageRequest {
     @SerializedName("lecturer")
     private Lecturer lecturer;
-    @SerializedName("faculty")
+    @SerializedName(Constants.TABLE_FACULTIES)
     private Faculty faculty;
-    @SerializedName("department")
+    @SerializedName(Constants.TABLE_DEPARTMENTS)
     private Department department;
 
     public Faculty getFaculty() {

@@ -66,7 +66,7 @@ public class Node<T> {
 		Node<T> currNode = this.getParent();
 		
 		if (currNode == null) {
-			return 0;
+			return 1;
 		} else {
 			for (int i = 0; ; i++) {
 				if (currNode.getParent() == null) {

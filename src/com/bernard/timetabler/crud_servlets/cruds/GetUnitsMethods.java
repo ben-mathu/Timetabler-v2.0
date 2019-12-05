@@ -108,16 +108,14 @@ public class GetUnitsMethods {
 	public List<Unit> getUnitsByDepartment(String departmentId) throws SQLException {
 		unitList = new ArrayList<>();
 		
-		String unitQuery = "SELECT DISTINCT tu."
-				+ Constants.UNIT_ID + ",tu." + Constants.UNIT_NAME + ",tu." + Constants.PROGRAMME_ID
-				+ ",tu." + Constants.FACULTY_ID + ",tu." + Constants.DEPARTMENT_ID
-				+ ",tu." + Constants.IS_PRACTICAL
-				+ ",tu." + Constants.IS_COMMON
-				+ " FROM " + Constants.TABLE_UNITS + " tu "
-				+ "INNER JOIN " + Constants.TABLE_LECTURER_UNITS + " lu "
-				+ "ON tu." + Constants.UNIT_ID + "=lu." + Constants.UNIT_ID
-				+ " WHERE tu." + Constants.DEPARTMENT_ID + "='" + departmentId + "'"
-				+ " AND lu." + Constants.IS_REMOVED + "=0";
+		String unitQuery = "SELECT DISTINCT "
+				+ Constants.UNIT_ID + "," + Constants.UNIT_NAME + "," + Constants.PROGRAMME_ID
+				+ "," + Constants.FACULTY_ID + "," + Constants.DEPARTMENT_ID
+				+ "," + Constants.IS_PRACTICAL
+				+ "," + Constants.IS_COMMON
+				+ " FROM " + Constants.TABLE_UNITS
+				+ " WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'"
+				+ " AND " + Constants.IS_REMOVED + "=0";
 		
 		Log.d(TAG, "Query " + unitQuery);
 		

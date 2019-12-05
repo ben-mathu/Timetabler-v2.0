@@ -82,6 +82,8 @@ public class GetTimetableByStudentId extends HttpServlet {
 				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
 				" WHERE su." + Constants.STUDENT_ID + "='" + studentId + "'";
+
+//		String query = "CALL "  + Constants.TIME_TABLE_FOR_STUDENTS + "('" + studentId + "')";
 		
 		Log.d(TAG, "Query: " + query);
 		

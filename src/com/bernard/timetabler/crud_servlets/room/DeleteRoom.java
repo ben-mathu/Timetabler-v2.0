@@ -67,8 +67,7 @@ public class DeleteRoom extends HttpServlet {
 	}
 
 	private boolean deleteRoom(RoomRequest req) throws SQLException{
-		String updateQuery = "UPDATE " + Constants.TABLE_CLASSES
-				+ " SET " + Constants.IS_REMOVED + "=" + true
+		String updateQuery = "DELETE FROM " + Constants.TABLE_CLASSES
 				+ " WHERE " + Constants.CLASS_ID + "='" + req.getRoom().getId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

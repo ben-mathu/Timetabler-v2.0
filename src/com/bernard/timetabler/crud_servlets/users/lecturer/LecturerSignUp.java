@@ -93,8 +93,7 @@ public class LecturerSignUp extends HttpServlet {
 				"'," + Constants.FACULTY_ID + "='"+ lecturer.getLecturer().getFacultyId() +
 				"'," + Constants.DEPARTMENT_ID + "='" + lecturer.getLecturer().getDepartmentId() +
 				"'," + Constants.IN_SESSION + "=" + lecturer.getLecturer().isInSesson() +
-				"," + Constants.LECTURER_ID + "='" + lecturer.getLecturer().getId() +
-				"' WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'" +
+				" WHERE " + Constants.EMAIL + "='" + lecturer.getLecturer().getEmail() + "'" +
 				" AND " + Constants.IS_REMOVED + "=" + false;
 		
 		Log.d(TAG, "update statement: " + insertStatement);

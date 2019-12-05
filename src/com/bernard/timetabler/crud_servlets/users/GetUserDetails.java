@@ -69,6 +69,7 @@ public class GetUserDetails extends HttpServlet {
                 LecturerPackageRequest response = getLecturer(userId);
 
                 jsonResponse = gson.toJson(response);
+                Log.d(TAG, "Json Response: " + jsonResponse);
 
                 writer.write(jsonResponse);
 
@@ -144,7 +145,7 @@ public class GetUserDetails extends HttpServlet {
         Campus campus = new Campus();
 
         String query = "SELECT * FROM " + Constants.TABLE_CAMPUS +
-                " WHERE " + Constants.LECTURER_ID + "='" + campusId + "'" +
+                " WHERE " + Constants.CAMPUS_ID + "='" + campusId + "'" +
                 " AND " + Constants.IS_REMOVED + "=" + false;
 
         ResultSet resultSet = statement.executeQuery(query);
@@ -182,6 +183,7 @@ public class GetUserDetails extends HttpServlet {
         LecturerPackageRequest response = new LecturerPackageRequest();
         response.setFaculty(getFaculty(lecturer.getFacultyId()));
         response.setDepartment(getDepartment(lecturer.getDepartmentId()));
+        response.setLecturer(lecturer);
 
         return response;
     }
@@ -208,7 +210,7 @@ public class GetUserDetails extends HttpServlet {
         Department dep = new Department();
 
         String query = "SELECT * FROM " + Constants.TABLE_DEPARTMENTS +
-                " WHERE " + Constants.LECTURER_ID + "='" + departmentId + "'" +
+                " WHERE " + Constants.DEPARTMENT_ID + "='" + departmentId + "'" +
                 " AND " + Constants.IS_REMOVED + "=" + false;
 
         ResultSet resultSet = statement.executeQuery(query);

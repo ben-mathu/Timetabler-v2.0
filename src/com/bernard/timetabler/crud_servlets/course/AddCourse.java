@@ -77,6 +77,7 @@ public class AddCourse extends HttpServlet {
                 "', '" + unit.getDepartmentId() +
                 "', " + unit.isPractical() +
                 ", " + unit.isCommon() +
+                ", " + unit.isRemoved() +
                 ")";
 		if (statement.executeUpdate(strQuery) != 0)
 			return true;

@@ -81,6 +81,7 @@ public class AddRoom extends HttpServlet {
                 "', '" + room.getVolume() +
                 "', " + room.isAvailability() +
                 ", " + room.isLab() +
+                ", " + room.isRemoved() +
                 ")";
 		if (statement.executeUpdate(strQuery) != 0)
 			return true;

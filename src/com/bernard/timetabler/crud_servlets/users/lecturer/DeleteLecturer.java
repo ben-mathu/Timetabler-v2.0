@@ -77,8 +77,7 @@ public class DeleteLecturer extends HttpServlet {
      * @see com.bernard.timetabler.dbinit.model.lecturer.Lecturer
      */
     private boolean deleteLecturer(LecturerRequest lecRequest) throws SQLException {
-        String updateQuery ="UPDATE " + Constants.TABLE_LECTURERS
-                + " SET " + Constants.IS_REMOVED + "=" + true
+        String updateQuery ="DELETE FROM " + Constants.TABLE_LECTURERS
                 + " WHERE " + Constants.LECTURER_ID + "='" + lecRequest.getLecturer().getId() + "'";
         return statement.executeUpdate(updateQuery) != 0;
     }

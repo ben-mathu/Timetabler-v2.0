@@ -45,6 +45,7 @@ public class CreateSchemaTimeTabler {
     }
 
     public static void createSchema(String env) {
+        int countResult = 0;
         try {
         	// Update the db
         	if (database.isEmpty()) {
@@ -62,8 +63,8 @@ public class CreateSchemaTimeTabler {
 
             System.out.println("Deleting database " + Constants.DATABASE_NAME + "...");
             String dropSchema = "DROP DATABASE IF EXISTS " + Constants.DATABASE_NAME;
-            int countResult = statement.executeUpdate(dropSchema);
-            System.out.println("Database created. Result: " + countResult + " affected");
+            countResult = statement.executeUpdate(dropSchema);
+            System.out.println("Database deleted. Result: " + countResult + " affected");
 
             System.out.println("Creating a database...");
             String createSchema = "CREATE DATABASE IF NOT EXISTS timetabler";
@@ -75,7 +76,6 @@ public class CreateSchemaTimeTabler {
             System.out.println("Select a database");
             String dbStatement = "USE " + Constants.DATABASE_NAME;
             countResult = statement.executeUpdate(dbStatement);
-            System.out.println("Database " + Constants.DATABASE_NAME + " created, result: " + countResult + " affected.");
 
             database = Constants.DATABASE_NAME;
 
@@ -208,7 +208,7 @@ public class CreateSchemaTimeTabler {
                     Constants.M_NAME + " VARCHAR(25)," +
                     Constants.USERNAME + " VARCHAR(25) UNIQUE," +
                     Constants.PASSWORD + " VARCHAR(255)," +
-                    Constants.EMAIL + " VARCHAR(255) UNIQUE," +
+                    Constants.EMAIL + " VARCHAR(255)," +
                     Constants.FACULTY_ID + " VARCHAR(10)," +
                     Constants.DEPARTMENT_ID + " VARCHAR(10)," +
                     Constants.IN_SESSION + " BOOLEAN," +
@@ -457,6 +457,48 @@ public class CreateSchemaTimeTabler {
 			Log.d(TAG, "Created table " + Constants.TABLE_SCHEDULE_LEC + " Result: " + countResult);
 			
 			System.out.println();
+
+//            DELIMITER //
+//            USE `timetabler`//
+//            CREATE PROCEDURE GetTimetableForLecturer()
+//            BEGIN
+//            SELECT period, time, day, tt.unit_id, lu.lecturer_id FROM timetables tt
+//            INNER JOIN lecturer_units lu
+//            ON tt.unit_id=lu.unit_id;
+//            END//
+//
+//                    DELIMITER ;
+//            String timetableForLecturer = " CREATE PROCEDURE "+Constants.TIME_TABLE_FOR_LECTURER+"(IN id CHAR(25)) " +
+//                    " BEGIN " +
+//                    " SELECT DISTINCT "+Constants.PERIOD+", "+Constants.TIME+", " + Constants.DAY+", " +
+//                    "tt."+Constants.UNIT_ID+", " +
+//                    "lu." + Constants.LECTURER_ID+", cu."+Constants.CLASS_ID+ " " +
+//                    "FROM "+Constants.TABLE_TIMTABLE+" tt " +
+//                    "INNER JOIN "+Constants.TABLE_LECTURER_UNITS+" lu " +
+//                    "ON tt."+Constants.UNIT_ID+"=lu."+Constants.UNIT_ID+" " +
+//                    "INNER JOIN "+Constants.TABLE_CLASS_UNITS+" cu " +
+//                    "ON tt."+Constants.UNIT_ID+"=cu."+Constants.UNIT_ID+" " +
+//                    "WHERE " + Constants.LECTURER_ID + "=id;" +
+//                    "END";
+//            countResult = statement.executeUpdate(timetableForLecturer);
+//            Log.d(TAG, "Created stored procedure " + Constants.TIME_TABLE_FOR_LECTURER + " Result: " + countResult);
+//
+//            System.out.println();
+//
+//            String timetablerForStudents = " CREATE PROCEDURE "+Constants.TIME_TABLE_FOR_STUDENTS+"(IN id CHAR(25)) " +
+//                    "BEGIN " +
+//                    "SELECT DISTINCT "+Constants.PERIOD+", "+Constants.TIME+", " + Constants.DAY+ ", " +
+//                    "tt."+Constants.UNIT_ID+", " +
+//                    "lu." + Constants.STUDENT_ID+", cu."+Constants.CLASS_ID+ " " +
+//                    "FROM "+Constants.TABLE_TIMTABLE+" tt " +
+//                    "INNER JOIN "+Constants.TABLE_STUDENT_UNITS+" su " +
+//                    "ON tt."+Constants.UNIT_ID+"=su."+Constants.UNIT_ID+" " +
+//                    "INNER JOIN "+Constants.TABLE_CLASS_UNITS+" cu " +
+//                    "ON tt."+Constants.UNIT_ID+"=cu."+Constants.UNIT_ID+" " +
+//                    "WHERE " + Constants.STUDENT_ID + "=id;" +
+//                    "END";
+//            countResult = statement.executeUpdate(timetablerForStudents);
+//            Log.d(TAG, "Created stored procedure " + Constants.TIME_TABLE_FOR_STUDENTS + " Result: " + countResult);
 
             if (env.equals("dev")) {
                 PopulateEntitiesForTests.populateEntities();

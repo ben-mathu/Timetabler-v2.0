@@ -63,7 +63,8 @@ public class GetAllUnits extends HttpServlet {
 
 	private List<Unit> getUnits() throws SQLException {
 		List<Unit> unitList = new ArrayList<>();
-		String query = "SELECT * FROM " + Constants.TABLE_UNITS;
+		String query = "SELECT * FROM " + Constants.TABLE_UNITS +
+				" WHERE " + Constants.IS_REMOVED + "=" + false;
 		
 		ResultSet result = statement.executeQuery(query);
 		

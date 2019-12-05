@@ -166,6 +166,7 @@ public class ValidateUser extends HttpServlet {
 				lecturer.setInSession(result.getBoolean(Constants.IN_SESSION));
 //				lecturer.setProgrammeId(result.getString(Constants.PROGRAMME_ID));
 				lecturer.setFacultyId(result.getString(Constants.FACULTY_ID));
+				lecturer.setEmail(result.getString(Constants.EMAIL));
 			}
 			res.setLecturer(lecturer);
 			

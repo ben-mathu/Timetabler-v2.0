@@ -1,4 +1,4 @@
-package com.bernard.timetabler.crud_servlets;
+package com.bernard.timetabler.crud_servlets.hall;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
-import com.bernard.timetabler.dbinit.model.Hall;
+import com.bernard.timetabler.dbinit.model.hall.Hall;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -25,9 +25,9 @@ import com.google.gson.annotations.SerializedName;
  * Servlet implementation class GetHalls
  */
 @WebServlet("/halls/*")
-public class GetHalls extends HttpServlet {
+public class GetHallsByFacultyId extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = GetHalls.class.getSimpleName();
+	private static final String TAG = GetHallsByFacultyId.class.getSimpleName();
     
 	private List<Hall> halls;
 	

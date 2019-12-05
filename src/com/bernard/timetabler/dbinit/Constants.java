@@ -59,6 +59,10 @@ public class Constants {
 	public static final String IS_LAB = "is_lab";
     public static final String IS_PRACTICAL = "is_practical";
 
+    // stored procedure
+    public static final String TIME_TABLE_FOR_LECTURER = "GetTimetableForLecturer";
+    public static final String TIME_TABLE_FOR_STUDENTS = "GetTimetableForStudent";
+
     // Lecturers Programmes
     static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";
 

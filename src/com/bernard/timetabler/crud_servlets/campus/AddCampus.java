@@ -74,9 +74,8 @@ public class AddCampus extends HttpServlet {
 		req.getCampus().setCampusId(id);
 		
 		String insertQuery = "INSERT INTO " + Constants.TABLE_CAMPUS
-				+ "(" + Constants.CAMPUS_ID + "," + Constants.CAMPUS_NAME + ")"
 				+ " VALUES('" + id + "','"
-				+ req.getCampus().getCampusName() + "')";
+				+ req.getCampus().getCampusName()  + "'," + req.getCampus().isRemoved() + ")";
 		
 		if (statement.executeUpdate(insertQuery) != 0) {
 			return true;
