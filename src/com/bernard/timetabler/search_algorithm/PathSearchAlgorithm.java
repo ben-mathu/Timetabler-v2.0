@@ -328,7 +328,7 @@ public class PathSearchAlgorithm {
 	 *
 	 * @return string for a period in the year.
 	 */
-	private String getPeriod() {
+	public String getPeriod() {
 		SimpleDateFormat sf = new SimpleDateFormat("MMM yyyy");
 		return sf.format(new Date());
 	}

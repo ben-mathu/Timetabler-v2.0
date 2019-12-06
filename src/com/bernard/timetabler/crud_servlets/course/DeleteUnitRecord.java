@@ -74,8 +74,7 @@ public class DeleteUnitRecord extends HttpServlet {
 	private void removeUnits(HttpServletResponse resp) throws SQLException, IOException {
 		String query = "";
 		for (Unit unit : list.getUnitList()) {
-			query = "UPDATE " + Constants.TABLE_LECTURER_UNITS
-					+ " SET " + Constants.IS_REMOVED + "=" + true
+			query = "DELETE FROM " + Constants.TABLE_LECTURER_UNITS
 					+ " WHERE " + Constants.UNIT_ID + "='" + unit.getId() + "'";
 			statement.executeUpdate(query);
 		}

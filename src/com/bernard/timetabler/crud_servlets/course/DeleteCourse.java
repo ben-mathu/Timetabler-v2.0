@@ -67,8 +67,7 @@ public class DeleteCourse extends HttpServlet {
 	}
 
 	private boolean deleteCourse(UnitReq req) throws SQLException{
-		String updateQuery = "UPDATE " + Constants.TABLE_UNITS
-				+ " SET " + Constants.IS_REMOVED + "=" + true
+		String updateQuery = "DELETE FROM " + Constants.TABLE_UNITS
 				+ " WHERE " + Constants.UNIT_ID + "='" + req.getUnit().getId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {
