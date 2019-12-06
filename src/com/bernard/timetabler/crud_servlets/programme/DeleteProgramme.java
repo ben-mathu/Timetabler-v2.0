@@ -67,8 +67,7 @@ public class DeleteProgramme extends HttpServlet {
 	}
 
 	private boolean deleteprog(ProgrammeRequest req) throws SQLException{
-		String updateQuery = "UPDATE " + Constants.TABLE_PROGRAMMES
-				+ " SET " + Constants.IS_REMOVED + "=" + true
+		String updateQuery = "DELETE FROM " + Constants.TABLE_PROGRAMMES
 				+ " WHERE " + Constants.PROGRAMME_ID + "='" + req.getProgramme().getProgrammeId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

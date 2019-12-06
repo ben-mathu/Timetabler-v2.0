@@ -23,7 +23,7 @@ public class Init {
 //            timetable = ttg.generateTimeTable(5, "Jan 2018/2019");
         	
         	PathSearchAlgorithm ttg = new PathSearchAlgorithm();
-        	timetable = ttg.pathFindingAlgorithm("Jan 2018/2019");
+        	timetable = ttg.pathFindingAlgorithm(ttg.getPeriod());
 
             for (HashMap.Entry<String, DayTimeUnit> tt : timetable.entrySet()) {
                 System.out.println("Time: " + tt.getValue().getDayOfWeek() + " " + tt.getValue().getTimeOfDay() + ": " + tt.getKey());

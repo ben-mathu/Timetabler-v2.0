@@ -69,20 +69,17 @@ public class DeleteAccount extends HttpServlet {
 
     private boolean deleteAccount(String userId, String role) throws SQLException {
         if (role.equalsIgnoreCase("admin")) {
-            String deleteStm = "UPDATE TABLE " + Constants.TABLE_ADMIN +
-                    " SET " + Constants.IS_REMOVED + "=" + true +
+            String deleteStm = "DELETE FROM " + Constants.TABLE_ADMIN +
                     " WHERE " + Constants.ADMIN_ID + "='" + userId + "'";
 
             return statement.executeUpdate(deleteStm) > 0;
         } else if (role.equalsIgnoreCase("lecturer")) {
-            String deleteStm = "UPDATE TABLE " + Constants.TABLE_LECTURERS +
-                    " SET " + Constants.IS_REMOVED + "=" + true +
+            String deleteStm = "DELETE FROM " + Constants.TABLE_LECTURERS +
                     " WHERE " + Constants.LECTURER_ID + "='" + userId + "'";
 
             return statement.executeUpdate(deleteStm) > 0;
         } else if (role.equalsIgnoreCase("student")) {
-            String deleteStm = "UPDATE TABLE " + Constants.TABLE_STUDENTS +
-                    " SET " + Constants.IS_REMOVED + "=" + true +
+            String deleteStm = "DELETE FROM " + Constants.TABLE_STUDENTS +
                     " WHERE " + Constants.STUDENT_ID + "='" + userId + "'";
 
             return statement.executeUpdate(deleteStm) > 0;

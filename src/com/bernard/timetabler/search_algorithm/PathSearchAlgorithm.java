@@ -177,7 +177,7 @@ public class PathSearchAlgorithm {
 					Log.d(TAG, "Creating node " + unitList.indexOf(unit));
 					
 					Timeslot timeslot = new Timeslot();
-					timeslotMap = new HashMap<>();				
+					timeslotMap = new HashMap<>();
 					timeslot.setUnit(unit);
 					child1 = new TimeslotNode(timeslot);
 					
@@ -194,6 +194,7 @@ public class PathSearchAlgorithm {
 					} else {
 						bound = 1;
 					}
+
 					classLecturersMapping.put(unit.getId(), lecturerIdList.get(rand.nextInt(0, bound)));
 					child1.setClassLecturersMapping(classLecturersMapping);
 					classStudentsMapping.put(unit.getId(), studentIdList);
@@ -328,7 +329,7 @@ public class PathSearchAlgorithm {
 	 *
 	 * @return string for a period in the year.
 	 */
-	private String getPeriod() {
+	public String getPeriod() {
 		SimpleDateFormat sf = new SimpleDateFormat("MMM yyyy");
 		return sf.format(new Date());
 	}
@@ -504,7 +505,7 @@ public class PathSearchAlgorithm {
 	 * @return
 	 * @throws SQLException
 	 */
-	private List<String> getLecturerByUnitId(String id) throws SQLException {
+	public List<String> getLecturerByUnitId(String id) throws SQLException {
 		lecturerIdList = new ArrayList<>();
 		
 		String query = "SELECT * FROM " + Constants.TABLE_LECTURER_UNITS
@@ -514,6 +515,10 @@ public class PathSearchAlgorithm {
 		while (result.next()) {
 			lecturerIdList.add(result.getString(Constants.LECTURER_ID));
 		}
+
+		if (lecturerIdList.isEmpty())
+			throw new IllegalStateException("Lecturer list is empty.");
+
 		return lecturerIdList;
 	}
 

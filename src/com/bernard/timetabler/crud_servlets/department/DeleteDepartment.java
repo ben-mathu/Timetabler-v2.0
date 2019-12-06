@@ -67,8 +67,7 @@ public class DeleteDepartment extends HttpServlet {
 	}
 
 	private boolean deleteDepart(DepartmentRequest req) throws SQLException{
-		String updateQuery = "UPDATE " + Constants.TABLE_DEPARTMENTS
-				+ " SET " + Constants.IS_REMOVED + "=" + true
+		String updateQuery = "DELETE FROM " + Constants.TABLE_DEPARTMENTS
 				+ " WHERE " + Constants.DEPARTMENT_ID + "='" + req.getDepartment().getDepartmentId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

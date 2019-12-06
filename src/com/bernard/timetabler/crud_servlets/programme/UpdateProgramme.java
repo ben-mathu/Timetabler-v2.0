@@ -69,8 +69,8 @@ public class UpdateProgramme extends HttpServlet {
 	private boolean updateProg(ProgrammeRequest req) throws SQLException {
 		String updateQuery = "UPDATE " + Constants.TABLE_PROGRAMMES
 				+ " SET " + Constants.PROGRAMME_NAME + "='" + req.getProgramme().getProgrammeName() + "'"
-				+ " SET " + Constants.DEPARTMENT_ID + "='" + req.getProgramme().getDepartmentId() + "'"
-				+ " SET " + Constants.FACULTY_ID + "='" + req.getProgramme().getFacultyId() + "'"
+				+ " , " + Constants.DEPARTMENT_ID + "='" + req.getProgramme().getDepartmentId() + "'"
+				+ " , " + Constants.FACULTY_ID + "='" + req.getProgramme().getFacultyId() + "'"
 				+ " WHERE " + Constants.PROGRAMME_ID + "='" + req.getProgramme().getProgrammeId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

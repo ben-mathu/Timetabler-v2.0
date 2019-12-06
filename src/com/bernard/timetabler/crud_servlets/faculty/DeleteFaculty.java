@@ -67,8 +67,7 @@ public class DeleteFaculty extends HttpServlet {
 	}
 
 	private boolean deleteFaculty(FacultyRequest req) throws SQLException{
-		String updateQuery = "UPDATE " + Constants.TABLE_FACULTIES
-				+ " SET " + Constants.IS_REMOVED + "=" + true
+		String updateQuery = "DELETE FROM " + Constants.TABLE_FACULTIES
 				+ " WHERE " + Constants.FACULTY_ID + "='" + req.getFaculty().getFacultyId() + "'";
 		
 		if (statement.executeUpdate(updateQuery) != 0) {

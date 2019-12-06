@@ -77,7 +77,7 @@ public class GetTimetableByStudentId extends HttpServlet {
 	private List<Table> queryTimetableByStudentId(String studentId) throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY + ",tt." + Constants.UNIT_ID +
+		String query = "SELECT DISTINCT tt." + Constants.UNIT_ID + ",tt." + Constants.PERIOD + ",tt." + Constants.TIME + ",tt." + Constants.DAY +
 				" FROM " + Constants.TABLE_TIMTABLE + " tt " +
 				"INNER JOIN " + Constants.TABLE_STUDENT_UNITS + " su " +
 				"ON tt." + Constants.UNIT_ID + "=su." + Constants.UNIT_ID +
