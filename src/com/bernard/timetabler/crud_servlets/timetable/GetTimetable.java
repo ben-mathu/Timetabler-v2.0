@@ -83,7 +83,7 @@ public class GetTimetable extends HttpServlet {
 	private List<Table> queryTimetable() throws SQLException {
 		List<Table> timetableList = new ArrayList<>();
 		
-		String query = "SELECT " + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + "," + Constants.UNIT_ID +
+		String query = "SELECT DISTINCT" + Constants.UNIT_ID + "," + Constants.PERIOD + "," + Constants.TIME + "," + Constants.DAY + "," +
 				" FROM " + Constants.TABLE_TIMTABLE;
 		
 		Log.d(TAG, "Query: " + query);
