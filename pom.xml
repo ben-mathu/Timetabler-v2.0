@@ -38,7 +38,32 @@
 	    <artifactId>junit</artifactId>
 	    <version>4.12</version>
 	    <scope>test</scope>
-	  </dependency>
+    </dependency>
+      <dependency>
+          <groupId>io.jsonwebtoken</groupId>
+          <artifactId>jjwt-api</artifactId>
+          <version>0.10.7</version>
+      </dependency>
+      <dependency>
+          <groupId>io.jsonwebtoken</groupId>
+          <artifactId>jjwt-impl</artifactId>
+          <version>0.10.7</version>
+          <scope>runtime</scope>
+      </dependency>
+      <dependency>
+          <groupId>io.jsonwebtoken</groupId>
+          <artifactId>jjwt-jackson</artifactId>
+          <version>0.10.7</version>
+          <scope>runtime</scope>
+      </dependency>
+      <!-- Uncomment this next dependency if you want to use RSASSA-PSS (PS256, PS384, PS512) algorithms:
+      <dependency>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk15on</artifactId>
+          <version>1.60</version>
+          <scope>runtime</scope>
+      </dependency>
+      -->
   </dependencies>
   <build>
     <finalName>timetabler-1.0.0</finalName>

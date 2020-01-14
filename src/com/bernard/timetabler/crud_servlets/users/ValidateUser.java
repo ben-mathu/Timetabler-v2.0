@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,6 +25,7 @@ import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
 import com.bernard.timetabler.dbinit.model.student.Student;
+import com.bernard.timetabler.utils.JwtTokenUtil;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -67,9 +70,10 @@ public class ValidateUser extends HttpServlet {
 		
 		gson = new Gson();
 		UserValidationRequest req = gson.fromJson(strBuffer.toString(), UserValidationRequest.class);
+		String token = request.getHeader("Authorization") == null ? "" : request.getHeader("Authorization");
 		
 		try {
-			String userJson = validateUser(req);
+			String userJson = validateUser(req, token);
 			
 			writer.write(userJson);
 		} catch (SQLException e) {
@@ -77,7 +81,7 @@ public class ValidateUser extends HttpServlet {
 		}
 	}
 	
-	private String validateUser(UserValidationRequest req) throws SQLException {		
+	private String validateUser(UserValidationRequest req, String token) throws SQLException {
 		if (req.getRole().equalsIgnoreCase("admin")) {
 			Admin admin = new Admin();
 			AdminResponse res = new AdminResponse();
@@ -98,6 +102,18 @@ public class ValidateUser extends HttpServlet {
 				admin.setUsername(result.getString(Constants.USERNAME));
 			}
 			res.setAdmin(admin);
+
+			// Validate token
+			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+			if (token.isEmpty()) {
+				res.setToken(generateToken(jwtTokenUtil, admin.getUsername()));
+			} else {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", admin.getUsername(), token)) {
+					res.setToken(token);
+				} else {
+					res.setToken(generateToken(jwtTokenUtil, admin.getUsername()));
+				}
+			}
 			
 			Log.d(TAG, "Found: " + gson.toJson(res));
 			
@@ -142,6 +158,18 @@ public class ValidateUser extends HttpServlet {
 			response.setCampus(campus);
 			response.setFaculty(faculty);
 			response.setProgramme(prog);
+
+			// Validate token
+			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+			if (token.isEmpty()) {
+				response.setToken(generateToken(jwtTokenUtil, student.getUsername()));
+			} else {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", student.getUsername(), token)) {
+					response.setToken(token);
+				} else {
+					response.setToken(generateToken(jwtTokenUtil, student.getUsername()));
+				}
+			}
 			
 			Log.d(TAG, "Found " + gson.toJson(response));
 			
@@ -179,6 +207,18 @@ public class ValidateUser extends HttpServlet {
 			response.setFaculty(faculty);
 			response.setLecturer(lecturer);
 //			response.setProgramme(prog);
+
+			// Validate token
+			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+			if (token.isEmpty()) {
+				response.setToken(generateToken(jwtTokenUtil, lecturer.getUsername()));
+			} else {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", lecturer.getUsername(), token)) {
+					response.setToken(token);
+				} else {
+					response.setToken(generateToken(jwtTokenUtil, lecturer.getUsername()));
+				}
+			}
 			
 			Log.d(TAG, "Found: " + gson.toJson(response));
 			
@@ -186,6 +226,14 @@ public class ValidateUser extends HttpServlet {
 		}
 		
 		return "";
+	}
+
+	private String generateToken(JwtTokenUtil jwtTokenUtil, String username) {
+		// Generate token
+		Date now = new Date();
+		long time = now.getTime() + TimeUnit.HOURS.toMillis(6);
+		Date exp = new Date(time);
+		return jwtTokenUtil.generateToken(Constants.ISSUER, "login", username, exp);
 	}
 
 	private Programme getProgrammeById(String programmeId) throws SQLException {
@@ -263,6 +311,8 @@ public class ValidateUser extends HttpServlet {
 	    private Faculty faculty;
 	    @SerializedName(Constants.TABLE_PROGRAMMES)
 	    private Programme programme;
+	    @SerializedName("token")
+		private String token;
 
 	    public Student getStudent() {
 	        return student;
@@ -303,6 +353,14 @@ public class ValidateUser extends HttpServlet {
 	    public void setProgramme(Programme programme) {
 			this.programme = programme;
 		}
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}
 	}
 	
 	public class LecturerResponse {
@@ -314,6 +372,8 @@ public class ValidateUser extends HttpServlet {
 	    private Department department;
 //	    @SerializedName(Constants.TABLE_PROGRAMMES)
 //	    private Programme programme;
+		@SerializedName("token")
+		private String token;
 
 	    public Lecturer getLecturer() {
 	        return lecturer;
@@ -338,7 +398,15 @@ public class ValidateUser extends HttpServlet {
 	    public void setDepartment(Department department) {
 	        this.department = department;
 	    }
-	    
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
+		}
+
 //	    public Programme getProgramme() {
 //			return programme;
 //		}
