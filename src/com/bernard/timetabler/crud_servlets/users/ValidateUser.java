@@ -17,14 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
+import com.bernard.timetabler.dbinit.model.UserValidationRequest;
 import com.bernard.timetabler.dbinit.model.admin.Admin;
 import com.bernard.timetabler.dbinit.model.admin.AdminResponse;
 import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.department.Department;
 import com.bernard.timetabler.dbinit.model.faculty.Faculty;
 import com.bernard.timetabler.dbinit.model.lecturer.Lecturer;
+import com.bernard.timetabler.dbinit.model.lecturer.LecturerResponse;
 import com.bernard.timetabler.dbinit.model.programme.Programme;
 import com.bernard.timetabler.dbinit.model.student.Student;
+import com.bernard.timetabler.dbinit.model.student.StudentResponse;
 import com.bernard.timetabler.utils.JwtTokenUtil;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
@@ -298,164 +301,5 @@ public class ValidateUser extends HttpServlet {
 			campus.setCampusName(result.getString(Constants.CAMPUS_NAME));
 		}
 		return campus;
-	}
-	
-	public class StudentResponse {
-		@SerializedName("student")
-	    private Student student;
-		@SerializedName(Constants.TABLE_DEPARTMENTS)
-	    private Department department;
-	    @SerializedName(Constants.TABLE_CAMPUS)
-	    private Campus campus;
-	    @SerializedName(Constants.TABLE_FACULTIES)
-	    private Faculty faculty;
-	    @SerializedName(Constants.TABLE_PROGRAMMES)
-	    private Programme programme;
-	    @SerializedName("token")
-		private String token;
-
-	    public Student getStudent() {
-	        return student;
-	    }
-
-	    public void setStudent(Student student) {
-	        this.student = student;
-	    }
-	    
-	    public Department getDepartment() {
-			return department;
-		}
-	    
-	    public void setDepartment(Department department) {
-			this.department = department;
-		}
-	    
-	    public Campus getCampus() {
-			return campus;
-		}
-	    
-	    public void setCampus(Campus campus) {
-			this.campus = campus;
-		}
-	    
-	    public Faculty getFaculty() {
-			return faculty;
-		}
-	    
-	    public void setFaculty(Faculty faculty) {
-			this.faculty = faculty;
-		}
-	    
-	    public Programme getProgramme() {
-			return programme;
-		}
-	    
-	    public void setProgramme(Programme programme) {
-			this.programme = programme;
-		}
-
-		public String getToken() {
-			return token;
-		}
-
-		public void setToken(String token) {
-			this.token = token;
-		}
-	}
-	
-	public class LecturerResponse {
-	    @SerializedName("lecturer")
-	    private Lecturer lecturer;
-	    @SerializedName(Constants.TABLE_FACULTIES)
-	    private Faculty faculty;
-	    @SerializedName(Constants.TABLE_DEPARTMENTS)
-	    private Department department;
-//	    @SerializedName(Constants.TABLE_PROGRAMMES)
-//	    private Programme programme;
-		@SerializedName("token")
-		private String token;
-
-	    public Lecturer getLecturer() {
-	        return lecturer;
-	    }
-
-	    public void setLecturer(Lecturer lecturer) {
-	        this.lecturer = lecturer;
-	    }
-
-	    public Faculty getFaculty() {
-	        return faculty;
-	    }
-
-	    public void setFaculty(Faculty faculty) {
-	        this.faculty = faculty;
-	    }
-
-	    public Department getDepartment() {
-	        return department;
-	    }
-
-	    public void setDepartment(Department department) {
-	        this.department = department;
-	    }
-
-		public String getToken() {
-			return token;
-		}
-
-		public void setToken(String token) {
-			this.token = token;
-		}
-
-//	    public Programme getProgramme() {
-//			return programme;
-//		}
-//	    
-//	    public void setProgramme(Programme programme) {
-//			this.programme = programme;
-//		}
-	}
-
-	public class UserValidationRequest {
-	    @SerializedName("role")
-	    private String role;
-	    @SerializedName("username")
-	    private String username;
-	    @SerializedName("password")
-	    private String password;
-	    @SerializedName("userId")
-	    private String userId;
-
-	    public String getRole() {
-	        return role;
-	    }
-
-	    public void setRole(String role) {
-	        this.role = role;
-	    }
-
-	    public String getUsername() {
-	        return username;
-	    }
-
-	    public void setUsername(String username) {
-	        this.username = username;
-	    }
-
-	    public String getPassword() {
-	        return password;
-	    }
-
-	    public void setPassword(String password) {
-	        this.password = password;
-	    }
-
-	    public String getUserId() {
-	        return userId;
-	    }
-
-	    public void setUserId(String userId) {
-	        this.userId = userId;
-	    }
 	}
 }
