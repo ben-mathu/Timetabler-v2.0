@@ -63,6 +63,7 @@ public class Constants {
     public static final String TIME_TABLE_FOR_LECTURER = "GetTimetableForLecturer";
     public static final String TIME_TABLE_FOR_STUDENTS = "GetTimetableForStudent";
     public static final String ISSUER = "miiguar";
+    public static final String SECRET = "ironman_dies*inMovieAvengers-Endgame";
 
     // Lecturers Programmes
     static final String TABLE_LECTURER_PROGRAMMES = "lecturer_programmes";

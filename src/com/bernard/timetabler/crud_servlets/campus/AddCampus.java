@@ -17,6 +17,7 @@ import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
+import com.bernard.timetabler.utils.JwtTokenUtil;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -34,15 +35,26 @@ public class AddCampus extends HttpServlet {
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jsonRequest = BufferRequest.bufferRequest(request);
+		String token = request.getHeader("Authorization");
 		
 		// deserialization of json strings
 		Gson gson = new Gson();
 		CampusRequest req = gson.fromJson(jsonRequest, CampusRequest.class);
-		
+
+		// prepare response
+		response.setContentType(Constants.APPLICATION_JSON);
+		PrintWriter writer;
+
 		try {
-			// prepare response
-			response.setContentType(Constants.APPLICATION_JSON);
-			PrintWriter writer;
+
+			if (token == null) {
+				throw new NullPointerException("Requires Validation.");
+			} else {
+				JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
+
+				}
+			}
 			
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
@@ -63,6 +75,16 @@ public class AddCampus extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+			writer = response.getWriter();
+
+			MessageReport report = new MessageReport();
+			report.setMessage("Requires authorization.");
+
+			String message = gson.toJson(report);
+			writer.write(message);
 		}
 	}
 	

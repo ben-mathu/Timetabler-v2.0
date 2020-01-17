@@ -109,12 +109,12 @@ public class ValidateUser extends HttpServlet {
 			// Validate token
 			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 			if (token.isEmpty()) {
-				res.setToken(generateToken(jwtTokenUtil, admin.getUsername()));
+				res.setToken(generateToken(jwtTokenUtil));
 			} else {
-				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", admin.getUsername(), token)) {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
 					res.setToken(token);
 				} else {
-					res.setToken(generateToken(jwtTokenUtil, admin.getUsername()));
+					res.setToken(generateToken(jwtTokenUtil));
 				}
 			}
 			
@@ -165,12 +165,12 @@ public class ValidateUser extends HttpServlet {
 			// Validate token
 			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 			if (token.isEmpty()) {
-				response.setToken(generateToken(jwtTokenUtil, student.getUsername()));
+				response.setToken(generateToken(jwtTokenUtil));
 			} else {
-				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", student.getUsername(), token)) {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
 					response.setToken(token);
 				} else {
-					response.setToken(generateToken(jwtTokenUtil, student.getUsername()));
+					response.setToken(generateToken(jwtTokenUtil));
 				}
 			}
 			
@@ -214,12 +214,12 @@ public class ValidateUser extends HttpServlet {
 			// Validate token
 			JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 			if (token.isEmpty()) {
-				response.setToken(generateToken(jwtTokenUtil, lecturer.getUsername()));
+				response.setToken(generateToken(jwtTokenUtil));
 			} else {
-				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", lecturer.getUsername(), token)) {
+				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
 					response.setToken(token);
 				} else {
-					response.setToken(generateToken(jwtTokenUtil, lecturer.getUsername()));
+					response.setToken(generateToken(jwtTokenUtil));
 				}
 			}
 			
@@ -231,12 +231,12 @@ public class ValidateUser extends HttpServlet {
 		return "";
 	}
 
-	private String generateToken(JwtTokenUtil jwtTokenUtil, String username) {
+	private String generateToken(JwtTokenUtil jwtTokenUtil) {
 		// Generate token
 		Date now = new Date();
-		long time = now.getTime() + TimeUnit.HOURS.toMillis(6);
+		long time = now.getTime() + TimeUnit.DAYS.toMillis(7);
 		Date exp = new Date(time);
-		return jwtTokenUtil.generateToken(Constants.ISSUER, "login", username, exp);
+		return jwtTokenUtil.generateToken(Constants.ISSUER, "login", exp);
 	}
 
 	private Programme getProgrammeById(String programmeId) throws SQLException {

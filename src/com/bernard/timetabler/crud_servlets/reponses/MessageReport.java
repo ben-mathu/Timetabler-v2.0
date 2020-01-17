@@ -3,6 +3,8 @@ package com.bernard.timetabler.crud_servlets.reponses;
 import com.google.gson.annotations.SerializedName;
 
 public class MessageReport {
+	@SerializedName("status")
+	private int status;
 	@SerializedName("message")
 	private String message;
 	
@@ -12,5 +14,13 @@ public class MessageReport {
 	
 	public String getMessage() {
 		return message;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }
