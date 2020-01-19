@@ -17,6 +17,7 @@ import com.bernard.timetabler.dbinit.model.campus.Campus;
 import com.bernard.timetabler.dbinit.model.campus.CampusRequest;
 import com.bernard.timetabler.dbinit.utils.GenerateRandomString;
 import com.bernard.timetabler.utils.BufferRequest;
+import com.bernard.timetabler.utils.JwtTokenUtil;
 import com.bernard.timetabler.utils.UtilCommonFunctions;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -38,11 +39,12 @@ public class AddCampus extends HttpServlet {
 		// deserialization of json strings
 		Gson gson = new Gson();
 		CampusRequest req = gson.fromJson(jsonRequest, CampusRequest.class);
-		
+
+		// prepare response
+		response.setContentType(Constants.APPLICATION_JSON);
+		PrintWriter writer;
+
 		try {
-			// prepare response
-			response.setContentType(Constants.APPLICATION_JSON);
-			PrintWriter writer;
 			
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
@@ -52,7 +54,7 @@ public class AddCampus extends HttpServlet {
 				
 				response.setStatus(HttpServletResponse.SC_CREATED);
 				writer = response.getWriter();
-				writer.write(jsonRequest);
+				writer.write(jsonResponse);
 			} else {
 				report.setMessage("Could not save " + req.getCampus().getCampusName());
 				jsonResponse = gson.toJson(report);
@@ -63,6 +65,16 @@ public class AddCampus extends HttpServlet {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+			writer = response.getWriter();
+
+			MessageReport report = new MessageReport();
+			report.setMessage("Requires authorization.");
+
+			String message = gson.toJson(report);
+			writer.write(message);
 		}
 	}
 	
