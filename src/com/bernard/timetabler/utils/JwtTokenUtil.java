@@ -2,9 +2,11 @@ package com.bernard.timetabler.utils;
 
 import com.bernard.timetabler.dbinit.Constants;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.management.openmbean.InvalidKeyException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -54,6 +56,14 @@ public class JwtTokenUtil {
             return false;
         } catch (ExpiredJwtException e) {
             System.out.println("Expired Token: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } catch (InvalidKeyException e) {
+            System.out.println("Invalid Token: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } catch (SignatureException e) {
+            System.out.println("Invalid Signature Token: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

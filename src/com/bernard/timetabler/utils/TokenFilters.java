@@ -29,27 +29,46 @@ public class TokenFilters implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpServletRequest req = (HttpServletRequest) request;
 
-        if (!req.getRequestURI().endsWith("validate-user") && req.getHeader("Authorization") == null) {
-            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            PrintWriter writer = resp.getWriter();
-
-            MessageReport report = new MessageReport();
-            report.setStatus(403);
-            report.setMessage("Requires token");
-            Gson gson = new Gson();
-            writer.write(gson.toJson(report));
-        }
-
+        // verify authorization token
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
+
+        if (!req.getRequestURI().endsWith("validate-user")) {
+            if (req.getHeader("Authorization") == null) {
+                resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                PrintWriter writer = resp.getWriter();
+
+                MessageReport report = new MessageReport();
+                report.setStatus(403);
+                report.setMessage("Requires token");
+                Gson gson = new Gson();
+                writer.write(gson.toJson(report));
+            } else {
+                String token = nomalizeToken(req);
+                if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
+                    chain.doFilter(request, response);
+                } else {
+                    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    PrintWriter writer = resp.getWriter();
+
+                    MessageReport report = new MessageReport();
+                    report.setStatus(403);
+                    report.setMessage("Invalid Token");
+                    Gson gson = new Gson();
+                    writer.write(gson.toJson(report));
+                }
+            }
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+
+    private String nomalizeToken(HttpServletRequest req) {
         String token = req.getHeader("Authorization");
         if (token.startsWith("Bearer ")) {
             token = token.replace("Bearer ", "");
         }
-        token = token.trim();
-        if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
-            chain.doFilter(request, response);
-        }
 
+        return token.trim();
     }
 
     @Override

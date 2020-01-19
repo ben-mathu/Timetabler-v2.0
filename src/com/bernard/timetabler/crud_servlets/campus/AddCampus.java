@@ -35,7 +35,6 @@ public class AddCampus extends HttpServlet {
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jsonRequest = BufferRequest.bufferRequest(request);
-		String token = request.getHeader("Authorization");
 		
 		// deserialization of json strings
 		Gson gson = new Gson();
@@ -46,15 +45,6 @@ public class AddCampus extends HttpServlet {
 		PrintWriter writer;
 
 		try {
-
-			if (token == null) {
-				throw new NullPointerException("Requires Validation.");
-			} else {
-				JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
-				if (jwtTokenUtil.verifyToken(Constants.ISSUER, "login", token)) {
-
-				}
-			}
 			
 			MessageReport report = new MessageReport();
 			String jsonResponse = "";
@@ -64,7 +54,7 @@ public class AddCampus extends HttpServlet {
 				
 				response.setStatus(HttpServletResponse.SC_CREATED);
 				writer = response.getWriter();
-				writer.write(jsonRequest);
+				writer.write(jsonResponse);
 			} else {
 				report.setMessage("Could not save " + req.getCampus().getCampusName());
 				jsonResponse = gson.toJson(report);
