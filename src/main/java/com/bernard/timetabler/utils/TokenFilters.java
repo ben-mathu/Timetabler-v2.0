@@ -3,6 +3,7 @@ package com.bernard.timetabler.utils;
 import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.google.gson.Gson;
+import com.miiguar.tokengeneration.JwtTokenUtil;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
