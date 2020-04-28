@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
+import com.bernard.timetabler.utils.BaseServlet;
 import com.bernard.timetabler.utils.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -25,9 +26,9 @@ import static com.bernard.timetabler.dbinit.Constants.*;
  * Servlet implementation class Extreneous
  */
 @WebServlet("/roles/*")
-public class Extreneous extends HttpServlet {
+public class Extraneous extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = Extreneous.class.getSimpleName();
+	private static final String TAG = Extraneous.class.getSimpleName();
 	private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 	
 	private Statement statement;

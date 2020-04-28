@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,6 +36,9 @@ public class AddCampus extends HttpServlet {
     
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String jsonRequest = BufferRequest.bufferRequest(request);
+
+		Logger log = Logger.getLogger("com.bernard.timetabler");
+		log.info("");
 		
 		// deserialization of json strings
 		Gson gson = new Gson();
