@@ -9,6 +9,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
+    <servlet-name>BaseServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </welcome-file-list>
 
