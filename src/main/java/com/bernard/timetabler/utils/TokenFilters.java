@@ -37,21 +37,10 @@ public class TokenFilters implements Filter {
         JwtTokenUtil jwtTokenUtil = new JwtTokenUtil();
 
         StringBuffer url = req.getRequestURL();
-        try {
-            URI u = new URI(url.toString());
-            if (u.isAbsolute()) {
-                Log.d("TokenFilters", "This is absolute");
-            } else {
-                Log.d("TokenFilters", "This is relative.");
-            }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
         System.out.println(url.toString());
         StringBuffer endPoint = req.getRequestURL();
         if (!req.getRequestURI().endsWith("/validate-user") &&
-                !req.getRequestURI().endsWith("/") &&
-                !req.getRequestURI().contains("static")
+                !req.getRequestURI().endsWith("/")
         ) {
             if (req.getHeader("Authorization") == null) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
