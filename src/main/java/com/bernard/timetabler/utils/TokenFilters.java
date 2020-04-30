@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.regex.Pattern;
 
 /**
  * @author com.bernard
@@ -41,7 +38,7 @@ public class TokenFilters implements Filter {
         StringBuffer endPoint = req.getRequestURL();
         if (!req.getRequestURI().endsWith("/validate-user")
                 && !req.getRequestURI().endsWith("/")
-                && !req.getRequestURI().contains("static")
+                && !req.getRequestURI().contains("src/main/webapp/static")
         ) {
             if (req.getHeader("Authorization") == null) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
