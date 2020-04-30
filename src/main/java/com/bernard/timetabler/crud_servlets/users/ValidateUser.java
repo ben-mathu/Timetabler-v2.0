@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bernard.timetabler.crud_servlets.reponses.MessageReport;
 import com.bernard.timetabler.dbinit.Constants;
 import com.bernard.timetabler.dbinit.CreateSchemaTimeTabler;
 import com.bernard.timetabler.dbinit.model.UserValidationRequest;
@@ -80,10 +81,21 @@ public class ValidateUser extends HttpServlet {
 			writer.write(userJson);
 		} catch (SQLException e) {
 			Log.e(TAG, "Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			Log.e(TAG, "Error " + e.getMessage());
+
+			MessageReport report = new MessageReport();
+			report.setMessage("Empty fields, please provide the required fields.");
+			report.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+
+			response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+			writer = response.getWriter();
+
+			writer.print(gson.toJson(report));
 		}
 	}
 	
-	private String validateUser(UserValidationRequest req, String token) throws SQLException {
+	private String validateUser(UserValidationRequest req, String token) throws SQLException, NullPointerException {
 		if (req.getRole().equalsIgnoreCase("admin")) {
 			Admin admin = new Admin();
 			AdminResponse res = new AdminResponse();
