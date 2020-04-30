@@ -38,7 +38,7 @@ public class TokenFilters implements Filter {
         StringBuffer endPoint = req.getRequestURL();
         if (!req.getRequestURI().endsWith("/validate-user")
                 && !req.getRequestURI().endsWith("/")
-                && !req.getRequestURI().contains("src/main/webapp/static")
+                && !req.getRequestURI().contains("static")
         ) {
             if (req.getHeader("Authorization") == null) {
                 resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
